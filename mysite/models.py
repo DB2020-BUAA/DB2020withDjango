@@ -107,8 +107,8 @@ class Compare(models.Model):
     id = models.AutoField(primary_key=True)
     create_date = models.DateTimeField(auto_now_add=True)
     create_user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    upd1 = models.ForeignKey(Update, on_delete=models.CASCADE)
-    upd2 = models.ForeignKey(Update, on_delete=models.CASCADE)
+    upd1 = models.ForeignKey(Update, on_delete=models.CASCADE, related_name='update1')
+    upd2 = models.ForeignKey(Update, on_delete=models.CASCADE, related_name='update2')
     info = models.TextField()
 
     def __str__(self):
