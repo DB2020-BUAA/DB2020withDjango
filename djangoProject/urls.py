@@ -20,9 +20,25 @@ from mysite import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name="main_page"),
-    path('group/<int:group_id>', views.group, name="group"),
+
+    path('', views.index, name="main"),
+
+    path('login/<str:info>/<int:i_type>', views.login_page, name='login_redirect'),
+    path('login', views.login_page, name='login'),
+    path('login/sign-in', views.sign_in, name='sign_in'),
+    path('login/sign-out', views.sign_out, name='sign_out'),
+    path('login/sign-up', views.sign_up, name='sign_up'),
+    path('login/register', views.register_page, name='register'),
+    path('login/register/<str:info>/<int:i_type>', views.register_page, name='register_redirect'),
+
+    path('group/<int:group_id>', views.group, name="group"),  # TODO: link to group page
     path('group-list', views.list_group, name="group_list"),
+    path('group-create', views.create_group, name='group_create'),
+    path('group-list/<str:warning>/<int:w_type>', views.list_group, name="group_list_redirect"),
+
     path('diff-list', views.list_diff, name="diff_list"),
-    path('group-create', views.create_group, name='group_create')
+    path('diff-list/<str:warning>/<int:w_type>', views.list_diff, name="diff_list_redirect"),
+    path('diff-delete/<int:diff_id>', views.delete_diff, name='diff_delete'),
 ]
+
+handler404 = 'mysite.views.page_not_found'

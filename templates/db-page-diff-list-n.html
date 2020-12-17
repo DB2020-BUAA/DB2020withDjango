@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
 <link rel="stylesheet" href="{% static 'assets/vendor/font-awesome/css/font-awesome.min.css' %}">
 <link rel="stylesheet" href="{% static 'assets/vendor/animate-css/vivify.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/vendor/toastr/toastr.min.css' %}">
 
 <!-- MAIN CSS -->
 <link rel="stylesheet" href="{% static 'assets/css/site.css' %}">
@@ -162,42 +163,69 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <a>12</a>
-                                    </td>
-                                    <td>
-                                        <a>1234</a>
-                                    </td>
-                                    <td>
-                                        <a>2345</a>
-                                    </td>
-                                    <td>
-                                        <span>Info in short</span>
-                                    </td>
-                                    <td>2019-12</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm">View</button>
-                                        <button class="btn btn-danger btn-sm">Delete</button>
-                                    </td>
-                                </tr>
+                                {% if diff %}
+                                    {% for one_diff in diff %}
+                                        <tr>
+                                            <td><a>{{ one_diff.0 }}</a></td>
+                                            <td><span>{{ one_diff.1 }}</span></td>
+                                            <td><span>{{ one_diff.2 }}</span></td>
+                                            <td><span>{{ one_diff.4 }}</span></td>
+                                            <td>{{ one_diff.3 }}</td>
+                                            <td>
+                                                <button href="{% url 'TODO' %}" class="btn btn-primary btn-sm">View</button>
+                                                <button href="{% url 'diff_delete' one_diff.0 %}" class="btn btn-danger btn-sm">Delete</button>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td><span>N/A</span></td>
+                                        <td><span>N/A</span></td>
+                                        <td><span>N/A</span></td>
+                                        <td><span>None Visible Comparison</span></td>
+                                        <td><span>N/A</span></td>
+                                        <td>
+                                            <button disabled="disabled" class="btn btn-primary btn-sm">N/A</button>
+                                        </td>
+                                    </tr>
+                                {% endif %}
                             </tbody>
                         </table>
                     </div>
                 </div>
-
-
-
             </div>
-
         </div>
     </div>
-
 </div>
 
 <!-- Javascript -->
 <script src="{% static 'assets/bundles/libscripts.bundle.js' %}"></script>
 <script src="{% static 'assets/bundles/vendorscripts.bundle.js' %}"></script>
 <script src="{% static 'assets/bundles/mainscripts.bundle.js' %}"></script>
+<script src="{% static 'assets/vendor/toastr/toastr.js' %}"></script>
+
+<!--notification popup-->
+{% if warning %}
+    {% if w_type is 1 %}
+        <script>
+        $(function(){
+            toastr.options.closeButton = true;
+            toastr.options.positionClass = 'toast-bottom-right';
+            toastr.options.showDuration = 2000;
+            toastr['success']('{{warning}}');
+        });
+        </script>
+    {% else %}
+        <script>
+        $(function(){
+            toastr.options.closeButton = true;
+            toastr.options.positionClass = 'toast-bottom-right';
+            toastr.options.showDuration = 2000;
+            toastr['error']('{{warning}}');
+        });
+        </script>
+    {% endif %}
+{% endif %}
+
 </body>
 </html>

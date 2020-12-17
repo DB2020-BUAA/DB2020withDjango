@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
 <link rel="stylesheet" href="{% static 'assets/vendor/font-awesome/css/font-awesome.min.css' %}">
 <link rel="stylesheet" href="{% static 'assets/vendor/animate-css/vivify.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/vendor/toastr/toastr.min.css' %}">
 
 <!-- MAIN CSS -->
 <link rel="stylesheet" href="{% static 'assets/css/site.css' %}">
@@ -26,7 +27,7 @@
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
     <div class="loader">
-        <div class="m-t-30"><img src="assets/images/icon.svg" width="40" height="40" alt="Brego"></div>
+        <div class="m-t-30"><img src="{% static 'assets/images/icon.svg' %}" width="40" height="40" alt="Brego"></div>
         <p>Please wait...</p>        
     </div>
 </div>
@@ -41,7 +42,7 @@
 
             <div class="navbar-left">
                 <div class="navbar-btn">
-                    <a href="index.html"><img src="assets/images/icon.svg" alt="Brego Logo" class="img-fluid logo"></a>
+                    <a href="index.html"><img src="{% static 'assets/images/icon.svg' %}" alt="Brego Logo" class="img-fluid logo"></a>
                     <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
                 </div>
             </div>
@@ -105,7 +106,7 @@
 
     <div id="left-sidebar" class="sidebar">
         <div class="navbar-brand">
-            <a href="index.html"><img src="assets/images/icon.svg" alt="Brego Logo" class="img-fluid logo"><span>DB2020</span></a>
+            <a href="index.html"><img src="{% static 'assets/images/icon.svg' %}" alt="Brego Logo" class="img-fluid logo"><span>DB2020</span></a>
             <button type="button" class="btn-toggle-offcanvas btn btn-sm float-right"><i class="lnr lnr-menu fa fa-chevron-circle-left"></i></button>
         </div>
         <div class="sidebar-scroll">
@@ -161,16 +162,16 @@
                             <div class="list-group">
                                 {% if group_list %}
                                     {% for group_info in group_list %}
-                                    <a href="{% url 'group' group_info.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                                    <a href="{% url 'group' group_info.0 %}" class="list-group-item list-group-item-action flex-column align-items-start">
                                         <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">{{ group_info.name }}</h5>
-                                        <small class="text-muted">{{ group_info.id }}</small>
+                                        <h5 class="mb-1">GROUP: {{ group_info.1 }}</h5>
+                                        <small class="text-muted">No. {{ group_info.0 }}</small>
                                         </div>
-                                        <p class="mb-1">{{ group_info.info }}</p>
+                                        <p class="mb-1">INFO: {{ group_info.2 }}</p>
                                     </a>
                                     {% endfor %}
                                 {% else %}
-                                    <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start">
+                                    <a class="list-group-item list-group-item-action flex-column align-items-start">
                                     <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">You Are Not In Any Group</h5>
                                     </div>
@@ -189,14 +190,7 @@
                     <h2>Create New Group</h2>
                 </div>
                 <div class="body">
-                    {% if warning != None %}
-                        {% if warning == False %}
-                            <h3>Create Failed</h3>
-                        {% else %}
-                            <h3>Create Succeed</h3>
-                        {% endif %}
-                    {% endif %}
-                    <form id="basic-form" action="{% url 'mysite:group_create' %}" method="post">
+                    <form id="basic-form" action="{% url 'group_create' %}" method="post">
                         {% csrf_token %}
                         <div class="form-group">
                             <label>Group Name</label>
@@ -221,12 +215,37 @@
             </div>
         </div>
     </div>
-    
 </div>
 
 <!-- Javascript -->
 <script src="{% static 'assets/bundles/libscripts.bundle.js' %}"></script>
 <script src="{% static 'assets/bundles/vendorscripts.bundle.js' %}"></script>
-<script src="{% static 'assets/bundles/mainscripts.bundle.js' %}"></script></body>
+<script src="{% static 'assets/bundles/mainscripts.bundle.js' %}"></script>
 <script src="{% static 'assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js' %}"></script>
+<script src="{% static 'assets/vendor/toastr/toastr.js' %}"></script>
+
+<!--notification popup-->
+{% if warning %}
+    {% if w_type is 1 %}
+        <script>
+        $(function(){
+            toastr.options.closeButton = true;
+            toastr.options.positionClass = 'toast-bottom-right';
+            toastr.options.showDuration = 2000;
+            toastr['success']('{{warning}}');
+        });
+        </script>
+    {% else %}
+        <script>
+        $(function(){
+            toastr.options.closeButton = true;
+            toastr.options.positionClass = 'toast-bottom-right';
+            toastr.options.showDuration = 2000;
+            toastr['error']('{{warning}}');
+        });
+        </script>
+    {% endif %}
+{% endif %}
+
+</body>
 </html>

@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-<title>Brego | Login</title>
+<title>DB2020 | Login</title>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, initial-scale=1, shrink-to-fit=no">
@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
 <link rel="stylesheet" href="{% static 'assets/vendor/font-awesome/css/font-awesome.min.css' %}">
 <link rel="stylesheet" href="{% static 'assets/vendor/animate-css/vivify.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/vendor/toastr/toastr.min.css' %}">
 
 <!-- MAIN CSS -->
 <link rel="stylesheet" href="{% static 'assets/css/site.css' %}">
@@ -26,7 +27,7 @@
     <div class="auth-main particles_js">
         <div class="auth_div vivify popIn">
             <div class="auth_brand">
-                <a class="navbar-brand" href="#"><img src="{% static 'assets/images/icon.svg' %}" width="30" height="30" class="d-inline-block align-top mr-2" alt="">Brego</a>
+                <a class="navbar-brand" href="#"><img src="{% static 'assets/images/icon.svg' %}" width="30" height="30" class="d-inline-block align-top mr-2" alt="">DB2020</a>
             </div>
             <div class="card">
                 <div class="pattern">
@@ -40,25 +41,19 @@
                     <p class="lead">Login to your account</p>
                 </div>
                 <div class="body">
-                    <form class="form-auth-small" action="index.html">
+                    <form class="form-auth-small" action="{% url 'sign_in' %}" method="post">
+                        {% csrf_token %}
                         <div class="form-group">
-                            <label for="signin-email" class="control-label sr-only">Email</label>
-                            <input type="email" class="form-control round" id="signin-email" value="user@domain.com" placeholder="Email">
+                            <label for="signin-name" class="control-label sr-only">User Name</label>
+                            <input type="text" class="form-control round" name="signin-name" placeholder="User name" required>
                         </div>
                         <div class="form-group">
                             <label for="signin-password" class="control-label sr-only">Password</label>
-                            <input type="password" class="form-control round" id="signin-password" value="thisisthepassword" placeholder="Password">
-                        </div>
-                        <div class="form-group clearfix">
-                            <label class="fancy-checkbox element-left">
-                                <input type="checkbox">
-                                <span>Remember me</span>
-                            </label>								
+                            <input type="password" class="form-control round" name="signin-password" placeholder="Password" required>
                         </div>
                         <button type="submit" class="btn btn-primary btn-round btn-block">LOGIN</button>
                         <div class="bottom">
-                            <span class="helper-text m-b-10"><i class="fa fa-lock"></i> <a href="page-forgot-password.html">Forgot password?</a></span>
-                            <span>Don't have an account? <a href="page-register.html">Register</a></span>
+                            <span>Don't have an account? <a href="{% url 'register' %}">Register</a></span>
                         </div>
                     </form>
                 </div>
@@ -70,9 +65,34 @@
     
 <script src="{% static 'assets/bundles/libscripts.bundle.js' %}"></script>
 <script src="{% static 'assets/bundles/vendorscripts.bundle.js' %}"></script>
+<script src="{% static 'assets/vendor/toastr/toastr.js' %}"></script>
 
 <script src="{% static 'assets/vendor/particlesjs/particles.min.js' %}"></script>
 <script src="{% static 'assets/bundles/mainscripts.bundle.js' %}"></script>
 <script src="{% static 'assets/js/pages/particlesjs.js' %}"></script>
+
+<!--notification popup-->
+{% if info %}
+    {% if i_type is 1 %}
+        <script>
+        $(function(){
+            toastr.options.closeButton = true;
+            toastr.options.positionClass = 'toast-bottom-right';
+            toastr.options.showDuration = 2000;
+            toastr['info']('{{info}}');
+        });
+        </script>
+    {% else %}
+        <script>
+        $(function(){
+            toastr.options.closeButton = true;
+            toastr.options.positionClass = 'toast-bottom-right';
+            toastr.options.showDuration = 2000;
+            toastr['error']('{{info}}');
+        });
+        </script>
+    {% endif %}
+{% endif %}
+
 </body>
 </html>
