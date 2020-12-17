@@ -137,7 +137,7 @@
                         <div class="profile-header d-flex justify-content-between justify-content-center">
                             <div class="d-flex">
                                 <div class="mr-3">
-                                    <img src="{% static img_exp_builder %}" class="rounded" alt="">
+                                    <img src="{% static img_exp_builder %}" width="140" height="140" class="rounded" alt="">
                                 </div>
                                 <div class="details">
                                     <h5 class="mb-0">{{ exp_name }}</h5>
@@ -207,7 +207,7 @@
                                 <div class="timeline">
                                     {% for i in comments %}
                                     <div class="timeline-item green vivify fadeIn">
-                                        <img src="{% static img_commenter %}" data-toggle="tooltip"
+                                        <img src="{% static i.avatar %}" data-toggle="tooltip"
                                              data-placement="top" title="Avatar Name" alt="Avatar"
                                              class="w35 h35 rounded-circle">
 
@@ -222,7 +222,6 @@
                                     </div>
                                     {% endfor %}
                                 </div>
-
 
                                 <div class="card">
                                     <div class="body">

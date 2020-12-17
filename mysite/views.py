@@ -13,7 +13,7 @@ def index(request):
 
 def exp(request):
     return render(request, "db-page-exp.html", {
-        "img_exp_builder": "/assets/images/140x140.png",
+        "img_exp_builder": "/assets/images/1024x640.png",
         "exp_name": "GG20 Align",
         "exp_builder": "warren",
         "exp_intro": "谷歌20实验复现",
@@ -27,10 +27,11 @@ def exp(request):
         "img_update": "/assets/images/1024x640.png",
         "num_comment": "1",
 
-        "commenters": ["warren"],
-        "comment_times": ["Sept 01, 2018"],
-        "img_commenters": ["/assets/images/140x140.png"],
-        "comments": ["hdl nb"],
+        "comments": Comment.objects,
+        # "commenters": ["warren"],
+        # "comment_times": ["Sept 01, 2018"],
+        # "img_commenters": ["/assets/images/140x140.png"],
+        # "comments": ["hdl nb"],
 
     })
     return render(request, "page-login.html")
