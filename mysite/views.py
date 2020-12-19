@@ -4,7 +4,8 @@ from django.core import serializers
 from django.http import JsonResponse
 import json
 from .models import *
-
+from django.db.models import Sum, Value as V
+from django.db.models.functions import Coalesce
 
 # Create your views here.
 def index(request):
@@ -27,7 +28,9 @@ def exp(request):
         "img_update": "/assets/images/1024x640.png",
         "num_comment": "1",
 
-        "comments": Comment.objects,
+        "comments": Comment.objects.annotate(
+            img_commenter=Coalesce('create_user_id__info', V(1))
+        ),
         # "commenters": ["warren"],
         # "comment_times": ["Sept 01, 2018"],
         # "img_commenters": ["/assets/images/140x140.png"],

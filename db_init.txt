@@ -1,0 +1,17 @@
+INSERT INTO auth_user(username, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active,
+                      date_joined)
+VALUES ('warren', '123', '2020-12-17', true, 'null', 'null', 'null@null', false, false, '2017-01-01');
+INSERT INTO mysite_userprofile(info, avatar, django_user_id)
+VALUES ('见习研究员', '140x140.png', 1);
+INSERT INTO mysite_comment(create_date, info, target_update_id, create_user_id)
+VALUES ('2020-12-16', 'hdl nb', 1, 1);
+INSERT INTO mysite_update(create_date, info, create_user_id)
+VALUES ('2020-12-15', '如图所示，目前已和GG报告的结果对齐', 1);
+SELECT *
+FROM auth_user;
+SELECT *
+FROM mysite_userprofile;
+SELECT *
+FROM mysite_update;
+SELECT *
+FROM mysite_comment;
