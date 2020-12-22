@@ -172,8 +172,9 @@
                                             <td><span>{{ one_diff.4 }}</span></td>
                                             <td>{{ one_diff.3 }}</td>
                                             <td>
-                                                <button href="{% url 'TODO' %}" class="btn btn-primary btn-sm">View</button>
-                                                <button href="{% url 'diff_delete' one_diff.0 %}" class="btn btn-danger btn-sm">Delete</button>
+                                                <!--TODO: link to diff page-->
+                                                <a href="" class="btn btn-primary btn-sm">View</a>
+                                                <a href="{% url 'diff_delete' one_diff.0 %}" class="btn btn-danger btn-sm">Delete</a>
                                             </td>
                                         </tr>
                                     {% endfor %}

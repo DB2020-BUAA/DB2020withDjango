@@ -62,7 +62,7 @@ def get_random_avatar():
 def sign_up(request):
     if request.user.is_authenticated:
         return redirect(index)
-    if request.method == 'POST':
+    if request.method == 'POSTs':
         try:
             name = request.POST['username']
             password = request.POST['password']
@@ -90,8 +90,8 @@ def list_diff(request, warning=None, w_type=0):
     if request.user.is_authenticated:
         user_id = request.user.id
         try:
-            group_in = mmd.UserToGroup.objects.\
-                filter(linked_user__django_user_id=user_id).\
+            group_in = mmd.UserToGroup.objects. \
+                filter(linked_user__django_user_id=user_id). \
                 values_list("linked_group")
         except mmd.UserToGroup.DoesNotExist:
             return render(request, "db-page-diff-list-n.html",
@@ -99,18 +99,32 @@ def list_diff(request, warning=None, w_type=0):
         all_group_people = mmd.UserProfile.objects.none()
         for g in group_in:
             try:
-                all_group_people |= mmd.UserToGroup.objects.filter(linked_group=g)
+                all_group_people |= mmd.UserToGroup.objects.filter(linked_group=g).values_list("linked_user")
             except mmd.UserToGroup.DoesNotExist:
                 continue
         all_diff = mmd.Compare.objects.values_list("id", "upd1__info", "upd2__info", "create_date", "info").none()
         for p in all_group_people:
             try:
-                all_diff |= mmd.Compare.objects.filter(create_user=p).\
+                all_diff |= mmd.Compare.objects.filter(create_user=p). \
                     values_list("id", "upd1__info", "upd2__info", "create_date", "info")
             except mmd.Compare.DoesNotExist:
                 continue
+        all_diff_short = []
+        for info in all_diff:
+            str_u1 = info[1]
+            str_u2 = info[2]
+            str_in = info[4]
+            if len(str_u1) > 20:
+                str_u1 = str_u1[:20] + '...'
+            if len(str_u2) > 20:
+                str_u1 = str_u2[:20] + '...'
+            if len(str_in) > 20:
+                str_u1 = str_in[:20] + '...'
+            all_diff_short.append((info[0], str_u1, str_u2, info[3], str_in))
+        if len(all_diff_short) == 0:
+            all_diff_short = None
         return render(request, "db-page-diff-list-n.html",
-                      {'diff': all_diff, 'warning': warning, 'w_type': w_type})
+                      {'diff': all_diff_short, 'warning': warning, 'w_type': w_type})
     else:
         return redirect(login_page, info='Please Login', i_type=1)
 
@@ -140,13 +154,23 @@ def list_group(request, warning=None, w_type=0):
                 values_list("linked_group__id", "linked_group__name", "linked_group__info")
         except mmd.UserToGroup.DoesNotExist:
             group_list = None
-        info_get = {'group_list': group_list, 'warning': warning, 'w_type': w_type}
+        group_info_short = []
+        for info in group_list:
+            if len(info[2]) > 30:
+                tmp = (info[0], info[1], info[2][:30] + '...')
+                group_info_short.append(tmp)
+            else:
+                group_info_short.append(info)
+        if len(group_info_short) == 0:
+            group_info_short = None
+        info_get = {'group_list': group_info_short, 'warning': warning, 'w_type': w_type}
         return render(request, "db-page-group-list.html", info_get)
     else:
         return redirect(login_page, info='Please Login', i_type=1)
 
 
 def group(request, group_id):
+    # TODO: link to group page
     return render(request, "db-page-group.html")
 
 
@@ -169,6 +193,173 @@ def create_group(request):
         except ValueError:
             return redirect(list_group, warning='Unable To Link Group And People', w_type=0)
         return redirect(list_group, warning='Created Successfully', w_type=1)
+    else:
+        return redirect(login_page, info='Please Login', i_type=1)
+
+
+# Experiment part
+def list_exps(request, warning=None, w_type=0):
+    if request.user.is_authenticated:
+        user_id = request.user.id
+        try:
+            groups_in = mmd.UserToGroup.objects.filter(linked_user__django_user_id=user_id). \
+                values_list("linked_group")
+        except mmd.UserToGroup.DoesNotExist:
+            return render(request, "db-page-exps-list.html", {'exp_list': None, 'warning': warning, 'w_type': w_type})
+        exp_list = mmd.ExpToGroup.objects. \
+            values_list("linked_exp__id", "linked_group__name", "linked_exp__info", "linked_exp__create_date").none()
+        for g in groups_in:
+            try:
+                exp_list |= mmd.ExpToGroup.objects.filter(linked_group=g). \
+                    values_list("linked_exp__id", "linked_group__name", "linked_exp__info", "linked_exp__create_date")
+            except mmd.ExpToGroup.DoesNotExist:
+                continue
+        exp_list_short = []
+        for exp in exp_list:
+            if len(exp[2]) > 40:
+                exp_list_short.append((exp[0], exp[1], exp[2][:40] + '...', exp[3]))
+            else:
+                exp_list_short.append(exp)
+        if len(exp_list_short) == 0:
+            exp_list_short = None
+        return render(request, "db-page-exps-list.html",
+                      {'exp_list': exp_list_short, 'warning': warning, 'w_type': w_type})
+    else:
+        return redirect(login_page, info='Please Login', i_type=1)
+
+
+def delete_exps(request, exp_id):
+    if request.user.is_authenticated:
+        user_id = request.user.id
+        try:
+            the_exp = mmd.Experiment.objects.get(id=exp_id)
+        except mmd.Experiment.DoesNotExist:
+            return redirect(list_exps, warning='Invalid Experiment ID', w_type=0)
+        if the_exp.create_user.django_user_id == user_id:
+            the_exp.delete()
+            return redirect(list_exps, warning='Delete Successfully', w_type=1)
+        try:
+            owned_group = mmd.ExpToGroup.objects.get(linked_exp=the_exp)
+        except mmd.ExpToGroup.DoesNotExist:
+            return redirect(list_exps, warning='You Do Not Have The Permission To Delete', w_type=0)
+        if owned_group.linked_group.owner.django_user_id == user_id:
+            the_exp.delete()
+            return redirect(list_exps, warning='Delete Successfully', w_type=1)
+        return redirect(list_exps, warning='You Do Not Have The Permission To Delete', w_type=0)
+    else:
+        return redirect(login_page, info='Please Login', i_type=1)
+
+
+# Message part
+def get_all_message(user):
+    try:
+        issues_out = mmd.Issue.objects.filter(create_user__django_user_id=user.id).order_by('create_date')
+        new_issues_out = issues_out.count(status=1)
+    except mmd.Issue.DoesNotExist:
+        issues_out = None
+        new_issues_out = 0
+    try:
+        applies_out = mmd.Apply.objects.filter(create_user__django_user_id=user.id).order_by('create_date')
+        new_applies_out = applies_out.count(status=1)
+    except mmd.Apply.DoesNotExist:
+        applies_out = None
+        new_applies_out = 0
+    try:
+        all_update = mmd.Update.objects.filter(create_user__django_user_id=user.id)
+        issues_in = mmd.Issue.objects.none()
+        for upd in all_update:
+            try:
+                issues_in |= mmd.Issue.objects.filter(target_update=upd)
+            except mmd.Issue.DoesNotExist:
+                continue
+        issues_in = issues_in.order_by('create_date')
+        new_issues_in = issues_in.count(status=0)
+    except mmd.Update.DoesNotExist:
+        issues_in = None
+        new_issues_in = 0
+    try:
+        all_group = mmd.Group.objects.filter(owner__django_user_id=user.id)
+        applies_in = mmd.Apply.objects.none()
+        for gro in all_group:
+            try:
+                applies_in |= mmd.Apply.objects.filter(target_group=gro)
+            except mmd.Apply.DoesNotExist:
+                continue
+        applies_in = applies_in.order_by('create_date')
+        new_applies_in = applies_in.count(status=0)
+    except mmd.Group.DoesNotExist:
+        applies_in = None
+        new_applies_in = 0
+    return {'ap_in': applies_in,
+            'n_ap_in': new_applies_in,
+            'is_in': issues_in,
+            'n_is_in': new_issues_in,
+            'ap_out': applies_out,
+            'n_ap_out': new_applies_out,
+            'is_out': issues_out,
+            'n_is_out': new_issues_out}
+
+
+def list_message(request, warning=None, w_type=0):
+    if request.user.is_authenticated:
+        all_message = get_all_message(request.user)
+        all_message['warning'] = warning
+        all_message['w_type'] = w_type
+        return render(request, "db-page-message.html", all_message)
+    else:
+        return redirect(login_page, info='Please Login', i_type=1)
+
+
+def answer_apply(request, app_id, ans_type):
+    if request.user.is_authenticated:
+        try:
+            the_app = mmd.Apply.objects.get(id=app_id)
+        except mmd.Apply.DoesNotExist:
+            return redirect(list_message, warning="Something Wrong.", w_type=0)
+        if the_app.target_group__owner__django_user_id == request.user.id:
+            if ans_type == 1:   # accept
+                new_link = mmd.UserToGroup(
+                    linked_user=the_app.create_user, linked_group=the_app.target_group)
+                new_link.save()
+                the_app.status = 1
+                the_app.reply = True
+                the_app.save()
+            else:               # refused
+                the_app.status = 1
+                the_app.reply = False
+                the_app.save()
+            return redirect(list_message, warning='Succeed.', w_type=1)
+        else:
+            return redirect(list_message, warning='Do not have permission.', w_type=0)
+    else:
+        return redirect(login_page, info='Please Login', i_type=1)
+
+
+def answer_issue(request, iss_id):
+    if request.user.is_authenticated:
+        try:
+            the_iss = mmd.Issue.objects.get(id=iss_id)
+        except mmd.Issue.DoesNotExist:
+            return redirect(list_message, warning="Something Wrong.", w_type=0)
+        if the_iss.target_update__create_user__django_user_id == request.user.id:
+            answer = request.POST['input_answer']
+            the_iss.status = 1
+            the_iss.answer_info = answer
+            the_iss.save()
+            return redirect(list_message, warning='Succeed.', w_type=1)
+        else:
+            return redirect(list_message, warning='Do not have permission.', w_type=0)
+    else:
+        return redirect(login_page, info='Please Login', i_type=1)
+
+
+def mark_read_app(request, app_id):
+    if request.user.is_authenticated:
+        try:
+            the_app = mmd.Apply.objects.get(id=app_id)
+        except mmd.Apply.DoesNotExist:
+            return redirect(list_message, warning="Something Wrong.", w_type=0)
+        pass
     else:
         return redirect(login_page, info='Please Login', i_type=1)
 
