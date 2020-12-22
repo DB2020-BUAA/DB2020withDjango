@@ -46,6 +46,13 @@ urlpatterns = [
     path('exps-list/<str:warning>/<int:w_type>', views.list_exps, name="exps_list_redirect"),
     path('exps-list-delete/<int:exp_id>', views.delete_exps, name='exps_delete'),
 
+    path('mesg', views.list_message, name='mesg_list'),
+    path('mesg/<str:warning>/<int:w_type>', views.list_message, name='mesg_list_redirect'),
+    path('mesg-ans-app/<int:app_id>/<int:ans_type>', views.answer_apply, name='mesg_ans_app'),
+    path('mesg-ans-iss/<int:iss_id>', views.answer_issue, name='mesg_ans_iss'),
+    path('mesg-read_app/<int:app_id>', views.mark_read_app, name='mesg_read_app'),
+    path('mesg-read-iss/<int:iss_id>', views.mark_read_iss, name='mesg_read_iss'),
+
     path('exp/', exp),
     path('exp/cmt_upd', cmt_upd),
 ]

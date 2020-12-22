@@ -223,11 +223,11 @@ def list_exps(request, warning=None, w_type=0):
             except mmd.ExpToGroup.DoesNotExist:
                 continue
         exp_list_short = []
-        for exp in exp_list:
-            if len(exp[2]) > 40:
-                exp_list_short.append((exp[0], exp[1], exp[2][:40] + '...', exp[3]))
+        for one_exp in exp_list:
+            if len(one_exp[2]) > 40:
+                exp_list_short.append((one_exp[0], one_exp[1], one_exp[2][:40] + '...', one_exp[3]))
             else:
-                exp_list_short.append(exp)
+                exp_list_short.append(one_exp)
         if len(exp_list_short) == 0:
             exp_list_short = None
         return render(request, "db-page-exps-list.html",
@@ -261,40 +261,77 @@ def delete_exps(request, exp_id):
 # Message part
 def get_all_message(user):
     try:
-        issues_out = mmd.Issue.objects.filter(create_user__django_user_id=user.id).order_by('create_date')
-        new_issues_out = issues_out.count(status=1)
+        issues_out = mmd.Issue.objects. \
+            annotate(target_update__id=F('target_update__id'),
+                     target_update_info=F('target_update__info')). \
+            filter(create_user__django_user_id=user.id).order_by('-create_date')
+        if issues_out.exists():
+            new_issues_out = issues_out.filter(status=1).count()
+        else:
+            issues_out = None
+            new_issues_out = 0
     except mmd.Issue.DoesNotExist:
         issues_out = None
         new_issues_out = 0
     try:
-        applies_out = mmd.Apply.objects.filter(create_user__django_user_id=user.id).order_by('create_date')
-        new_applies_out = applies_out.count(status=1)
+        applies_out = mmd.Apply.objects. \
+            annotate(target_group_name=F('target_group__name')). \
+            filter(create_user__django_user_id=user.id).order_by('-create_date')
+        if applies_out.exists():
+            new_applies_out = applies_out.filter(status=1).count()
+        else:
+            applies_out = None
+            new_applies_out = 0
     except mmd.Apply.DoesNotExist:
         applies_out = None
         new_applies_out = 0
     try:
         all_update = mmd.Update.objects.filter(create_user__django_user_id=user.id)
-        issues_in = mmd.Issue.objects.none()
+        issues_in = mmd.Issue.objects.annotate(
+            create_user_name=F('create_user__django_user__username'),
+            target_update_info=F('target_update__info')). \
+            none()
         for upd in all_update:
             try:
-                issues_in |= mmd.Issue.objects.filter(target_update=upd)
+                issues_in |= mmd.Issue.objects.annotate(
+                    create_user_name=F('create_user__django_user__username'),
+                    target_update_info=F('target_update__info')). \
+                    filter(target_update=upd)
             except mmd.Issue.DoesNotExist:
                 continue
-        issues_in = issues_in.order_by('create_date')
-        new_issues_in = issues_in.count(status=0)
+        if issues_in.exists():
+            issues_in = issues_in.order_by('-create_date')
+            new_issues_in = issues_in.filter(status=0).count()
+        else:
+            issues_in = None
+            new_issues_in = 0
     except mmd.Update.DoesNotExist:
         issues_in = None
         new_issues_in = 0
     try:
         all_group = mmd.Group.objects.filter(owner__django_user_id=user.id)
-        applies_in = mmd.Apply.objects.none()
+        applies_in = mmd.Apply.objects.annotate(
+            create_user_name=F('create_user__django_user__username'),
+            create_user_info=F('create_user__info'),
+            create_user_email=F('create_user__django_user__email'),
+            target_group_name=F('target_group__name')). \
+            none()
         for gro in all_group:
             try:
-                applies_in |= mmd.Apply.objects.filter(target_group=gro)
+                applies_in |= mmd.Apply.objects.annotate(
+                    create_user_name=F('create_user__django_user__username'),
+                    create_user_info=F('create_user__info'),
+                    create_user_email=F('create_user__django_user__email'),
+                    target_group_name=F('target_group__name')). \
+                    filter(target_group=gro)
             except mmd.Apply.DoesNotExist:
                 continue
-        applies_in = applies_in.order_by('create_date')
-        new_applies_in = applies_in.count(status=0)
+        if applies_in.exists():
+            applies_in = applies_in.order_by('-create_date')
+            new_applies_in = applies_in.filter(status=0).count()
+        else:
+            applies_in = None
+            new_applies_in = 0
     except mmd.Group.DoesNotExist:
         applies_in = None
         new_applies_in = 0
@@ -321,18 +358,19 @@ def list_message(request, warning=None, w_type=0):
 def answer_apply(request, app_id, ans_type):
     if request.user.is_authenticated:
         try:
-            the_app = mmd.Apply.objects.get(id=app_id)
+            the_app = mmd.Apply.objects. \
+                annotate(group_owner_id=F('target_group__owner__django_user_id')).get(id=app_id)
         except mmd.Apply.DoesNotExist:
             return redirect(list_message, warning="Something Wrong.", w_type=0)
-        if the_app.target_group__owner__django_user_id == request.user.id:
-            if ans_type == 1:   # accept
+        if the_app.group_owner_id == request.user.id:
+            if ans_type == 1:  # accept
                 new_link = mmd.UserToGroup(
                     linked_user=the_app.create_user, linked_group=the_app.target_group)
                 new_link.save()
                 the_app.status = 1
                 the_app.reply = True
                 the_app.save()
-            else:               # refused
+            else:  # refused
                 the_app.status = 1
                 the_app.reply = False
                 the_app.save()
@@ -346,10 +384,11 @@ def answer_apply(request, app_id, ans_type):
 def answer_issue(request, iss_id):
     if request.user.is_authenticated:
         try:
-            the_iss = mmd.Issue.objects.get(id=iss_id)
+            the_iss = mmd.Issue.objects. \
+                annotate(update_owner_id=F('target_update__create_user__django_user_id')).get(id=iss_id)
         except mmd.Issue.DoesNotExist:
             return redirect(list_message, warning="Something Wrong.", w_type=0)
-        if the_iss.target_update__create_user__django_user_id == request.user.id:
+        if the_iss.update_owner_id == request.user.id:
             answer = request.POST['input_answer']
             the_iss.status = 1
             the_iss.answer_info = answer
@@ -364,10 +403,36 @@ def answer_issue(request, iss_id):
 def mark_read_app(request, app_id):
     if request.user.is_authenticated:
         try:
-            the_app = mmd.Apply.objects.get(id=app_id)
+            the_app = mmd.Apply.objects. \
+                annotate(creator=F('create_user__django_user_id')).get(id=app_id)
         except mmd.Apply.DoesNotExist:
             return redirect(list_message, warning="Something Wrong.", w_type=0)
-        pass
+        if the_app.status == 0:
+            return redirect(list_message, warning="Wrong Operation.", w_type=0)
+        else:
+            the_app.status = 2
+            the_app.save()
+            return redirect(list_message, warning="Succeed.", w_type=1)
+    else:
+        return redirect(login_page, info='Please Login', i_type=1)
+
+
+def mark_read_iss(request, iss_id):
+    if request.user.is_authenticated:
+        try:
+            the_iss = mmd.Issue.objects. \
+                annotate(creator=F('create_user__django_user_id')).get(id=iss_id)
+        except mmd.Issue.DoesNotExist:
+            return redirect(list_message, warning="Something Wrong.", w_type=0)
+        if the_iss.creator == request.user.id:
+            if the_iss.status == 0:
+                return redirect(list_message, warning="Wrong Operation.", w_type=0)
+            else:
+                the_iss.status = 2
+                the_iss.save()
+                return redirect(list_message, warning="Succeed.", w_type=1)
+        else:
+            return redirect(list_message, warning='Do not have permission.', w_type=0)
     else:
         return redirect(login_page, info='Please Login', i_type=1)
 
@@ -377,6 +442,7 @@ def page_not_found(request, exception):
     return render(request, "page-404.html")
 
 
+# EXP page
 def exp(request):
     # if not request.user.is_authenticated:
     #     return render(request, "page-login.html")

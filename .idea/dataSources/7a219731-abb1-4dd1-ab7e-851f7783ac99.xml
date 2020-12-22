@@ -486,7 +486,7 @@ model</ColNames>
     </column>
     <column id="118" parent="16" name="status">
       <Position>4</Position>
-      <DataType>bool|0s</DataType>
+      <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <column id="119" parent="16" name="reply_time">
@@ -499,21 +499,21 @@ model</ColNames>
       <DataType>bool|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="121" parent="16" name="target_group_id">
+    <column id="121" parent="16" name="create_user_id">
       <Position>7</Position>
+      <DataType>integer|0s</DataType>
+    </column>
+    <column id="122" parent="16" name="target_group_id">
+      <Position>8</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="122" parent="16" name="create_user_id">
-      <Position>8</Position>
-      <DataType>integer|0s</DataType>
-    </column>
-    <index id="123" parent="16" name="mysite_apply_target_group_id_f10ca7c1">
-      <ColNames>target_group_id</ColNames>
+    <index id="123" parent="16" name="mysite_apply_create_user_id_210c6988">
+      <ColNames>create_user_id</ColNames>
       <ColumnCollations></ColumnCollations>
     </index>
-    <index id="124" parent="16" name="mysite_apply_create_user_id_210c6988">
-      <ColNames>create_user_id</ColNames>
+    <index id="124" parent="16" name="mysite_apply_target_group_id_f10ca7c1">
+      <ColNames>target_group_id</ColNames>
       <ColumnCollations></ColumnCollations>
     </index>
     <key id="125" parent="16">
@@ -521,15 +521,15 @@ model</ColNames>
       <Primary>1</Primary>
     </key>
     <foreign-key id="126" parent="16">
-      <ColNames>target_group_id</ColNames>
-      <RefTableName>mysite_group</RefTableName>
+      <ColNames>create_user_id</ColNames>
+      <RefTableName>mysite_userprofile</RefTableName>
       <RefColNames>id</RefColNames>
       <Deferrable>1</Deferrable>
       <InitiallyDeferred>1</InitiallyDeferred>
     </foreign-key>
     <foreign-key id="127" parent="16">
-      <ColNames>create_user_id</ColNames>
-      <RefTableName>mysite_userprofile</RefTableName>
+      <ColNames>target_group_id</ColNames>
+      <RefTableName>mysite_group</RefTableName>
       <RefColNames>id</RefColNames>
       <Deferrable>1</Deferrable>
       <InitiallyDeferred>1</InitiallyDeferred>
@@ -550,21 +550,21 @@ model</ColNames>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="131" parent="17" name="target_update_id">
+    <column id="131" parent="17" name="create_user_id">
       <Position>4</Position>
+      <DataType>integer|0s</DataType>
+    </column>
+    <column id="132" parent="17" name="target_update_id">
+      <Position>5</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="132" parent="17" name="create_user_id">
-      <Position>5</Position>
-      <DataType>integer|0s</DataType>
-    </column>
-    <index id="133" parent="17" name="mysite_comment_target_update_id_a7d04fa3">
-      <ColNames>target_update_id</ColNames>
+    <index id="133" parent="17" name="mysite_comment_create_user_id_0b82aef9">
+      <ColNames>create_user_id</ColNames>
       <ColumnCollations></ColumnCollations>
     </index>
-    <index id="134" parent="17" name="mysite_comment_create_user_id_0b82aef9">
-      <ColNames>create_user_id</ColNames>
+    <index id="134" parent="17" name="mysite_comment_target_update_id_a7d04fa3">
+      <ColNames>target_update_id</ColNames>
       <ColumnCollations></ColumnCollations>
     </index>
     <key id="135" parent="17">
@@ -572,15 +572,15 @@ model</ColNames>
       <Primary>1</Primary>
     </key>
     <foreign-key id="136" parent="17">
-      <ColNames>target_update_id</ColNames>
-      <RefTableName>mysite_update</RefTableName>
+      <ColNames>create_user_id</ColNames>
+      <RefTableName>mysite_userprofile</RefTableName>
       <RefColNames>id</RefColNames>
       <Deferrable>1</Deferrable>
       <InitiallyDeferred>1</InitiallyDeferred>
     </foreign-key>
     <foreign-key id="137" parent="17">
-      <ColNames>create_user_id</ColNames>
-      <RefTableName>mysite_userprofile</RefTableName>
+      <ColNames>target_update_id</ColNames>
+      <RefTableName>mysite_update</RefTableName>
       <RefColNames>id</RefColNames>
       <Deferrable>1</Deferrable>
       <InitiallyDeferred>1</InitiallyDeferred>
@@ -601,30 +601,30 @@ model</ColNames>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="141" parent="18" name="upd1_id">
+    <column id="141" parent="18" name="create_user_id">
       <Position>4</Position>
       <DataType>integer|0s</DataType>
-      <NotNull>1</NotNull>
     </column>
-    <column id="142" parent="18" name="upd2_id">
+    <column id="142" parent="18" name="upd1_id">
       <Position>5</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="143" parent="18" name="create_user_id">
+    <column id="143" parent="18" name="upd2_id">
       <Position>6</Position>
       <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <index id="144" parent="18" name="mysite_compare_upd1_id_258b7326">
+    <index id="144" parent="18" name="mysite_compare_create_user_id_79e5caf2">
+      <ColNames>create_user_id</ColNames>
+      <ColumnCollations></ColumnCollations>
+    </index>
+    <index id="145" parent="18" name="mysite_compare_upd1_id_258b7326">
       <ColNames>upd1_id</ColNames>
       <ColumnCollations></ColumnCollations>
     </index>
-    <index id="145" parent="18" name="mysite_compare_upd2_id_1aed0064">
+    <index id="146" parent="18" name="mysite_compare_upd2_id_1aed0064">
       <ColNames>upd2_id</ColNames>
-      <ColumnCollations></ColumnCollations>
-    </index>
-    <index id="146" parent="18" name="mysite_compare_create_user_id_79e5caf2">
-      <ColNames>create_user_id</ColNames>
       <ColumnCollations></ColumnCollations>
     </index>
     <key id="147" parent="18">
@@ -632,22 +632,22 @@ model</ColNames>
       <Primary>1</Primary>
     </key>
     <foreign-key id="148" parent="18">
+      <ColNames>create_user_id</ColNames>
+      <RefTableName>mysite_userprofile</RefTableName>
+      <RefColNames>id</RefColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+    </foreign-key>
+    <foreign-key id="149" parent="18">
       <ColNames>upd1_id</ColNames>
       <RefTableName>mysite_update</RefTableName>
       <RefColNames>id</RefColNames>
       <Deferrable>1</Deferrable>
       <InitiallyDeferred>1</InitiallyDeferred>
     </foreign-key>
-    <foreign-key id="149" parent="18">
+    <foreign-key id="150" parent="18">
       <ColNames>upd2_id</ColNames>
       <RefTableName>mysite_update</RefTableName>
-      <RefColNames>id</RefColNames>
-      <Deferrable>1</Deferrable>
-      <InitiallyDeferred>1</InitiallyDeferred>
-    </foreign-key>
-    <foreign-key id="150" parent="18">
-      <ColNames>create_user_id</ColNames>
-      <RefTableName>mysite_userprofile</RefTableName>
       <RefColNames>id</RefColNames>
       <Deferrable>1</Deferrable>
       <InitiallyDeferred>1</InitiallyDeferred>
@@ -700,24 +700,24 @@ model</ColNames>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="160" parent="20" name="info">
+    <column id="160" parent="20" name="create_date">
       <Position>2</Position>
-      <DataType>text|0s</DataType>
+      <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="161" parent="20" name="create_user_id">
+    <column id="161" parent="20" name="info">
       <Position>3</Position>
-      <DataType>integer|0s</DataType>
+      <DataType>text|0s</DataType>
+      <NotNull>1</NotNull>
     </column>
     <column id="162" parent="20" name="name">
       <Position>4</Position>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="163" parent="20" name="create_date">
+    <column id="163" parent="20" name="create_user_id">
       <Position>5</Position>
-      <DataType>datetime|0s</DataType>
-      <NotNull>1</NotNull>
+      <DataType>integer|0s</DataType>
     </column>
     <index id="164" parent="20" name="mysite_experiment_create_user_id_58e87240">
       <ColNames>create_user_id</ColNames>
@@ -827,49 +827,47 @@ model</ColNames>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="185" parent="23" name="status">
+    <column id="185" parent="23" name="info">
       <Position>3</Position>
-      <DataType>bool|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="186" parent="23" name="answer_date">
-      <Position>4</Position>
-      <DataType>datetime|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="187" parent="23" name="answer_info">
-      <Position>5</Position>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="188" parent="23" name="target_update_id">
-      <Position>6</Position>
+    <column id="186" parent="23" name="status">
+      <Position>4</Position>
       <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="187" parent="23" name="answer_date">
+      <Position>5</Position>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="188" parent="23" name="answer_info">
+      <Position>6</Position>
+      <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <column id="189" parent="23" name="create_user_id">
       <Position>7</Position>
       <DataType>integer|0s</DataType>
     </column>
-    <index id="190" parent="23" name="mysite_issue_target_update_id_b9655c39">
-      <ColNames>target_update_id</ColNames>
-      <ColumnCollations></ColumnCollations>
-    </index>
+    <column id="190" parent="23" name="target_update_id">
+      <Position>8</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
     <index id="191" parent="23" name="mysite_issue_create_user_id_480b5562">
       <ColNames>create_user_id</ColNames>
       <ColumnCollations></ColumnCollations>
     </index>
-    <key id="192" parent="23">
+    <index id="192" parent="23" name="mysite_issue_target_update_id_b9655c39">
+      <ColNames>target_update_id</ColNames>
+      <ColumnCollations></ColumnCollations>
+    </index>
+    <key id="193" parent="23">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="193" parent="23">
-      <ColNames>target_update_id</ColNames>
-      <RefTableName>mysite_update</RefTableName>
-      <RefColNames>id</RefColNames>
-      <Deferrable>1</Deferrable>
-      <InitiallyDeferred>1</InitiallyDeferred>
-    </foreign-key>
     <foreign-key id="194" parent="23">
       <ColNames>create_user_id</ColNames>
       <RefTableName>mysite_userprofile</RefTableName>
@@ -877,243 +875,250 @@ model</ColNames>
       <Deferrable>1</Deferrable>
       <InitiallyDeferred>1</InitiallyDeferred>
     </foreign-key>
-    <column id="195" parent="24" name="id">
+    <foreign-key id="195" parent="23">
+      <ColNames>target_update_id</ColNames>
+      <RefTableName>mysite_update</RefTableName>
+      <RefColNames>id</RefColNames>
+      <Deferrable>1</Deferrable>
+      <InitiallyDeferred>1</InitiallyDeferred>
+    </foreign-key>
+    <column id="196" parent="24" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="196" parent="24" name="create_date">
+    <column id="197" parent="24" name="create_date">
       <Position>2</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="197" parent="24" name="info">
+    <column id="198" parent="24" name="info">
       <Position>3</Position>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="198" parent="24" name="create_user_id">
-      <Position>4</Position>
-      <DataType>integer|0s</DataType>
-    </column>
     <column id="199" parent="24" name="name">
-      <Position>5</Position>
+      <Position>4</Position>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <column id="200" parent="24" name="imgs">
-      <Position>6</Position>
+      <Position>5</Position>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="201" parent="24" name="mysite_update_create_user_id_eef0e147">
+    <column id="201" parent="24" name="create_user_id">
+      <Position>6</Position>
+      <DataType>integer|0s</DataType>
+    </column>
+    <index id="202" parent="24" name="mysite_update_create_user_id_eef0e147">
       <ColNames>create_user_id</ColNames>
       <ColumnCollations></ColumnCollations>
     </index>
-    <key id="202" parent="24">
+    <key id="203" parent="24">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="203" parent="24">
+    <foreign-key id="204" parent="24">
       <ColNames>create_user_id</ColNames>
       <RefTableName>mysite_userprofile</RefTableName>
       <RefColNames>id</RefColNames>
       <Deferrable>1</Deferrable>
       <InitiallyDeferred>1</InitiallyDeferred>
     </foreign-key>
-    <column id="204" parent="25" name="id">
+    <column id="205" parent="25" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="205" parent="25" name="create_date">
+    <column id="206" parent="25" name="create_date">
       <Position>2</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="206" parent="25" name="info">
+    <column id="207" parent="25" name="info">
       <Position>3</Position>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="207" parent="25" name="data">
+    <column id="208" parent="25" name="name">
       <Position>4</Position>
-      <DataType>varchar(100)|0s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="208" parent="25" name="file_type">
-      <Position>5</Position>
-      <DataType>varchar(6)|0s</DataType>
-    </column>
-    <column id="209" parent="25" name="create_user_id">
-      <Position>6</Position>
-      <DataType>integer|0s</DataType>
-    </column>
-    <column id="210" parent="25" name="name">
-      <Position>7</Position>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="211" parent="25" name="mysite_updatedata_create_user_id_f9e32b5c">
+    <column id="209" parent="25" name="data">
+      <Position>5</Position>
+      <DataType>varchar(100)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="210" parent="25" name="file_type">
+      <Position>6</Position>
+      <DataType>varchar(6)|0s</DataType>
+    </column>
+    <column id="211" parent="25" name="create_user_id">
+      <Position>7</Position>
+      <DataType>integer|0s</DataType>
+    </column>
+    <index id="212" parent="25" name="mysite_updatedata_create_user_id_f9e32b5c">
       <ColNames>create_user_id</ColNames>
       <ColumnCollations></ColumnCollations>
     </index>
-    <key id="212" parent="25">
+    <key id="213" parent="25">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="213" parent="25">
+    <foreign-key id="214" parent="25">
       <ColNames>create_user_id</ColNames>
       <RefTableName>mysite_userprofile</RefTableName>
       <RefColNames>id</RefColNames>
       <Deferrable>1</Deferrable>
       <InitiallyDeferred>1</InitiallyDeferred>
     </foreign-key>
-    <column id="214" parent="26" name="id">
+    <column id="215" parent="26" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="215" parent="26" name="linked_exp_id">
+    <column id="216" parent="26" name="linked_exp_id">
       <Position>2</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="216" parent="26" name="linked_upd_id">
+    <column id="217" parent="26" name="linked_upd_id">
       <Position>3</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="217" parent="26" name="mysite_updtoexp_linked_exp_id_f6ff9c41">
+    <index id="218" parent="26" name="mysite_updtoexp_linked_exp_id_f6ff9c41">
       <ColNames>linked_exp_id</ColNames>
       <ColumnCollations></ColumnCollations>
     </index>
-    <index id="218" parent="26" name="mysite_updtoexp_linked_upd_id_34f71dcd">
+    <index id="219" parent="26" name="mysite_updtoexp_linked_upd_id_34f71dcd">
       <ColNames>linked_upd_id</ColNames>
       <ColumnCollations></ColumnCollations>
     </index>
-    <key id="219" parent="26">
+    <key id="220" parent="26">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="220" parent="26">
+    <foreign-key id="221" parent="26">
       <ColNames>linked_exp_id</ColNames>
       <RefTableName>mysite_experiment</RefTableName>
       <RefColNames>id</RefColNames>
       <Deferrable>1</Deferrable>
       <InitiallyDeferred>1</InitiallyDeferred>
     </foreign-key>
-    <foreign-key id="221" parent="26">
+    <foreign-key id="222" parent="26">
       <ColNames>linked_upd_id</ColNames>
       <RefTableName>mysite_update</RefTableName>
       <RefColNames>id</RefColNames>
       <Deferrable>1</Deferrable>
       <InitiallyDeferred>1</InitiallyDeferred>
     </foreign-key>
-    <column id="222" parent="27" name="id">
+    <column id="223" parent="27" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="223" parent="27" name="info">
+    <column id="224" parent="27" name="info">
       <Position>2</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="224" parent="27" name="avatar">
+    <column id="225" parent="27" name="avatar">
       <Position>3</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="225" parent="27" name="django_user_id">
+    <column id="226" parent="27" name="django_user_id">
       <Position>4</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="226" parent="27" name="mysite_userprofile_django_user_id_ffc343ba">
+    <index id="227" parent="27" name="mysite_userprofile_django_user_id_ffc343ba">
       <ColNames>django_user_id</ColNames>
       <ColumnCollations></ColumnCollations>
     </index>
-    <key id="227" parent="27">
+    <key id="228" parent="27">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="228" parent="27">
+    <foreign-key id="229" parent="27">
       <ColNames>django_user_id</ColNames>
       <RefTableName>auth_user</RefTableName>
       <RefColNames>id</RefColNames>
       <Deferrable>1</Deferrable>
       <InitiallyDeferred>1</InitiallyDeferred>
     </foreign-key>
-    <column id="229" parent="28" name="id">
+    <column id="230" parent="28" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="230" parent="28" name="linked_group_id">
+    <column id="231" parent="28" name="linked_group_id">
       <Position>2</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="231" parent="28" name="linked_user_id">
+    <column id="232" parent="28" name="linked_user_id">
       <Position>3</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="232" parent="28" name="mysite_usertogroup_linked_group_id_9dfb21a8">
+    <index id="233" parent="28" name="mysite_usertogroup_linked_group_id_9dfb21a8">
       <ColNames>linked_group_id</ColNames>
       <ColumnCollations></ColumnCollations>
     </index>
-    <index id="233" parent="28" name="mysite_usertogroup_linked_user_id_388fccfb">
+    <index id="234" parent="28" name="mysite_usertogroup_linked_user_id_388fccfb">
       <ColNames>linked_user_id</ColNames>
       <ColumnCollations></ColumnCollations>
     </index>
-    <key id="234" parent="28">
+    <key id="235" parent="28">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="235" parent="28">
+    <foreign-key id="236" parent="28">
       <ColNames>linked_group_id</ColNames>
       <RefTableName>mysite_group</RefTableName>
       <RefColNames>id</RefColNames>
       <Deferrable>1</Deferrable>
       <InitiallyDeferred>1</InitiallyDeferred>
     </foreign-key>
-    <foreign-key id="236" parent="28">
+    <foreign-key id="237" parent="28">
       <ColNames>linked_user_id</ColNames>
       <RefTableName>mysite_userprofile</RefTableName>
       <RefColNames>id</RefColNames>
       <Deferrable>1</Deferrable>
       <InitiallyDeferred>1</InitiallyDeferred>
     </foreign-key>
-    <column id="237" parent="29" name="type">
+    <column id="238" parent="29" name="type">
       <Position>1</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="238" parent="29" name="name">
+    <column id="239" parent="29" name="name">
       <Position>2</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="239" parent="29" name="tbl_name">
+    <column id="240" parent="29" name="tbl_name">
       <Position>3</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="240" parent="29" name="rootpage">
+    <column id="241" parent="29" name="rootpage">
       <Position>4</Position>
       <DataType>int|0s</DataType>
     </column>
-    <column id="241" parent="29" name="sql">
+    <column id="242" parent="29" name="sql">
       <Position>5</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="242" parent="30" name="name">
+    <column id="243" parent="30" name="name">
       <Position>1</Position>
     </column>
-    <column id="243" parent="30" name="seq">
+    <column id="244" parent="30" name="seq">
       <Position>2</Position>
     </column>
   </database-model>
