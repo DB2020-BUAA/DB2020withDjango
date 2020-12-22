@@ -137,7 +137,7 @@
                         <div class="profile-header d-flex justify-content-between justify-content-center">
                             <div class="d-flex">
                                 <div class="mr-3">
-                                    <img src="{% static img_exp_builder %}" width="140" height="140" class="rounded" alt="">
+                                    <img src="{% static img_exp_builder %}" class="rounded" alt="">
                                 </div>
                                 <div class="details">
                                     <h5 class="mb-0">{{ exp_name }}</h5>
@@ -169,11 +169,11 @@
                             <div class="col-lg-8 col-md-12">
                                 <div class="card">
 
-                                    <div class="multiselect_div">
+                                    <div class="multiselect_div ">
                                         <select id="single-selection" name="single_selection"
-                                                class="multiselect multiselect-custom">
+                                                class="multiselect multiselect-custom exp_upd_select">
                                             {% for i in exp_updates %}
-                                                <option value="{{ i }}">{{ i }}</option>
+                                                <option value="{{ i }}" class="exp_upd_option">{{ i }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -191,7 +191,9 @@
                                         </div>
 
                                         <div class="content">
-                                            <img class="img-fluid rounded" src="{% static img_update %}" alt="img">
+                                            {% for i in img_update %}
+                                                <img class="img-fluid rounded" src="{% static i %}" alt="img">
+                                            {% endfor %}
                                             <h5 class="mt-3">{{ update_name }}</h5>
                                             <span>{{ update_intro }}</span>
                                         </div>
@@ -199,27 +201,28 @@
 
                                     <div class="card-footer">
 
-                                        <a href="#" class="mr-3"><i class="icon-bubbles"></i> {{ num_comment }} Comments </a>
+                                        <a href="#" class="mr-3"><i class="icon-bubbles"></i> {{ num_comment }} Comments
+                                        </a>
 
                                     </div>
                                 </div>
 
                                 <div class="timeline">
                                     {% for i in comments %}
-                                    <div class="timeline-item green vivify fadeIn">
-                                        <img src="{% static i.avatar %}" data-toggle="tooltip"
-                                             data-placement="top" title="Avatar Name" alt="Avatar"
-                                             class="w35 h35 rounded-circle">
+                                        <div class="timeline-item green vivify fadeIn">
+                                            <img src="{% static i.avatar %}" data-toggle="tooltip"
+                                                 data-placement="top" title="Avatar Name" alt="Avatar"
+                                                 class="w35 h35 rounded-circle">
 
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span>{{ commenter }}</span>
-                                            <small>{{ comment_time }}</small>
-                                        </div>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span>{{ i.commenter_name }}</span>
+                                                <small>{{ i.create_date }}</small>
+                                            </div>
 
-                                        <div class="msg">
-                                            <p>{{ comment }}</p>
+                                            <div class="msg">
+                                                <p>{{ i.info }}</p>
+                                            </div>
                                         </div>
-                                    </div>
                                     {% endfor %}
                                 </div>
 
@@ -227,26 +230,31 @@
                                     <div class="body">
                                         <div class="d-flex mb-3">
                                             <div class="icon bg-transparent">
-                                                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40"
+                                                <img src="{% static img_current_user %}" class="rounded mr-3 w40"
                                                      alt="">
                                             </div>
                                             <div>
-                                                <h6 class="mb-0">当前用户warren</h6>
-                                                <span>见习研究员</span>
+                                                <h6 class="mb-0">{{ current_user }}</h6>
+                                                <span>{{ current_user_info }}</span>
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
 
-                                            <textarea rows="4" class="form-control no-resize"
+                                        <form action="cmt_upd" method="post">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                            <textarea rows="4" class="form-control no-resize" name="cmt_upd"
                                                       placeholder="Please type your comment..."></textarea>
-                                        </div>
-                                        <div class="align-right">
-                                            <button class="btn btn-link"><i class="icon-paper-clip text-muted"></i>
-                                            </button>
+                                            </div>
+                                            <div class="align-right">
+                                                <button class="btn btn-link">
+                                                    <i class="icon-paper-clip text-muted">
+                                                    </i>
+                                                </button>
+                                                <button class="btn btn-primary">Post</button>
+                                            </div>
+                                        </form>
 
-                                            <button class="btn btn-primary">Post</button>
-                                        </div>
                                     </div>
                                 </div>
 
@@ -265,90 +273,77 @@
                                     <div class="multiselect_div">
                                         <select id="single-selection" name="single_selection"
                                                 class="multiselect multiselect-custom">
-                                            <option value="LRP w/o">LRP w/o</option>
-                                            <option value="CC w/o">CC w/o</option>
+                                            {% for i in diffs %}
+                                                <option value="{{ i }}">{{ i }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
 
                                     <div class="body">
                                         <div class="d-flex mb-3">
                                             <div class="icon bg-transparent">
-                                                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40"
+                                                <img src="{% static img_diff_updater %}" class="rounded mr-3 w40"
                                                      alt="">
                                             </div>
                                             <div>
-                                                <h6 class="mb-0">对比上传者warren</h6>
-                                                <small>Sept 01, 2018</small>
+                                                <h6 class="mb-0">{{ diff_updater }}</h6>
+                                                <small>{{ diff_time }}</small>
                                             </div>
                                         </div>
                                         <div class="content">
                                             <ul class="accordion2">
                                                 <li class="accordion-item bg-blue text-light">
                                                     <!-- <li class="accordion-item bg-blue text-light is-active"> -->
-                                                    <h3 class="accordion-thumb"><span>LRP</span></h3>
+                                                    <h3 class="accordion-thumb"><span>{{ diff1 }}</span></h3>
                                                     <p class="accordion-panel">
-                                                        残差预测模块
+                                                        {{ intro1 }}
                                                     </p>
                                                 </li>
 
                                                 <li class="accordion-item bg-pink text-light">
-                                                    <h3 class="accordion-thumb"><span>baseline</span></h3>
+                                                    <h3 class="accordion-thumb"><span>{{ diff2 }}</span></h3>
                                                     <p class="accordion-panel">
-                                                        GG18 baseline
+                                                        {{ intro2 }}
                                                     </p>
                                                 </li>
 
                                             </ul>
 
 
-                                            <img class="img-fluid rounded" src="assets/images/1024x640.png" alt="img">
-                                            <h5 class="mt-3">LRP w/o</h5>
-                                            <span>如图所示，LRP效果拔群</span>
+                                            {% for i in diff_imgs %}
+                                                <img class="img-fluid rounded" src="{% static i %}" alt="img">
+                                            {% endfor %}
+                                            <h5 class="mt-3">{{ diff_title }}</h5>
+                                            <span>{{ diff_intro }}</span>
                                         </div>
                                     </div>
 
                                     <div class="card-footer">
-                                        <a href="#" class="mr-3"><i class="icon-bubbles"></i> 92 Comments </a>
+                                        <a href="#" class="mr-3"><i class="icon-bubbles"></i> {{ num_diff_comments }}
+                                            Comments </a>
 
                                     </div>
                                 </div>
 
 
                                 <div class="timeline">
-                                    <div class="timeline-item green vivify fadeIn">
-                                        <img src="https://via.placeholder.com/140x140" data-toggle="tooltip"
-                                             data-placement="top" title="Avatar Name" alt="Avatar"
-                                             class="w35 h35 rounded-circle">
+                                    {% for i in comment_diff %}
+                                        <div class="timeline-item green vivify fadeIn">
+                                            <img src="{% static i.er_img %}" data-toggle="tooltip"
+                                                 data-placement="top" title="Avatar Name" alt="Avatar"
+                                                 class="w35 h35 rounded-circle">
 
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span>评论者warren</span>
-                                            <small>Sept 01, 2018</small>
-                                        </div>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span>{{ i.er }}</span>
+                                                <small>{{ i.create_date }}</small>
+                                            </div>
 
-                                        <div class="msg">
-                                            <p>gg nb</p>
+                                            <div class="msg">
+                                                <p>{{ i.info }}</p>
+                                            </div>
                                         </div>
-                                    </div>
+                                    {% endfor %}
                                 </div>
-
-                                <!-- <div class="card">
-                                    <div class="body">
-                                        <div class="d-flex mb-3">
-                                            <div class="icon bg-transparent">
-                                                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40" alt="">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-0">评论者warren</h6>
-                                                <small>Sept 01, 2018</small>
-                                            </div>
-                                        </div>
-
-                                        <div class="content">
-                                            <span>hdl nb</span>
-                                        </div>
-                                    </div>
-                                </div> -->
-
 
                                 <div class="card">
                                     <div class="body">
@@ -600,7 +595,7 @@
 <script>
     $(function () {
         // (Optional) Active an item if it has the class "is-active"	
-        $(".accordion2 > .accordion-item.is-active").children(".accordion-panel").slideDown();
+        {#$(".accordion2 > .accordion-item.is-active").children(".accordion-panel").slideDown();#}
 
         $(".accordion2 > .accordion-item").click(function () {
             // Cancel the siblings
@@ -608,6 +603,15 @@
             // Toggle the item
             $(this).toggleClass("is-active").children(".accordion-panel").slideToggle("ease-out");
         });
+
+        $(".exp_upd_select").change(function () {
+            let url = window.location.href;
+            let idx = $(this)[0].selectedIndex;
+            {#window.location.replace(url + "&upd=" + idx);#}
+            let val = $(this)[0].options[idx].getAttribute("value");
+            window.location.replace(url + "&upd=" + val);
+        });
+
     });
 </script>
 

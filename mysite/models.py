@@ -44,10 +44,11 @@ class Group(models.Model):
 
 class Experiment(models.Model):
     id = models.AutoField(primary_key=True)
-    create_date = models.DateField(auto_now_add=True)
+    create_date = models.DateTimeField(auto_now_add=True)
     create_user = models.ForeignKey(UserProfile, null=True, on_delete=models.SET_NULL,
                                     related_name='exp_creator')
     info = models.TextField()
+    name = models.TextField(default="default")
 
     def __str__(self):
         return self.id.__str__() + self.create_date.__str__()
@@ -59,6 +60,8 @@ class Update(models.Model):
     create_user = models.ForeignKey(UserProfile, null=True, on_delete=models.SET_NULL,
                                     related_name='update_creator')
     info = models.TextField()
+    name = models.TextField(default="default")
+    imgs = models.TextField(default="")
 
     def __str__(self):
         return self.id.__str__() + self.create_date.__str__()
@@ -70,6 +73,7 @@ class UpdateData(models.Model):
     create_user = models.ForeignKey(UserProfile, null=True, on_delete=models.SET_NULL,
                                     related_name='data_creator')
     info = models.TextField()
+    name = models.TextField(default="default")
     data = models.FileField(upload_to=user_data_path)
     file_type = models.CharField(max_length=6, null=True)
 

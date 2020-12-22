@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
     path('exp/', exp),
+    path('exp/cmt_upd', cmt_upd),
 ]
