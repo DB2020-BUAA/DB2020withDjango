@@ -51,7 +51,7 @@ class Experiment(models.Model):
     name = models.TextField(default="default")
 
     def __str__(self):
-        return self.id.__str__() + self.create_date.__str__()
+        return 'Experiment' + self.id.__str__() + ': ' + self.create_date.__str__()
 
 
 class Update(models.Model):
@@ -64,7 +64,7 @@ class Update(models.Model):
     imgs = models.TextField(default="")
 
     def __str__(self):
-        return self.id.__str__() + self.create_date.__str__()
+        return 'Update' + self.id.__str__() + ': ' + self.create_date.__str__()
 
 
 class UpdateData(models.Model):
@@ -87,7 +87,8 @@ class Issue(models.Model):
     create_user = models.ForeignKey(UserProfile, null=True, on_delete=models.CASCADE,
                                     related_name='issue_creator')
     target_update = models.ForeignKey(Update, on_delete=models.CASCADE)
-    status = models.BooleanField(default=False)
+    info = models.TextField()
+    status = models.IntegerField(default=0)
     answer_date = models.DateTimeField(auto_now=True)
     answer_info = models.TextField()
 
@@ -115,7 +116,7 @@ class Apply(models.Model):
     target_group = models.ForeignKey(Group, on_delete=models.CASCADE,
                                      related_name='apply_target')
     info = models.TextField()
-    status = models.BooleanField(default=False)
+    status = models.IntegerField(default=0)
     reply_time = models.DateTimeField(auto_now=True)
     reply = models.BooleanField(default=False)
 

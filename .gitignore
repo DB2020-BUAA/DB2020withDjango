@@ -2,3 +2,4 @@
 __pycache__
 *.orig
 db.sqlite3
+*.sqlite3
