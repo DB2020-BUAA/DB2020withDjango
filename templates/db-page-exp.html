@@ -3,30 +3,29 @@
 <html lang="en">
 
 <head>
-<title>DB2020 | Page Experiment</title>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="Brego Bootstrap 4x admin is super flexible, powerful, clean &amp; modern responsive admin dashboard with unlimited possibilities.">
-<meta name="author" content="GetBootstrap, design by: puffintheme.com">
+    <title>DB2020 | Page Experiment</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+          content="Brego Bootstrap 4x admin is super flexible, powerful, clean &amp; modern responsive admin dashboard with unlimited possibilities.">
+    <meta name="author" content="GetBootstrap, design by: puffintheme.com">
 
-<link rel="icon" href="favicon.png" type="image/x-icon">
-<!-- VENDOR CSS -->
-<link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="assets/vendor/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="assets/vendor/animate-css/vivify.min.css">
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="{% static '/assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static '/assets/vendor/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static '/assets/vendor/animate-css/vivify.min.css' %}">
 
-<!-- MAIN CSS -->
-<link rel="stylesheet" href="assets/css/site.css">
-
-<!-- SELECT CSS -->
-<link rel="stylesheet" href="assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css">
-<link rel="stylesheet" href="assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
-<link rel="stylesheet" href="assets/vendor/bootstrap-colorpicker/css/bootstrap-colorpicker.css">
-<link rel="stylesheet" href="assets/vendor/multi-select/css/multi-select.css">
-<link rel="stylesheet" href="assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css">
-<link rel="stylesheet" href="assets/vendor/nouislider/nouislider.min.css">
-
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="{% static '/assets/css/site.css' %}">
+    <!-- SELECT CSS -->
+    <link rel="stylesheet" href="{% static '/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css' %}">
+    <link rel="stylesheet" href="{% static '/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css' %}">
+    <link rel="stylesheet" href="{% static '/assets/vendor/bootstrap-colorpicker/css/bootstrap-colorpicker.css' %}">
+    <link rel="stylesheet" href="{% static '/assets/vendor/multi-select/css/multi-select.css' %}">
+    <link rel="stylesheet" href="{% static '/assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css' %}">
+    <link rel="stylesheet" href="{% static '/assets/vendor/nouislider/nouislider.min.css' %}">
 
 
 </head>
@@ -35,8 +34,8 @@
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
     <div class="loader">
-        <div class="m-t-30"><img src="assets/images/icon.svg" width="40" height="40" alt="Brego"></div>
-        <p>Please wait...</p>        
+        <div class="m-t-30"><img src="{% static '/assets/images/icon.svg' %}" width="40" height="40" alt="Brego"></div>
+        <p>Please wait...</p>
     </div>
 </div>
 
@@ -51,17 +50,18 @@
 
             <div class="navbar-left">
                 <div class="navbar-btn">
-                    <a href="index.html"><img src="assets/images/icon.svg" alt="Brego Logo" class="img-fluid logo"></a>
+                    <a href="index.html"><img src="{% static 'assets/images/icon.svg' %}" alt="Brego Logo"
+                                              class="img-fluid logo"></a>
                     <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
                 </div>
-				
+
             </div>
-            
+
             <div class="navbar-right">
                 <div id="navbar-menu">
                     <ul class="nav navbar-nav">
-						                        
-						<li class="dropdown">
+
+                        <li class="dropdown">
                             <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown">
                                 <i class="icon-bell"></i>
                                 <span class="notification-dot bg-azura">4</span>
@@ -72,16 +72,18 @@
                                     <a href="#">
                                         <div class="feeds-left bg-red"><i class="fa fa-check"></i></div>
                                         <div class="feeds-body">
-                                            <h4 class="title text-danger">Issue Fixed <small class="float-right text-muted">9:10 AM</small></h4>
+                                            <h4 class="title text-danger">Issue Fixed <small
+                                                    class="float-right text-muted">9:10 AM</small></h4>
                                             <small>WE have fix all Design bug with Responsive</small>
                                         </div>
                                     </a>
-                                </li>                               
+                                </li>
                                 <li>
                                     <a href="#">
                                         <div class="feeds-left bg-info"><i class="fa fa-user"></i></div>
                                         <div class="feeds-body">
-                                            <h4 class="title text-info">New User <small class="float-right text-muted">9:15 AM</small></h4>
+                                            <h4 class="title text-info">New User <small class="float-right text-muted">9:15
+                                                AM</small></h4>
                                             <small>I feel great! Thanks team</small>
                                         </div>
                                     </a>
@@ -90,7 +92,8 @@
                                     <a href="#">
                                         <div class="feeds-left bg-orange"><i class="fa fa-question-circle"></i></div>
                                         <div class="feeds-body">
-                                            <h4 class="title text-warning">Server Warning <small class="float-right text-muted">9:17 AM</small></h4>
+                                            <h4 class="title text-warning">Server Warning <small
+                                                    class="float-right text-muted">9:17 AM</small></h4>
                                             <small>Your connection is not private</small>
                                         </div>
                                     </a>
@@ -99,14 +102,15 @@
                                     <a href="#">
                                         <div class="feeds-left bg-green"><i class="fa fa-thumbs-o-up"></i></div>
                                         <div class="feeds-body">
-                                            <h4 class="title text-success">2 New Feedback <small class="float-right text-muted">9:22 AM</small></h4>
+                                            <h4 class="title text-success">2 New Feedback <small
+                                                    class="float-right text-muted">9:22 AM</small></h4>
                                             <small>It will give a smart finishing to your site</small>
                                         </div>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        
+
                         <li><a href="page-login.html" class="icon-menu"><i class="icon-power"></i></a></li>
                     </ul>
                 </div>
@@ -114,8 +118,8 @@
         </div>
     </nav>
 
-	<!-- left-sidebar -->
-    
+    <!-- left-sidebar -->
+
     <div id="main-content">
         <div class="container">
             <div class="block-header">
@@ -123,461 +127,491 @@
                     <div class="col-md-6 col-sm-12">
                         <h1>Experiment</h1>
                     </div>
-                   
+
                 </div>
             </div>
-			
+
             <div class="row clearfix">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="profile-header d-flex justify-content-between justify-content-center">
                             <div class="d-flex">
                                 <div class="mr-3">
-                                    <img src="https://via.placeholder.com/140x140" class="rounded" alt="">
+                                    <img src="{% static img_exp_builder %}" class="rounded" alt="">
                                 </div>
                                 <div class="details">
-                                    <h5 class="mb-0">GG20 Align</h5>
-                                    <span class="text-light">实验创建者warren</span>
+                                    <h5 class="mb-0">{{ exp_name }}</h5>
+                                    <span class="text-light">{{ exp_builder }}</span>
                                     <p class="mb-0">
-										<span><strong>谷歌20实验复现</strong></span> 
-										
-									</p>
-                                </div>                                
+                                        <span><strong>{{ exp_intro }} </strong></span>
+                                    </p>
+                                </div>
                             </div>
-                            
                         </div>
                         <ul class="nav nav-tabs3 mt-2">
-                            <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#Experiment">Experiment</a></li>
-							<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Contrast">Contrast</a></li>
-							<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Issues">Issues</a></li>
-							<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#My_Commit">My commit</a></li>
-							<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#My_Issue">My Issue</a></li>
-                            
+                            <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#Experiment">Experiment</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Contrast">Contrast</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Issues">Issues</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#My_Commit">My commit</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#My_Issue">My Issue</a>
+                            </li>
                         </ul>
-                    </div>                    
+                    </div>
                 </div>
-				
+
                 <div class="tab-content col-md-12">
                     <div class="tab-pane vivify fadeIn delay-100 active show" id="Experiment">
                         <div class="row">
                             <div class="col-lg-8 col-md-12">
-								<div class="card">
-								    
-									<div class="multiselect_div">
-									    <select id="single-selection" name="single_selection" class="multiselect multiselect-custom">
-									        <option value="ADD LRP">ADD LRP</option>
-									        <option value="ADD CC">ADD CC</option>
-									    </select>
-									</div>
-									
-									<div class="body">
-								        <div class="d-flex mb-3">
-								            <div class="icon bg-transparent">
-								                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40" alt="">
-								            </div>
-								            <div>
-								                <h6 class="mb-0">更新上传者warren</h6>
-								                <small>Sept 01, 2018</small>
-								            </div>
-								        </div>                   
-												 
-								        <div class="content">
-								            <img class="img-fluid rounded" src="assets/images/1024x640.png" alt="img">
-								            <h5 class="mt-3">ADD LRP</h5>
-								            <span>如图所示，目前已和GG报告的结果对齐</span>
-								        </div>
-								    </div>
-									
-								    <div class="card-footer">
-								        
-								        <a href="#" class="mr-3"><i class="icon-bubbles"></i> 92 Comments </a>
-								        
-								    </div>
-								</div>
-								
-								<div class="timeline">
-								    <div class="timeline-item green vivify fadeIn">
-								        <img src="https://via.placeholder.com/140x140" data-toggle="tooltip" data-placement="top" title="Avatar Name" alt="Avatar" class="w35 h35 rounded-circle">
-								    
-								        <div class="d-flex align-items-center justify-content-between">
-								            <span>评论者warren</span>
-								            <small>Sept 01, 2018</small>
-								        </div>
-								    
-								        <div class="msg">
-								            <p>hdl nb</p>
-								        </div>
-								    </div>
-								</div>
-								
-								
-								<div class="card">
-								    <div class="body">
-								        <div class="d-flex mb-3">
-								            <div class="icon bg-transparent">
-								                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40" alt="">
-								            </div>
-								            <div>
-								                <h6 class="mb-0">当前用户warren</h6>
-								                <span>见习研究员</span>
-								            </div>
-								        </div>
-										
-								        <div class="form-group">
-								        
-											<textarea rows="4" class="form-control no-resize" placeholder="Please type your comment..."></textarea>
-								        </div>
-								        <div class="align-right">
-								            <button class="btn btn-link"><i class="icon-paper-clip text-muted"></i></button>
-								            
-								            <button class="btn btn-primary">Post</button>
-								        </div>
-								    </div>
-								</div>
-								
-                                
-								
-							</div>
-						</div>
-					
-					</div>         
-				
-					
-					<div class="tab-pane vivify fadeIn delay-100" id="Contrast">
-					<div class="row">
-					    <div class="col-lg-8 col-md-12">
-							<div class="card">
-							    
-								<div class="multiselect_div">
-								    <select id="single-selection" name="single_selection" class="multiselect multiselect-custom">
-								        <option value="LRP w/o">LRP w/o</option>
-								        <option value="CC w/o">CC w/o</option>
-								    </select>
-								</div>
-								
-								<div class="body">
-							        <div class="d-flex mb-3">
-							            <div class="icon bg-transparent">
-							                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40" alt="">
-							            </div>
-							            <div>
-							                <h6 class="mb-0">对比上传者warren</h6>
-							                <small>Sept 01, 2018</small>
-							            </div>
-							        </div>                            
-							        <div class="content">
-										<ul class="accordion2">
-										    <li class="accordion-item bg-blue text-light">
-											<!-- <li class="accordion-item bg-blue text-light is-active"> -->
-										        <h3 class="accordion-thumb"><span>LRP</span></h3>
-										        <p class="accordion-panel">
-										            残差预测模块
-										        </p>
-										    </li>
-										    
-										    <li class="accordion-item bg-pink text-light">
-										        <h3 class="accordion-thumb"><span>baseline</span></h3>
-										        <p class="accordion-panel">
-										            GG18 baseline
-										        </p>
-										    </li>
-										    
-										</ul>
-										
-										
-							            <img class="img-fluid rounded" src="assets/images/1024x640.png" alt="img">
-							            <h5 class="mt-3">LRP w/o</h5>
-							            <span>如图所示，LRP效果拔群</span>
-							        </div>
-							    </div>
-								
-							    <div class="card-footer">
-							        <a href="#" class="mr-3"><i class="icon-bubbles"></i> 92 Comments </a>
-							        
-							    </div>
-							</div>
-							
-							
-							<div class="timeline">
-							    <div class="timeline-item green vivify fadeIn">
-							        <img src="https://via.placeholder.com/140x140" data-toggle="tooltip" data-placement="top" title="Avatar Name" alt="Avatar" class="w35 h35 rounded-circle">
-							    
-							        <div class="d-flex align-items-center justify-content-between">
-							            <span>评论者warren</span>
-							            <small>Sept 01, 2018</small>
-							        </div>
-							    
-							        <div class="msg">
-							            <p>gg nb</p>
-							        </div>
-							    </div>
-							</div>
-							
-							<!-- <div class="card">
-					            <div class="body">
-					                <div class="d-flex mb-3">
-					                    <div class="icon bg-transparent">
-					                        <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40" alt="">
-					                    </div>
-					                    <div>
-					                        <h6 class="mb-0">评论者warren</h6>
-					                        <small>Sept 01, 2018</small>
-					                    </div>
-					                </div>    
-									
-					                <div class="content">
-					                    <span>hdl nb</span>
-					                </div>
-					            </div>
-					        </div> -->
-							
-							
-							<div class="card">
-							    <div class="body">
-							        <div class="d-flex mb-3">
-							            <div class="icon bg-transparent">
-							                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40" alt="">
-							            </div>
-							            <div>
-							                <h6 class="mb-0">当前用户warren</h6>
-							                <span>见习研究员</span>
-							            </div>
-							        </div>
-									
-							        <div class="form-group">
-							        
-										<textarea rows="4" class="form-control no-resize" placeholder="Please type your comment..."></textarea>
-							        </div>
-							        <div class="align-right">
-							            <button class="btn btn-link"><i class="icon-paper-clip text-muted"></i></button>
-							            
-							            <button class="btn btn-primary">Post</button>
-							        </div>
-							    </div>
-							</div>
-							
-					        
-							
-						</div>
-					</div>
-										
-					</div>
-									
-					
-					<div class="tab-pane vivify fadeIn delay-100" id="Issues">
-					<div class="row">
-					    <div class="col-lg-8 col-md-12">
-							<div class="card">
-							    
-								<div class="multiselect_div">
-								    <select id="single-selection" name="single_selection" class="multiselect multiselect-custom">
-								        <option value="LRP w/o">Channel number of LRP have problem</option>
-								        
-								    </select>
-								</div>
-								
-								<div class="body">
-							        <div class="d-flex mb-3">
-							            <div class="icon bg-transparent">
-							                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40" alt="">
-							            </div>
-							            <div>
-							                <h6 class="mb-0">问题上传者warren</h6>
-							                <small>Sept 01, 2018</small>
-							            </div>
-							        </div>    
-									
-									<span>通道数一样吗？</span>
-							        
-							    </div>
-								
-							    <div class="card-footer">
-							        <a href="#" class="mr-3"><i class="icon-bubbles"></i> 2 Answers </a>
-							        
-							    </div>
-							</div>
-							
-							
-							<div class="timeline">
-							    <div class="timeline-item green vivify fadeIn">
-							        <img src="https://via.placeholder.com/140x140" data-toggle="tooltip" data-placement="top" title="Avatar Name" alt="Avatar" class="w35 h35 rounded-circle">
-							    
-							        <div class="d-flex align-items-center justify-content-between">
-							            <span>回答者warren</span>
-							            <small>Sept 01, 2018</small>
-							        </div>
-							    
-							        <div class="msg">
-							            <p>我看过配置了一样</p>
-							        </div>
-							    </div>
-							</div>
-							
-							
-							<div class="card">
-							    <div class="body">
-							        <div class="d-flex mb-3">
-							            <div class="icon bg-transparent">
-							                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40" alt="">
-							            </div>
-							            <div>
-							                <h6 class="mb-0">当前用户warren</h6>
-							                <span>见习研究员</span>
-							            </div>
-							        </div>
-									
-							        <div class="form-group">
-							        
-										<textarea rows="4" class="form-control no-resize" placeholder="Please type your answer..."></textarea>
-							        </div>
-							        <div class="align-right">
-							            <button class="btn btn-link"><i class="icon-paper-clip text-muted"></i></button>
-							            
-							            <button class="btn btn-primary">Post</button>
-							        </div>
-							    </div>
-							</div>
-							
-					        
-							
-						</div>
-					</div>
-										
-					</div>
-					
-					
-					<div class="tab-pane vivify fadeIn delay-100" id="My_Issue">
-					<div class="row">
-					    <div class="col-lg-8 col-md-12">
-							<div class="card">
-							    
-								<div class="multiselect_div">
-								    <select id="single-selection" name="single_selection" class="multiselect multiselect-custom">
-								        <option value="LRP w/o">Channel number of LRP have problem</option>
-								        
-								    </select>
-								</div>
-								
-								<div class="body">
-							        <div class="d-flex mb-3">
-							                <div class="icon bg-transparent">
-							                    <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40" alt="">
-							                </div>
-							                <div>
-							                    <h6 class="mb-0">当前用户warren</h6>
-							                    <span>见习研究员</span>
-							                </div>
-							            </div>
-							        	
-							            <div class="form-group">
-							            
-							        		<textarea rows="4" class="form-control no-resize" placeholder="Please type your issue..."></textarea>
-							            </div>
-							            <div class="align-right">
-							                <button class="btn btn-link"><i class="icon-paper-clip text-muted"></i></button>
-							                
-							                <button class="btn btn-primary">Post</button>
-							            </div>
-							        
-							        
-							    </div>
-								
-							</div>
-							
-							
-					        
-							
-						</div>
-					</div>
-										
-					</div>
-					
-					
-					<div class="tab-pane vivify fadeIn delay-100" id="My_Commit">
-					<div class="row">
-					    <div class="col-lg-8 col-md-12">
-							<div class="card">
-							    
-								<div class="multiselect_div">
-								    <select id="single-selection" name="single_selection" class="multiselect multiselect-custom">
-								        <option value="LRP w/o">Channel number of LRP have problem</option>
-								        
-								    </select>
-								</div>
-								
-								<div class="body">
-							        <div class="d-flex mb-3">
-							                <div class="icon bg-transparent">
-							                    <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40" alt="">
-							                </div>
-							                <div>
-							                    <h6 class="mb-0">当前用户warren</h6>
-							                    <span>见习研究员</span>
-							                </div>
-							            </div>
-							        	
-							            <div class="form-group">
-							            
-							        		<textarea rows="4" class="form-control no-resize" placeholder="Please type your commit..."></textarea>
-							            </div>
-							            <div class="align-right">
-							                <button class="btn btn-link"><i class="icon-paper-clip text-muted"></i></button>
-							                
-							                <button class="btn btn-primary">Post</button>
-							            </div>
-							        
-							        
-							    </div>
-								
-							</div>
-							
-							
-					        
-							
-						</div>
-					</div>
-										
-					</div>
-					
-					
-				</div>
+                                <div class="card">
+
+                                    <div class="multiselect_div ">
+                                        <select id="single-selection" name="single_selection"
+                                                class="multiselect multiselect-custom exp_upd_select">
+                                            {% for i in exp_updates %}
+                                                <option value="{{ i }}" class="exp_upd_option">{{ i }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="body">
+                                        <div class="d-flex mb-3">
+                                            <div class="icon bg-transparent">
+                                                <img src="{% static img_updater %}" class="rounded mr-3 w40"
+                                                     alt="">
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">{{ updater }}</h6>
+                                                <small>{{ update_time }}</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="content">
+                                            {% for i in img_update %}
+                                                <img class="img-fluid rounded" src="{% static i %}" alt="img">
+                                            {% endfor %}
+                                            <h5 class="mt-3">{{ update_name }}</h5>
+                                            <span>{{ update_intro }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-footer">
+
+                                        <a href="#" class="mr-3"><i class="icon-bubbles"></i> {{ num_comment }} Comments
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                                <div class="timeline">
+                                    {% for i in comments %}
+                                        <div class="timeline-item green vivify fadeIn">
+                                            <img src="{% static i.avatar %}" data-toggle="tooltip"
+                                                 data-placement="top" title="Avatar Name" alt="Avatar"
+                                                 class="w35 h35 rounded-circle">
+
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span>{{ i.commenter_name }}</span>
+                                                <small>{{ i.create_date }}</small>
+                                            </div>
+
+                                            <div class="msg">
+                                                <p>{{ i.info }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="d-flex mb-3">
+                                            <div class="icon bg-transparent">
+                                                <img src="{% static img_current_user %}" class="rounded mr-3 w40"
+                                                     alt="">
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">{{ current_user }}</h6>
+                                                <span>{{ current_user_info }}</span>
+                                            </div>
+                                        </div>
+
+
+                                        <form action="cmt_upd" method="post">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                            <textarea rows="4" class="form-control no-resize" name="cmt_upd"
+                                                      placeholder="Please type your comment..."></textarea>
+                                            </div>
+                                            <div class="align-right">
+                                                <button class="btn btn-link">
+                                                    <i class="icon-paper-clip text-muted">
+                                                    </i>
+                                                </button>
+                                                <button class="btn btn-primary">Post</button>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="tab-pane vivify fadeIn delay-100" id="Contrast">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-12">
+                                <div class="card">
+
+                                    <div class="multiselect_div">
+                                        <select id="single-selection" name="single_selection"
+                                                class="multiselect multiselect-custom">
+                                            {% for i in diffs %}
+                                                <option value="{{ i }}">{{ i }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="body">
+                                        <div class="d-flex mb-3">
+                                            <div class="icon bg-transparent">
+                                                <img src="{% static img_diff_updater %}" class="rounded mr-3 w40"
+                                                     alt="">
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">{{ diff_updater }}</h6>
+                                                <small>{{ diff_time }}</small>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            <ul class="accordion2">
+                                                <li class="accordion-item bg-blue text-light">
+                                                    <!-- <li class="accordion-item bg-blue text-light is-active"> -->
+                                                    <h3 class="accordion-thumb"><span>{{ diff1 }}</span></h3>
+                                                    <p class="accordion-panel">
+                                                        {{ intro1 }}
+                                                    </p>
+                                                </li>
+
+                                                <li class="accordion-item bg-pink text-light">
+                                                    <h3 class="accordion-thumb"><span>{{ diff2 }}</span></h3>
+                                                    <p class="accordion-panel">
+                                                        {{ intro2 }}
+                                                    </p>
+                                                </li>
+
+                                            </ul>
+
+
+                                            {% for i in diff_imgs %}
+                                                <img class="img-fluid rounded" src="{% static i %}" alt="img">
+                                            {% endfor %}
+                                            <h5 class="mt-3">{{ diff_title }}</h5>
+                                            <span>{{ diff_intro }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-footer">
+                                        <a href="#" class="mr-3"><i class="icon-bubbles"></i> {{ num_diff_comments }}
+                                            Comments </a>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="timeline">
+                                    {% for i in comment_diff %}
+                                        <div class="timeline-item green vivify fadeIn">
+                                            <img src="{% static i.er_img %}" data-toggle="tooltip"
+                                                 data-placement="top" title="Avatar Name" alt="Avatar"
+                                                 class="w35 h35 rounded-circle">
+
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span>{{ i.er }}</span>
+                                                <small>{{ i.create_date }}</small>
+                                            </div>
+
+                                            <div class="msg">
+                                                <p>{{ i.info }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="d-flex mb-3">
+                                            <div class="icon bg-transparent">
+                                                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40"
+                                                     alt="">
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">当前用户warren</h6>
+                                                <span>见习研究员</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <textarea rows="4" class="form-control no-resize"
+                                                      placeholder="Please type your comment..."></textarea>
+                                        </div>
+                                        <div class="align-right">
+                                            <button class="btn btn-link"><i class="icon-paper-clip text-muted"></i>
+                                            </button>
+
+                                            <button class="btn btn-primary">Post</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="tab-pane vivify fadeIn delay-100" id="Issues">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-12">
+                                <div class="card">
+
+                                    <div class="multiselect_div">
+                                        <select id="single-selection" name="single_selection"
+                                                class="multiselect multiselect-custom">
+                                            <option value="LRP w/o">Channel number of LRP have problem</option>
+
+                                        </select>
+                                    </div>
+
+                                    <div class="body">
+                                        <div class="d-flex mb-3">
+                                            <div class="icon bg-transparent">
+                                                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40"
+                                                     alt="">
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">问题上传者warren</h6>
+                                                <small>Sept 01, 2018</small>
+                                            </div>
+                                        </div>
+
+                                        <span>通道数一样吗？</span>
+
+                                    </div>
+
+                                    <div class="card-footer">
+                                        <a href="#" class="mr-3"><i class="icon-bubbles"></i> 2 Answers </a>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="timeline">
+                                    <div class="timeline-item green vivify fadeIn">
+                                        <img src="https://via.placeholder.com/140x140" data-toggle="tooltip"
+                                             data-placement="top" title="Avatar Name" alt="Avatar"
+                                             class="w35 h35 rounded-circle">
+
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <span>回答者warren</span>
+                                            <small>Sept 01, 2018</small>
+                                        </div>
+
+                                        <div class="msg">
+                                            <p>我看过配置了一样</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="card">
+                                    <div class="body">
+                                        <div class="d-flex mb-3">
+                                            <div class="icon bg-transparent">
+                                                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40"
+                                                     alt="">
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">当前用户warren</h6>
+                                                <span>见习研究员</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <textarea rows="4" class="form-control no-resize"
+                                                      placeholder="Please type your answer..."></textarea>
+                                        </div>
+                                        <div class="align-right">
+                                            <button class="btn btn-link"><i class="icon-paper-clip text-muted"></i>
+                                            </button>
+
+                                            <button class="btn btn-primary">Post</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="tab-pane vivify fadeIn delay-100" id="My_Issue">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-12">
+                                <div class="card">
+
+                                    <div class="multiselect_div">
+                                        <select id="single-selection" name="single_selection"
+                                                class="multiselect multiselect-custom">
+                                            <option value="LRP w/o">Channel number of LRP have problem</option>
+
+                                        </select>
+                                    </div>
+
+                                    <div class="body">
+                                        <div class="d-flex mb-3">
+                                            <div class="icon bg-transparent">
+                                                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40"
+                                                     alt="">
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">当前用户warren</h6>
+                                                <span>见习研究员</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <textarea rows="4" class="form-control no-resize"
+                                                      placeholder="Please type your issue..."></textarea>
+                                        </div>
+                                        <div class="align-right">
+                                            <button class="btn btn-link"><i class="icon-paper-clip text-muted"></i>
+                                            </button>
+
+                                            <button class="btn btn-primary">Post</button>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="tab-pane vivify fadeIn delay-100" id="My_Commit">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-12">
+                                <div class="card">
+
+                                    <div class="multiselect_div">
+                                        <select id="single-selection" name="single_selection"
+                                                class="multiselect multiselect-custom">
+                                            <option value="LRP w/o">Channel number of LRP have problem</option>
+
+                                        </select>
+                                    </div>
+
+                                    <div class="body">
+                                        <div class="d-flex mb-3">
+                                            <div class="icon bg-transparent">
+                                                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40"
+                                                     alt="">
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0">当前用户warren</h6>
+                                                <span>见习研究员</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <textarea rows="4" class="form-control no-resize"
+                                                      placeholder="Please type your commit..."></textarea>
+                                        </div>
+                                        <div class="align-right">
+                                            <button class="btn btn-link"><i class="icon-paper-clip text-muted"></i>
+                                            </button>
+
+                                            <button class="btn btn-primary">Post</button>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
         </div>
+
     </div>
-    
 </div>
 <div id="particles-js"></div>
 <!-- Javascript -->
-<script src="assets/bundles/libscripts.bundle.js"></script>    
-<script src="assets/bundles/vendorscripts.bundle.js"></script>
-
-<script src="assets/vendor/particlesjs/particles.min.js"></script>
-<script src="assets/bundles/mainscripts.bundle.js"></script>
-<script src="assets/js/pages/particlesjs.js"></script>
-
+<script src="{% static '/assets/bundles/libscripts.bundle.js' %}"></script>
+<script src="{% static '/assets/bundles/vendorscripts.bundle.js' %}"></script>
+<script src="{% static '/assets/vendor/particlesjs/particles.min.js' %}"></script>
+<script src="{% static '/assets/bundles/mainscripts.bundle.js' %}"></script>
+<script src="{% static '/assets/js/pages/particlesjs.js' %}"></script>
 
 <!-- SELECT Javascript -->
-<script src="assets/vendor/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script><!-- Bootstrap Colorpicker Js --> 
-<script src="assets/vendor/jquery-inputmask/jquery.inputmask.bundle.js"></script><!-- Input Mask Plugin Js --> 
-<script src="assets/vendor/jquery.maskedinput/jquery.maskedinput.min.js"></script>
-<script src="assets/vendor/multi-select/js/jquery.multi-select.js"></script><!-- Multi Select Plugin Js -->
-<script src="assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js"></script>
-<script src="assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-<script src="assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.js"></script><!-- Bootstrap Tags Input Plugin Js --> 
-<script src="assets/vendor/nouislider/nouislider.js"></script><!-- noUISlider Plugin Js --> <script src="assets/bundles/mainscripts.bundle.js"></script><script src="assets/js/pages/forms/advanced-form-elements.js"></script>
-
+<script src="{% static '/assets/vendor/bootstrap-colorpicker/js/bootstrap-colorpicker.js' %}"></script>
+<script src="{% static '/assets/vendor/jquery-inputmask/jquery.inputmask.bundle.js' %}"></script>
+<script src="{% static '/assets/vendor/jquery.maskedinput/jquery.maskedinput.min.js' %}"></script>
+<script src="{% static '/assets/vendor/multi-select/js/jquery.multi-select.js' %}"></script>
+<script src="{% static '/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js' %}"></script>
+<script src="{% static '/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+<script src="{% static '/assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.js' %}"></script>
+<script src="{% static '/assets/vendor/nouislider/nouislider.js' %}"></script>
+<script src="{% static '/assets/bundles/mainscripts.bundle.js' %}"></script>
+<script src="{% static '/assets/js/pages/forms/advanced-form-elements.js' %}"></script>
 
 <!-- CONTRAST -->
 <script>
-    $(function() {
+    $(function () {
         // (Optional) Active an item if it has the class "is-active"	
-        $(".accordion2 > .accordion-item.is-active").children(".accordion-panel").slideDown();
-        
-        $(".accordion2 > .accordion-item").click(function() {
+        {#$(".accordion2 > .accordion-item.is-active").children(".accordion-panel").slideDown();#}
+
+        $(".accordion2 > .accordion-item").click(function () {
             // Cancel the siblings
             // $(this).siblings(".accordion-item").removeClass("is-active").children(".accordion-panel").slideUp();
             // Toggle the item
             $(this).toggleClass("is-active").children(".accordion-panel").slideToggle("ease-out");
         });
+
+        $(".exp_upd_select").change(function () {
+            let url = window.location.href;
+            let idx = $(this)[0].selectedIndex;
+            {#window.location.replace(url + "&upd=" + idx);#}
+            let val = $(this)[0].options[idx].getAttribute("value");
+            window.location.replace(url + "&upd=" + val);
+        });
+
     });
 </script>
 

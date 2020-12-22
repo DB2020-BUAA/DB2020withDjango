@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 from mysite import views
+from mysite.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -44,6 +45,9 @@ urlpatterns = [
     path('exps-list', views.list_exps, name="exps_list"),
     path('exps-list/<str:warning>/<int:w_type>', views.list_exps, name="exps_list_redirect"),
     path('exps-list-delete/<int:exp_id>', views.delete_exps, name='exps_delete'),
+
+    path('exp/', exp),
+    path('exp/cmt_upd', cmt_upd),
 ]
 
 handler404 = 'mysite.views.page_not_found'
