@@ -153,6 +153,7 @@
                                 <div class="body">
                                     <form id="basic-form" method="post">
                                         {% csrf_token %}
+                                        <input type="hidden" name="func" value='new'>
                                         <div class="row clearfix">
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="form-group">
@@ -203,8 +204,12 @@
                                                         <span>Boss</span>
                                                     </td>
                                                     <td>
-                                                        <button class="btn btn-primary btn-sm">Remove</button>
-                                                        <button class="btn btn-success btn-sm">Set as Administrator</button>
+                                                        <form action="" method="post">
+                                                        {% csrf_token %}
+                                                            <input type="hidden" name="func" value='remove'>
+                                                            <input type="hidden" name="userid" value={{ member_info.3 }}>
+                                                            <button class="btn btn-primary btn-sm">Remove</button>
+                                                        </form>
                                                     </td>
                                                 </tr>
                                             {% endfor %}
