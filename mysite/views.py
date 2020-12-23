@@ -78,7 +78,7 @@ def get_random_avatar():
 def sign_up(request):
     if request.user.is_authenticated:
         return redirect(index)
-    if request.method == 'POSTs':
+    if request.method == 'POST':
         try:
             name = request.POST['username']
             password = request.POST['password']
