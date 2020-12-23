@@ -565,10 +565,18 @@ def exp(request):
         return redirect(newUrl)
 
     print(f"get exp {request.GET.get('exp')}")
-    my_exp = Experiment.objects.filter(name=request.GET.get("exp", "")).annotate(
-        builder=F('create_user_id__django_user_id__username'),
-        img_builder=F('create_user_id__avatar'),
-    )[0]
+    my_exp = request.GET.get("exp", None)
+    if my_exp:
+        my_exp = Experiment.objects.filter(id=int(my_exp)).annotate(
+            builder=F('create_user_id__django_user_id__username'),
+            img_builder=F('create_user_id__avatar'),
+        )[0]
+    else:
+        my_exp = Experiment.objects.filter(id=1).annotate(
+            builder=F('create_user_id__django_user_id__username'),
+            img_builder=F('create_user_id__avatar'),
+        )[0]
+        # return redirect()
 
     link = 'linked_upd_id__'
     my_upds = UpdToExp.objects.filter(linked_exp_id=my_exp.id).annotate(
@@ -583,7 +591,7 @@ def exp(request):
 
     my_upd = request.GET.get("upd", None)
     if my_upd:
-        my_upd = my_upds.filter(name=my_upd)[0]
+        my_upd = my_upds.filter(upd_id=int(my_upd))[0]
     else:
         my_upd = my_upds[0]
 
@@ -617,7 +625,7 @@ def exp(request):
 
     my_diff = request.GET.get("diff", None)
     if my_diff:
-        my_diff = diffs.filter(name=my_diff)[0]
+        my_diff = diffs.filter(id=int(my_diff))[0]
     else:
         my_diff = diffs[0]
 
