@@ -32,7 +32,7 @@ urlpatterns = [
     path('login-register', views.register_page, name='register'),
     path('login-register/<str:info>/<int:i_type>', views.register_page, name='register_redirect'),
 
-    path('group/<int:group_id>', views.group, name="group"),  # TODO: link to group page
+    path('group/<int:group_id>', views.group, name="group"),
 
     path('group-list', views.list_group, name="group_list"),
     path('group-list-create', views.create_group, name='group_create'),
