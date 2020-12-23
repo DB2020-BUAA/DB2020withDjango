@@ -205,6 +205,29 @@ def create_group(request):
         return redirect(login_page, info='Please Login', i_type=1)
 
 
+def apply_group(request):
+    if request.user.is_authenticated:
+        try:
+            g_id = int(request.POST['gid'])
+            g_info = request.POST['apply_info']
+        except KeyError:
+            return redirect(list_group, warning='Invalid ID Or Info.', w_type=0)
+        try:
+            the_group = mmd.Group.objects.get(id=g_id)
+        except mmd.Group.DoesNotExist:
+            return redirect(list_group, warning='Invalid Group ID.', w_type=0)
+        the_user = mmd.UserProfile.objects.get(django_user_id=request.user.id)
+        if mmd.UserToGroup.objects.filter(
+                linked_group=the_group,
+                linked_user=the_user).count() > 0:
+            return redirect(list_group, warning='Already in the Group.', w_type=1)
+        new_apply = mmd.Apply(target_group=the_group, create_user=the_user, info=g_info)
+        new_apply.save()
+        return redirect(list_group, warning='Applied.', w_type=1)
+    else:
+        return redirect(login_page, info='Please Login', i_type=1)
+
+
 # Experiment part
 def list_exps(request, warning=None, w_type=0):
     if request.user.is_authenticated:
