@@ -1,19 +1,9 @@
 import os
-from pprint import pprint
 from urllib.parse import urljoin, parse_qs, urlparse
 import urllib
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
-from django.utils.datastructures import MultiValueDictKeyError
-from django.shortcuts import render, redirect
-from django.views.decorators.http import require_http_methods
-from django.core import serializers
 from django.http import JsonResponse
-import json
 from .models import *
-from django.db.models import Sum, Value as V, F, Q
-from django.db.models.functions import Coalesce
+from django.db.models import F, Q
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
