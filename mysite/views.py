@@ -186,8 +186,48 @@ def list_group(request, warning=None, w_type=0):
 
 
 def group(request, group_id):
-    # TODO: link to group page
-    return render(request, "db-page-group.html")
+    if request.user.is_authenticated:
+        master_group = mmd.Group.objects.get(id=group_id)
+        master_user = mmd.UserProfile.objects.get(django_user_id=request.user.id)
+        check_user_to_group = mmd.UserToGroup.objects. \
+            filter(linked_group=master_group, linked_user=master_user)
+        if len(check_user_to_group) == 0:
+            return redirect(list_group, warning='You Have No Authority', w_type=0)
+        if request.method == 'POST':
+            if request.POST.get('func', '') == "remove":
+                r_id = request.POST.get('userid', '')
+                r_user = mmd.UserProfile.objects.get(django_user_id=r_id)
+                remove_user_to_group = mmd.UserToGroup.objects. \
+                    filter(linked_group=master_group, linked_user=r_user)
+                try:
+                    remove_user_to_group.delete()
+                except ValueError:
+                    return redirect(group, warning='Unable To Delete User', w_type=0)
+            else:
+                e_name = request.POST.get('name', '')
+                e_info = request.POST.get('info', '')
+                new_exp = mmd.Experiment(name=e_name, info=e_info)
+                new_exp.save()
+                new_exp_to_group = mmd.ExpToGroup(linked_exp=new_exp, linked_group=master_group)
+                try:
+                    new_exp_to_group.save()
+                except ValueError:
+                    return redirect(group, warning='Unable To Link Group And Exp', w_type=0)
+        try:
+            exp_list = mmd.ExpToGroup.objects. \
+                filter(linked_group__id=group_id). \
+                values_list("linked_exp__id", "linked_exp__name", "linked_exp__info", "linked_exp__create_date")
+            member_list = mmd.UserToGroup.objects. \
+                filter(linked_group__id=group_id). \
+                values_list("linked_user__django_user__username",
+                            "linked_user__info", "linked_user__avatar", "linked_user__id")
+        except mmd.UserToGroup.DoesNotExist:
+            exp_list = None
+            member_list = None
+        info_get = {'master_group': master_group, 'exp_list': exp_list, 'member_list': member_list}
+        return render(request, "db-page-group.html", info_get)
+    else:
+        return redirect(login_page, info='Please Login', i_type=1)
 
 
 def create_group(request):
