@@ -21,7 +21,7 @@ class UserProfile(models.Model):
 
     django_user = models.ForeignKey(User, on_delete=models.CASCADE)
     id = models.AutoField(primary_key=True)
-    info = models.TextField(max_length=100, null=True)
+    info = models.TextField(max_length=100, default="this user is lazy")
     avatar = models.TextField(choices=AvatarType.choices, default=AvatarType.A)
 
     def __str__(self):
