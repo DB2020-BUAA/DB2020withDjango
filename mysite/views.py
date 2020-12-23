@@ -621,7 +621,6 @@ def exp(request):
 
             "comments": comments,
 
-            "exp_updates": [i[0] for i in my_upds.values_list("name")],
             "upds": my_upds,
             "comment_url": f"cmt_upd/{my_upd.upd_id}",
 
@@ -723,6 +722,24 @@ def exp(request):
         **dict_diff,
         **dict_my_url,
     })
+
+
+def new_diff(request):
+    upds = Update.objects.all()
+    if len(upds) > 0:
+        return render(request, "db-page-new-diff.html", {
+            "spj": False,
+            "my_diff_url": "my_diff",
+            "updates": upds,
+            "base": upds[0].name,
+        })
+    else:
+        return render(request, "db-page-new-diff.html", {
+            "spj": True,
+            "my_diff_url": "my_diff",
+            "updates": 0,
+            "base": 0,
+        })
 
 
 def cmt_upd(request, upd_id):
@@ -848,6 +865,46 @@ def my_upd(request, exp_id):
         # print(qs)
         newUrl = urljoin(referer, "?" + urllib.parse.urlencode(qs))
         return redirect(newUrl)
+    else:
+        return JsonResponse({"status": 200, "message": "add upd succeed"})
+
+
+def my_diff(request):
+    if not request.user.is_authenticated:
+        return render(request, "page-login.html")
+    user_id = request.user.id
+
+    imgs = []
+    if request.FILES.items():
+        for k, v in request.FILES.items():
+            file_data = request.FILES.getlist(k)
+            for fl in file_data:
+                path_file = f"/data/{user_id}/{fl._get_name()}"
+                imgs.append(path_file)
+                path_file = "static" + path_file
+                print(path_file)
+                if not os.path.exists(f"static/data/{user_id}"):
+                    os.makedirs(f"static/data/{user_id}")
+                with open(path_file, "wb") as f:
+                    if fl.multiple_chunks():
+                        for content in fl.chunks():
+                            f.write(content)
+                    else:
+                        data = fl.read()
+                        f.write(data)
+
+    # upd1 upd2 name intro att_img
+    new_diff = Compare(create_user_id=user_id,
+                       info=request.POST['intro'],
+                       name=request.POST['name'],
+                       upd1_id=request.POST['upd1'],
+                       upd2_id=request.POST['upd2'],
+                       imgs=','.join(imgs))
+    new_diff.save()
+
+    referer = request.headers.get("Referer", None)
+    if referer:
+        return redirect(referer)
     else:
         return JsonResponse({"status": 200, "message": "add upd succeed"})
 

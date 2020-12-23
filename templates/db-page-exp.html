@@ -181,10 +181,10 @@
                                         <div class="multiselect_div ">
                                             <select id="single-selection" name="single_selection"
                                                     class="multiselect multiselect-custom exp_upd_select">
-                                                {% for i in exp_updates %}
+                                                {% for i in upds %}
                                                     <option value="{{ i.upd_id }}"
                                                             {% if i.name == my_upd.name %} selected {% endif %}
-                                                            class="exp_upd_option">{{ i }}</option>
+                                                            class="exp_upd_option">{{ i.name }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
@@ -264,6 +264,7 @@
                                             </form>
 
                                         </div>
+
                                     </div>
 
 

@@ -17,7 +17,6 @@ from django.contrib import admin
 from django.urls import path
 from mysite.views import *
 
-
 from mysite import views
 from mysite.views import *
 
@@ -31,6 +30,8 @@ urlpatterns = [
     path('exp/cmt_cmp/<str:cmp_id>', cmt_cmp),
     path('exp/my_upd/<int:exp_id>', my_upd),
     path('exp/my_iss', my_iss),
+    path('new_diff', new_diff),
+    path('my_diff', my_diff),  # only a api
 
     path('', views.index, name="main"),
 
