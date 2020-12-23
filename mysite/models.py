@@ -43,6 +43,7 @@ class Group(models.Model):
 
 class Experiment(models.Model):
     id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=30)
     create_date = models.DateField(auto_now_add=True)
     create_user = models.ForeignKey(UserProfile, null=True, on_delete=models.SET_NULL,
                                     related_name='exp_creator')

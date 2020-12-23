@@ -10,14 +10,15 @@
 <meta name="description" content="Brego Bootstrap 4x admin is super flexible, powerful, clean &amp; modern responsive admin dashboard with unlimited possibilities.">
 <meta name="author" content="GetBootstrap, design by: puffintheme.com">
 
-<link rel="icon" href="favicon.png" type="image/x-icon">
+<link rel="icon" href="{% static 'favicon.png' %}" type="image/x-icon">
 <!-- VENDOR CSS -->
-<link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="assets/vendor/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="assets/vendor/animate-css/vivify.min.css">
+<link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/vendor/font-awesome/css/font-awesome.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/vendor/animate-css/vivify.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/vendor/toastr/toastr.min.css' %}">
 
 <!-- MAIN CSS -->
-<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="{% static 'assets/css/site.css' %}">
 
 </head>
 <body class="theme-blush social box_layout particles_js">
@@ -25,7 +26,7 @@
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
     <div class="loader">
-        <div class="m-t-30"><img src="assets/images/icon.svg" width="40" height="40" alt="Brego"></div>
+        <div class="m-t-30"><img src="{% static 'assets/images/icon.svg' %}" width="40" height="40" alt="Brego"></div>
         <p>Please wait...</p>
     </div>
 </div>
@@ -40,7 +41,7 @@
 
             <div class="navbar-left">
                 <div class="navbar-btn">
-                    <a href="index.html"><img src="assets/images/icon.svg" alt="Brego Logo" class="img-fluid logo"></a>
+                    <a href="index.html"><img src="{% static 'assets/images/icon.svg' %}" alt="Brego Logo" class="img-fluid logo"></a>
                     <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
                 </div>
                 <form id="navbar-search" class="navbar-form search-form">
@@ -92,7 +93,7 @@
             <div class="block-header">
                 <div class="row clearfix">
                     <div class="col-md-6 col-sm-12">
-                        <h1>Group A</h1>
+                        <h1>Group Page</h1>
                     </div>
                 </div>
             </div>
@@ -102,8 +103,8 @@
                         <div class="profile-header d-flex justify-content-between justify-content-center">
                             <div class="d-flex">
                                 <div class="details">
-                                    <h5 class="mb-0">GroupNameHere</h5>
-                                    <span class="text-light">introduction: Our group is a good group. Our group is a good group. Our group is a good group. Our group is a good group. Our group is a good group. </span>
+                                    <h5 class="mb-0">{{ master_group.name }}</h5>
+                                    <span class="text-light">introduction: {{ master_group.info }}</span>
                                 </div>
                             </div>
                         </div>
@@ -122,20 +123,23 @@
                                 </div>
                                 <div class="body">
                                     <div class="list-group">
-                                        <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start">
+                                        {% if exp_list %}
+                                            {% for exp_info in exp_list %}
+                                                <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                    <div class="d-flex w-100 justify-content-between">
+                                                    <h5 class="mb-1">EXP: {{ exp_info.1 }}</h5>
+                                                    <small class="text-muted">Created on: {{ exp_info.3 }}</small>
+                                                    </div>
+                                                    <p class="mb-1">{{ exp_info.2 }}</p>
+                                                </a>
+                                            {% endfor %}
+                                        {% else %}
+                                            <a class="list-group-item list-group-item-action flex-column align-items-start">
                                             <div class="d-flex w-100 justify-content-between">
-                                            <h5 class="mb-1">EXP1</h5>
-                                            <small class="text-muted">Updated 3 days ago: add file</small>
+                                            <h5 class="mb-1">There is no experiment</h5>
                                             </div>
-                                            <p class="mb-1">This is an exp about eeeeeeee.</p>
                                         </a>
-                                        <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start">
-                                            <div class="d-flex w-100 justify-content-between">
-                                            <h5 class="mb-1">EXP2233344</h5>
-                                            <small class="text-muted">Updated 10 days ago: fix bug</small>
-                                            </div>
-                                            <p class="mb-1">INTRO INTRO INtro.</p>
-                                        </a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -147,19 +151,22 @@
                                     </ul>
                                 </div>
                                 <div class="body">
-                                    <div class="row clearfix">
-                                        <div class="col-lg-12 col-md-12">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Experiment Name">
+                                    <form id="basic-form" method="post">
+                                        {% csrf_token %}
+                                        <div class="row clearfix">
+                                            <div class="col-lg-12 col-md-12">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder="Experiment Name" required name="name">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder="Experiment Introduction" required name="info">
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 col-md-12">
-                                            <div class="form-group">
-                                                <textarea rows="4" type="text" class="form-control" placeholder="Introduction"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn btn-round btn-primary">Create</button>
+                                        <button type="submit" class="btn btn-round btn-primary">Create</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -172,31 +179,42 @@
                                     <tr>
                                         <th>#</th>
                                         <th></th>
-                                        <th>eMail</th>
+                                        <th>info</th>
                                         <th>Profile</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
-                                    <tr>
-                                        <td class="w60">
-                                            <img src="https://via.placeholder.com/140x140" data-toggle="tooltip" data-placement="top" title="Avatar Name" alt="Avatar" class="w35 rounded">
-                                        </td>
-                                        <td>
-                                            <a href="#" title="">Fred Wang</a>
-                                            <p class="mb-0">+ 264-625-9283</p>
-                                        </td>
-                                        <td>
-                                            <span>Carol-coke@example.com</span>
-                                        </td>
-                                        <td>
-                                            <span>Boss</span>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-primary btn-sm">Remove</button>
-                                            <button class="btn btn-success btn-sm">Set as Administrator</button>
-                                        </td>
-                                    </tr>
+                                    {% if member_list %}
+                                            {% for member_info in member_list %}
+                                                <tr>
+                                                    <td class="w60">
+                                                        <img src="https://via.placeholder.com/140x140" data-toggle="tooltip" data-placement="top" title="Avatar Name" alt="Avatar" class="w35 rounded">
+                                                    </td>
+                                                    <td>
+                                                        <a href="#" title="">{{ member_info.0 }}</a>
+                                                        <p class="mb-0">+ 264-625-9283</p>
+                                                    </td>
+                                                    <td>
+                                                        <span>{{ member_info.1 }}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span>Boss</span>
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-primary btn-sm">Remove</button>
+                                                        <button class="btn btn-success btn-sm">Set as Administrator</button>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        {% else %}
+                                            <a class="list-group-item list-group-item-action flex-column align-items-start">
+                                            <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">There is no member</h5>
+                                            </div>
+                                        </a>
+                                        {% endif %}
                                 </tbody>
                             </table>
                         </div>
@@ -209,9 +227,10 @@
 </div>
 <div id="particles-js"></div>
 <!-- Javascript -->
-<script src="assets/bundles/libscripts.bundle.js"></script>
-<script src="assets/bundles/vendorscripts.bundle.js"></script>
-
-<script src="assets/vendor/particlesjs/particles.min.js"></script><script src="assets/bundles/mainscripts.bundle.js"></script><script src="assets/js/pages/particlesjs.js"></script>
+<script src="{% static '/assets/bundles/libscripts.bundle.js' %}"></script>
+<script src="{% static '/assets/bundles/vendorscripts.bundle.js' %}"></script>
+<script src="{% static 'assets/vendor/particlesjs/particles.min.js' %}"></script>
+<script src="{% static 'assets/bundles/mainscripts.bundle.js' %}"></script>
+<script src="{% static 'assets/js/pages/particlesjs.js' %}"></script>
 </body>
 </html>

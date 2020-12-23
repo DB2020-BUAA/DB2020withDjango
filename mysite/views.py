@@ -147,7 +147,32 @@ def list_group(request, warning=None, w_type=0):
 
 
 def group(request, group_id):
-    return render(request, "db-page-group.html")
+    master_group = mmd.Group.objects.get(id=group_id)
+    if request.method == 'POST':
+        e_name = request.POST.get('name', '')
+        e_info = request.POST.get('info', '')
+        new_exp = mmd.Experiment(name=e_name, info=e_info)
+        new_exp.save()
+        new_exp_to_group = mmd.ExpToGroup(linked_exp=new_exp, linked_group=master_group)
+        try:
+            new_exp_to_group.save()
+        except ValueError:
+            return redirect(group, warning='Unable To Link Group And Exp', w_type=0)
+    if request.user.is_authenticated:
+        try:
+            exp_list = mmd.ExpToGroup.objects. \
+                filter(linked_group__id=group_id). \
+                values_list("linked_exp__id", "linked_exp__name", "linked_exp__info", "linked_exp__create_date")
+            member_list = mmd.UserToGroup.objects. \
+                filter(linked_group__id=group_id). \
+                values_list("linked_user__django_user__username", "linked_user__info", "linked_user__avatar")
+        except mmd.UserToGroup.DoesNotExist:
+            exp_list = None
+            member_list = None
+        info_get = {'master_group': master_group, 'exp_list': exp_list, 'member_list': member_list}
+        return render(request, "db-page-group.html", info_get)
+    else:
+        return redirect(login_page, info='Please Login', i_type=1)
 
 
 def create_group(request):
