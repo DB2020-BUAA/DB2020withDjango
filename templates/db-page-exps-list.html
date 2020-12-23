@@ -7,8 +7,8 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="Brego Bootstrap 4x admin is super flexible, powerful, clean &amp; modern responsive admin dashboard with unlimited possibilities.">
-<meta name="author" content="GetBootstrap, design by: puffintheme.com">
+<meta name="description" content="Final homework of DB2020">
+<meta name="author" content="DB2020">
 
 <link rel="icon" href="{% static 'favicon.png' %}" type="image/x-icon">
 <!-- VENDOR CSS -->
@@ -38,7 +38,7 @@
 
             <div class="navbar-left">
                 <div class="navbar-btn">
-                    <a href="index.html"><img src="{% static 'assets/images/icon.svg' %}" alt="Brego Logo" class="img-fluid logo"></a>
+                    <a href="{% url 'main' %}"><img src="{% static 'assets/images/icon.svg' %}" alt="Brego Logo" class="img-fluid logo"></a>
                     <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
                 </div>
             </div>
@@ -46,52 +46,7 @@
             <div class="navbar-right">
                 <div id="navbar-menu">
                     <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown">
-                                <i class="icon-bell"></i>
-                                <span class="notification-dot bg-azura">4</span>
-                            </a>
-                            <ul class="dropdown-menu feeds_widget vivify fadeIn">
-                                <li class="header">You have 4 New Notifications</li>
-                                <li>
-                                    <a href="#">
-                                        <div class="feeds-left bg-red"><i class="fa fa-check"></i></div>
-                                        <div class="feeds-body">
-                                            <h4 class="title text-danger">Issue Fixed <small class="float-right text-muted">9:10 AM</small></h4>
-                                            <small>WE have fix all Design bug with Responsive</small>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <div class="feeds-left bg-info"><i class="fa fa-user"></i></div>
-                                        <div class="feeds-body">
-                                            <h4 class="title text-info">New User <small class="float-right text-muted">9:15 AM</small></h4>
-                                            <small>I feel great! Thanks team</small>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <div class="feeds-left bg-orange"><i class="fa fa-question-circle"></i></div>
-                                        <div class="feeds-body">
-                                            <h4 class="title text-warning">Server Warning <small class="float-right text-muted">9:17 AM</small></h4>
-                                            <small>Your connection is not private</small>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <div class="feeds-left bg-green"><i class="fa fa-thumbs-o-up"></i></div>
-                                        <div class="feeds-body">
-                                            <h4 class="title text-success">2 New Feedback <small class="float-right text-muted">9:22 AM</small></h4>
-                                            <small>It will give a smart finishing to your site</small>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li><a href="page-login.html" class="icon-menu"><i class="icon-power"></i></a></li>
+                        <li><a href="{% url 'sign_out' %}" class="icon-menu"><i class="icon-power"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -102,7 +57,7 @@
 
     <div id="left-sidebar" class="sidebar">
         <div class="navbar-brand">
-            <a href="index.html"><img src="assets/images/icon.svg" alt="Brego Logo" class="img-fluid logo"><span>DB2020</span></a>
+            <a href="{% url 'main' %}"><img src="{% static 'assets/images/icon.svg' %}" alt="Brego Logo" class="img-fluid logo"><span>DB2020</span></a>
             <button type="button" class="btn-toggle-offcanvas btn btn-sm float-right"><i class="lnr lnr-menu fa fa-chevron-circle-left"></i></button>
         </div>
         <div class="sidebar-scroll">
@@ -112,26 +67,22 @@
                 </div>
                 <div class="dropdown">
                     <span>Welcome,</span>
-                    <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>Louis Pierce</strong></a>
-                    <ul class="dropdown-menu dropdown-menu-right account vivify flipInY">
-                        <li><a href="page-profile.html"><i class="icon-user"></i>My Profile</a></li>
-                        <li><a href="app-inbox.html"><i class="icon-envelope-open"></i>Messages</a></li>
-                        <li><a href="javascript:void(0);"><i class="icon-settings"></i>Settings</a></li>
-                        <li class="divider"></li>
-                        <li><a href="page-login.html"><i class="icon-power"></i>Logout</a></li>
-                    </ul>
+                    <a class="user-name"><strong>Louis Pierce</strong></a>
                 </div>
             </div>
             <nav id="left-sidebar-nav" class="sidebar-nav">
                 <ul id="main-menu" class="metismenu">
                     <li class="header">Notification</li>
-                    <li><a href="app-inbox.html"><i class="icon-envelope"></i> <span>Message</span> <span class="badge badge-default float-right mr-0">12</span></a></li>
+                    <li><a href="{% url 'mesg_list' %}"><i class="icon-envelope"></i> <span>Message</span>
+                        {% if mesg_num != 0 %}
+                        <span class="badge badge-default float-right mr-0">{{ mesg_num }}</span>
+                        {% endif %}
+                    </a></li>
                     <li class="header">Groups</li>
-                    <li><a href="app-inbox.html"><i class="icon-users"></i> <span>Groups</span></a></li>
-                    <li><a href="app-chat.html"><i class=" icon-note"></i> <span>Add In New Group</span></a></li>
+                    <li><a href="{% url 'group_list' %}"><i class="icon-users"></i> <span>All Groups</span></a></li>
                     <li class="header">Experiments</li>
-                    <li><a href="app-inbox.html"><i class=" icon-chemistry"></i> <span>Experiments</span></a></li>
-                    <li><a href="app-chat.html"><i class="icon-bar-chart"></i> <span>Comparisons</span></a></li>
+                    <li><a href="{% url 'exps_list' %}"><i class=" icon-chemistry"></i> <span>Experiments</span></a></li>
+                    <li><a href="{% url 'diff_list' %}"><i class="icon-bar-chart"></i> <span>Comparisons</span></a></li>
                 </ul>
             </nav>
         </div>
@@ -155,6 +106,7 @@
                             <thead>
                                 <tr> 
                                     <th>#ID</th>
+                                    <th>Name</th>
                                     <th>Owned Group</th>
                                     <th>Info</th>
                                     <th>Date</th>
@@ -166,6 +118,7 @@
                                     {% for one_exp in exp_list %}
                                         <tr>
                                             <td><span>{{ one_exp.0 }}</span></td>
+                                            <td><span>{{ one_exp.4 }}</span></td>
                                             <td><span>Group:&nbsp{{ one_exp.1 }}</span></td>
                                             <td><span>{{ one_exp.2 }}</span></td>
                                             <td><span>{{ one_exp.3 }}</span></td>
