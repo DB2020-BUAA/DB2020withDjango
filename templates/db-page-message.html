@@ -210,7 +210,7 @@
                                                                             {% else %}
                                                                                 <span class="badge bg-clear"> </span>
                                                                             {% endif %}
-                                                                            {{ ap.create_user__django_user__name }} applied to join {{ ap.target_group__name }}
+                                                                            {{ ap.create_user_name }} applied to join {{ ap.target_group_name }}
                                                                         </button>
                                                                     </h5>
                                                                 </div>
@@ -221,28 +221,27 @@
                                                                             {{ ap.info }}
                                                                             <hr>
                                                                             <small class="text-black-50">
-                                                                                {{ ap.create_user__django_user__name }} / {{ create_user__django_user__email }}
+                                                                                {{ ap.create_user_name }} / {{ create_user_email }}
                                                                                 <br>
-                                                                                {{ ap.create_user__info }}
+                                                                                {{ ap.create_user_info }}
                                                                             </small>
                                                                         </div>
                                                                         <div class="col-lg-2 align-center">
-                                                                            <!--TODO: add link-->
                                                                             {% if ap.status == 0 %}
-                                                                                <a href=""><button class="btn btn-success btn-round">
+                                                                                <a href="{% url 'mesg_ans_app' ap.id 1 %}"><button class="btn btn-success btn-round">
                                                                                     Accept
                                                                                 </button></a>
                                                                                 <br>
-                                                                                <a href=""><button class="btn btn-danger btn-round">
+                                                                                <a href="{% url 'mesg_ans_app' ap.id 0 %}"><button class="btn btn-danger btn-round">
                                                                                     Refuse
                                                                                 </button></a>
                                                                             {% elif ap.reply %}
                                                                                 <a href=""><button class="btn btn-success btn-round" disabled="disabled">
-                                                                                    Accept
+                                                                                    Accepted
                                                                                 </button></a>
                                                                             {% else %}
                                                                                 <a href=""><button class="btn btn-danger btn-round" disabled="disabled">
-                                                                                    Refuse
+                                                                                    Refused
                                                                                 </button></a>
                                                                             {% endif %}
                                                                         </div>
@@ -252,7 +251,7 @@
                                                             </div>
                                                         {% endfor %}
                                                     {% else %}
-                                                        <div>You Do Not Have Any Applicant To Handle.</div>
+                                                        <div class="text-info">You Do Not Have Any Applicant To Handle.</div>
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -278,7 +277,7 @@
                                                                             {% else %}
                                                                                 <span class="badge bg-clear"> </span>
                                                                             {% endif %}
-                                                                            Question from: {{ iss.create_user__django_user__name }}
+                                                                            Question from: {{ iss.create_user_name }}
                                                                         </button>
                                                                     </h5>
                                                                 </div>
@@ -289,21 +288,18 @@
                                                                             {{ iss.info }}
                                                                             <hr>
                                                                             <small class="text-black-50">
-                                                                                {{ iss.target_update__info }}
+                                                                                {{ iss.target_update_info }}
                                                                             </small>
                                                                             <hr>
                                                                         </div>
                                                                         <div class="col-lg-12">
                                                                             {% if iss.status == 0 %}
-                                                                            <!--TODO: add link-->
-                                                                            <form id="issue_in" action=" " method="post" >
+                                                                            <form id="issue_in" action="{% url 'mesg_ans_iss' iss.id %}" method="post" >
                                                                                 {% csrf_token %}
                                                                                 <div class="form-group">
                                                                                     <label>Answer</label>
                                                                                     <textarea class="form-control-plaintext" rows="5" cols="30"
-                                                                                        required="required" name="input_answer">
-                                                                                        Your answer here.
-                                                                                    </textarea>
+                                                                                        required="required" name="input_answer">Your answer here.</textarea>
                                                                                 </div>
                                                                                 <button type="submit" class="btn btn-info btn-round">
                                                                                     Submit
@@ -320,7 +316,7 @@
                                                             </div>
                                                         {% endfor %}
                                                     {% else %}
-                                                        <div>You Do Not Have Any Issue To Handle.</div>
+                                                        <div class="text-info">You Do Not Have Any Issue To Handle.</div>
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -346,7 +342,7 @@
                                                                             {% else %}
                                                                                 <span class="badge bg-clear"> </span>
                                                                             {% endif %}
-                                                                            Applicant to join {{ ap.target_group__name }}
+                                                                            Applicant to join {{ ap.target_group_name }}
                                                                         </button>
                                                                     </h5>
                                                                 </div>
@@ -362,7 +358,7 @@
                                                                         </div>
                                                                         <div class="col-lg-2 align-center">
                                                                             {% if ap.status == 0 %}
-                                                                                <button class="btn btn-success btn-round" disabled="disabled">
+                                                                                <button class="btn btn-info btn-round" disabled="disabled">
                                                                                     None
                                                                                 </button>
                                                                             {% else %}
@@ -375,10 +371,13 @@
                                                                                         Refused
                                                                                     </button>
                                                                                 {% endif %}
-                                                                                <!--TODO: add link-->
-                                                                                <button class="btn btn-info btn-round" disabled="disabled">
+                                                                                {% if ap.status == 1 %}
+                                                                                <br>
+                                                                                <a href="{% url 'mesg_read_app' ap.id %}">
+                                                                                    <button class="btn btn-info btn-round">
                                                                                         Mark Read
-                                                                                </button>
+                                                                                </button></a>
+                                                                                {% endif %}
                                                                             {% endif %}
                                                                         </div>
                                                                         <div class="col-lg-12">
@@ -415,7 +414,7 @@
                                                                             {% else %}
                                                                                 <span class="badge bg-clear"> </span>
                                                                             {% endif %}
-                                                                            Question to {{ iss.target_update__id }}
+                                                                            Question to UPDATE #{{ iss.target_update__id }}
                                                                         </button>
                                                                     </h5>
                                                                 </div>
@@ -426,11 +425,11 @@
                                                                             {{ iss.info }}
                                                                             <hr>
                                                                             <small class="text-black-50">
-                                                                                   {{ iss.target_update__info }}
+                                                                                   Update Info: {{ iss.target_update_info }}
                                                                             </small>
                                                                             <hr>
                                                                         </div>
-                                                                        <div class="col-lg-10 align-center">
+                                                                        <div class="col-lg-10">
                                                                             {% if iss.status == 0 %}
                                                                                 <div>Haven't been answered.</div>
                                                                             {% else %}
@@ -440,17 +439,19 @@
                                                                             {% endif %}
                                                                         </div>
                                                                         <div class="col-lg-2">
-                                                                            <!--TODO: add link-->
-                                                                            <a><button class="btn btn-info btn-round">
+                                                                            {% if iss.status == 1 %}
+                                                                            <a href="{% url 'mesg_read_iss' iss.id %}">
+                                                                                <button class="btn btn-info btn-round">
                                                                                 Mark Read
                                                                             </button></a>
+                                                                            {% endif %}
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         {% endfor %}
                                                     {% else %}
-                                                        <div>You Have Not Sent Any Issue.</div>
+                                                        <div class="text-info">You Have Not Sent Any Issue.</div>
                                                     {% endif %}
                                                 </div>
                                             </div>

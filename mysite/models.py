@@ -25,7 +25,7 @@ class UserProfile(models.Model):
     avatar = models.TextField(choices=AvatarType.choices, default=AvatarType.A)
 
     def __str__(self):
-        return 'user_' + self.django_user.__str__()
+        return 'user_' + self.id.__str__() + '_' + self.django_user.__str__()
 
 
 class Group(models.Model):
@@ -49,7 +49,7 @@ class Experiment(models.Model):
     name = models.TextField(default="default")
 
     def __str__(self):
-        return 'Experiment' + self.id.__str__() + ': ' + self.create_date.__str__()
+        return 'Experiment' + self.id.__str__() + ': ' + self.name.__str__()
 
 
 class Update(models.Model):
@@ -88,10 +88,10 @@ class Issue(models.Model):
     info = models.TextField()
     status = models.IntegerField(default=0)
     answer_date = models.DateTimeField(auto_now=True)
-    answer_info = models.TextField(default="")
+    answer_info = models.TextField(null=True, default='have not been answered')
 
     def __str__(self):
-        return 'issue_' + self.id.__str__() + '_' + self.create_date.__str__()
+        return 'issue_' + self.id.__str__() + ' from ' + self.create_user.__str__()
 
 
 class Comment(models.Model):

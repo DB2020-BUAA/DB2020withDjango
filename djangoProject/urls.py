@@ -17,7 +17,9 @@ from django.contrib import admin
 from django.urls import path
 from mysite.views import *
 
+
 from mysite import views
+from mysite.views import *
 
 urlpatterns = [
     path('init_all', init_all),
@@ -40,7 +42,7 @@ urlpatterns = [
     path('login-register', views.register_page, name='register'),
     path('login-register/<str:info>/<int:i_type>', views.register_page, name='register_redirect'),
 
-    path('group/<int:group_id>', views.group, name="group"),  # TODO: link to group page
+    path('group/<int:group_id>', views.group, name="group"),
 
     path('group-list', views.list_group, name="group_list"),
     path('group-list-create', views.create_group, name='group_create'),
@@ -53,6 +55,16 @@ urlpatterns = [
     path('exps-list', views.list_exps, name="exps_list"),
     path('exps-list/<str:warning>/<int:w_type>', views.list_exps, name="exps_list_redirect"),
     path('exps-list-delete/<int:exp_id>', views.delete_exps, name='exps_delete'),
+
+    path('mesg', views.list_message, name='mesg_list'),
+    path('mesg/<str:warning>/<int:w_type>', views.list_message, name='mesg_list_redirect'),
+    path('mesg-ans-app/<int:app_id>/<int:ans_type>', views.answer_apply, name='mesg_ans_app'),
+    path('mesg-ans-iss/<int:iss_id>', views.answer_issue, name='mesg_ans_iss'),
+    path('mesg-read_app/<int:app_id>', views.mark_read_app, name='mesg_read_app'),
+    path('mesg-read-iss/<int:iss_id>', views.mark_read_iss, name='mesg_read_iss'),
+
+    path('exp/', exp),
+    path('exp/cmt_upd', cmt_upd),
 ]
 
 handler404 = 'mysite.views.page_not_found'
