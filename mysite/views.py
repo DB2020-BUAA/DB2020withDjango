@@ -615,7 +615,8 @@ def exp(request):
         return redirect(newUrl)
 
     print(f"get exp {request.GET.get('exp')}")
-    my_exp = request.GET.get("exp", 1)
+    my_exp = int(request.GET.get("exp", 1))
+
     my_exp = Experiment.objects.filter(id=int(my_exp)).annotate(
         builder=F('create_user_id__django_user_id__username'),
         img_builder=F('create_user_id__avatar'),
@@ -624,6 +625,13 @@ def exp(request):
 
     dict_upd = {}
     vis_upd = True
+    try:
+        group = ExpToGroup.objects.annotate(the_group=F('linked_group')).get(linked_exp=my_exp)
+        temp = UserToGroup.objects.filter(linked_group=group.the_group, linked_user__django_user_id=user_id).count()
+        if temp == 0:
+            return redirect('/')
+    except:
+        return redirect('/')
     try:
         link = 'linked_upd_id__'
         my_upds = UpdToExp.objects.filter(linked_exp_id=my_exp.id).annotate(

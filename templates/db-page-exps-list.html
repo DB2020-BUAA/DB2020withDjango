@@ -124,13 +124,14 @@
                                             <td><span>{{ one_exp.3 }}</span></td>
                                             <td>
                                                 <!--TODO: link to exp page-->
-                                                <a href="" class="btn btn-primary btn-sm">View</a>
+                                                <a href="/exp/?exp={{ one_exp.0 }}" class="btn btn-primary btn-sm">View</a>
                                                 <a href="{% url 'exps_delete' one_exp.0 %}" class="btn btn-danger btn-sm">Delete</a>
                                             </td>
                                         </tr>
                                     {% endfor %}
                                 {% else %}
                                     <tr>
+                                        <td><span>N/A</span></td>
                                         <td><span>N/A</span></td>
                                         <td><span>N/A</span></td>
                                         <td><span>None Visible Experiments</span></td>
