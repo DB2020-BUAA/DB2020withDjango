@@ -1,0 +1,512 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>DB2020 | Message</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+          content="Brego Bootstrap 4x admin is super flexible, powerful, clean &amp; modern responsive admin dashboard with unlimited possibilities.">
+    <meta name="author" content="GetBootstrap, design by: puffintheme.com">
+
+    <link rel="icon" href="{% static 'favicon.png' %}" type="image/x-icon">
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/animate-css/vivify.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/toastr/toastr.min.css' %}">
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/site.css' %}">
+
+</head>
+<body class="theme-blush">
+
+<!-- Page Loader -->
+<div class="page-loader-wrapper">
+    <div class="loader">
+        <div class="m-t-30"><img src="{% static 'assets/images/icon.svg' %}" width="40" height="40" alt="Brego"></div>
+        <p>Please wait...</p>
+    </div>
+</div>
+
+<!-- Overlay For Sidebars -->
+<div class="overlay"></div>
+
+<div id="wrapper">
+
+    <nav class="navbar navbar-fixed-top">
+        <div class="container-fluid">
+
+            <div class="navbar-left">
+                <div class="navbar-btn">
+                    <a href="index.html"><img src="{% static 'assets/images/icon.svg' %}" alt="Brego Logo"
+                                              class="img-fluid logo"></a>
+                    <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
+                </div>
+            </div>
+
+            <div class="navbar-right">
+                <div id="navbar-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown">
+                                <i class="icon-bell"></i>
+                                <span class="notification-dot bg-azura">4</span>
+                            </a>
+                            <ul class="dropdown-menu feeds_widget vivify fadeIn">
+                                <li class="header">You have 4 New Notifications</li>
+                                <li>
+                                    <a href="#">
+                                        <div class="feeds-left bg-red"><i class="fa fa-check"></i></div>
+                                        <div class="feeds-body">
+                                            <h4 class="title text-danger">Issue Fixed <small
+                                                    class="float-right text-muted">9:10 AM</small></h4>
+                                            <small>WE have fix all Design bug with Responsive</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="feeds-left bg-info"><i class="fa fa-user"></i></div>
+                                        <div class="feeds-body">
+                                            <h4 class="title text-info">New User <small class="float-right text-muted">9:15
+                                                AM</small></h4>
+                                            <small>I feel great! Thanks team</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="feeds-left bg-orange"><i class="fa fa-question-circle"></i></div>
+                                        <div class="feeds-body">
+                                            <h4 class="title text-warning">Server Warning <small
+                                                    class="float-right text-muted">9:17 AM</small></h4>
+                                            <small>Your connection is not private</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="feeds-left bg-green"><i class="fa fa-thumbs-o-up"></i></div>
+                                        <div class="feeds-body">
+                                            <h4 class="title text-success">2 New Feedback <small
+                                                    class="float-right text-muted">9:22 AM</small></h4>
+                                            <small>It will give a smart finishing to your site</small>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a href="page-login.html" class="icon-menu"><i class="icon-power"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <div id="left-sidebar" class="sidebar">
+        <div class="navbar-brand">
+            <a href="index.html"><img src="{% static 'assets/images/icon.svg' %}" alt="Brego Logo"
+                                      class="img-fluid logo"><span>DB2020</span></a>
+            <button type="button" class="btn-toggle-offcanvas btn btn-sm float-right"><i
+                    class="lnr lnr-menu fa fa-chevron-circle-left"></i></button>
+        </div>
+        <div class="sidebar-scroll">
+            <div class="user-account">
+                <div class="user_div">
+                    <img src="https://via.placeholder.com/140x140" class="user-photo" alt="User Profile Picture">
+                </div>
+                <div class="dropdown">
+                    <span>Welcome,</span>
+                    <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>Louis
+                        Pierce</strong></a>
+                    <ul class="dropdown-menu dropdown-menu-right account vivify flipInY">
+                        <li><a href="page-profile.html"><i class="icon-user"></i>My Profile</a></li>
+                        <li><a href="app-inbox.html"><i class="icon-envelope-open"></i>Messages</a></li>
+                        <li><a href="javascript:void(0);"><i class="icon-settings"></i>Settings</a></li>
+                        <li class="divider"></li>
+                        <li><a href="page-login.html"><i class="icon-power"></i>Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+            <nav id="left-sidebar-nav" class="sidebar-nav">
+                <ul id="main-menu" class="metismenu">
+                    <li class="header">Notification</li>
+                    <li><a href="app-inbox.html"><i class="icon-envelope"></i> <span>Message</span> <span
+                            class="badge badge-default float-right mr-0">12</span></a></li>
+                    <li class="header">Groups</li>
+                    <li><a href="app-inbox.html"><i class="icon-users"></i> <span>Groups</span></a></li>
+                    <li><a href="app-chat.html"><i class=" icon-note"></i> <span>Add In New Group</span></a></li>
+                    <li class="header">Experiments</li>
+                    <li><a href="app-inbox.html"><i class=" icon-chemistry"></i> <span>Experiments</span></a></li>
+                    <li><a href="app-chat.html"><i class="icon-bar-chart"></i> <span>Comparisons</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="clearfix">
+                <div class="col-lg-12 col-md-12">
+                    <div class="card">
+                        <div class="body">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active show" data-toggle="tab" href="#Applicant">
+                                        Applicants
+                                        {% if n_ap_in != 0 %}
+                                            <span class="badge bg-cyan">{{ n_ap_in }}</span>
+                                        {% endif %}
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#Issues">
+                                        Issues
+                                        {% if n_is_in != 0 %}
+                                            <span class="badge bg-cyan">{{ n_is_in }}</span>
+                                        {% endif %}
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#ApplicantReply">
+                                        Applicant-Reply
+                                        {% if n_ap_out != 0 %}
+                                            <span class="badge bg-cyan">{{ n_ap_out }}</span>
+                                        {% endif %}
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#IssuesReply">
+                                        Issue-Reply
+                                        {% if n_is_out != 0 %}
+                                            <span class="badge bg-cyan">{{ n_is_out }}</span>
+                                        {% endif %}
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane show vivify fadeIn active" id="Applicant">
+                                    <div class="body">
+                                        <div class="row clearfix">
+                                            <div class="col-lg-12 col-md-12">
+                                                <div class="accordion" id="a-applicant">
+                                                    {% if ap_in %}
+                                                        {% for ap in ap_in %}
+                                                            <div>
+                                                                <div class="card-header">
+                                                                    <h5 class="md-0">
+                                                                        <button class="btn btn-link" type="button"
+                                                                            data-toggle="collapse"
+                                                                            data-target="#aci-{{ ap.id }}" aria-expanded="false"
+                                                                            aria-controls="aci-{{ ap.id }}">
+                                                                            {% if ap.status == 0 %}
+                                                                                <span class="badge bg-blue"> </span>
+                                                                            {% else %}
+                                                                                <span class="badge bg-clear"> </span>
+                                                                            {% endif %}
+                                                                            {{ ap.create_user__django_user__name }} applied to join {{ ap.target_group__name }}
+                                                                        </button>
+                                                                    </h5>
+                                                                </div>
+                                                                <div id="aci-{{ ap.id }}" class="collapse"
+                                                                    aria-labelledby="headingOne" data-parent="#a-applicant">
+                                                                    <div class="card-body row clearfix">
+                                                                        <div class="col-lg-10">
+                                                                            {{ ap.info }}
+                                                                            <hr>
+                                                                            <small class="text-black-50">
+                                                                                {{ ap.create_user__django_user__name }} / {{ create_user__django_user__email }}
+                                                                                <br>
+                                                                                {{ ap.create_user__info }}
+                                                                            </small>
+                                                                        </div>
+                                                                        <div class="col-lg-2 align-center">
+                                                                            <!--TODO: add link-->
+                                                                            {% if ap.status == 0 %}
+                                                                                <a href=""><button class="btn btn-success btn-round">
+                                                                                    Accept
+                                                                                </button></a>
+                                                                                <br>
+                                                                                <a href=""><button class="btn btn-danger btn-round">
+                                                                                    Refuse
+                                                                                </button></a>
+                                                                            {% elif ap.reply %}
+                                                                                <a href=""><button class="btn btn-success btn-round" disabled="disabled">
+                                                                                    Accept
+                                                                                </button></a>
+                                                                            {% else %}
+                                                                                <a href=""><button class="btn btn-danger btn-round" disabled="disabled">
+                                                                                    Refuse
+                                                                                </button></a>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                        <div class="col-lg-12"><hr></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <div>You Do Not Have Any Applicant To Handle.</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane vivify fadeIn" id="Issues">
+                                    <div class="body">
+                                        <div class="row clearfix">
+                                            <div class="col-lg-12 col-md-12">
+                                                <div class="accordion" id="a-issue">
+                                                    {% if is_in %}
+                                                        {% for iss in is_in %}
+                                                            <div>
+                                                                <div class="card-header">
+                                                                    <h5 class="md-0">
+                                                                        <button class="btn btn-link" type="button"
+                                                                            data-toggle="collapse"
+                                                                            data-target="#isi-{{ iss.id }}" aria-expanded="false"
+                                                                            aria-controls="isi-{{ iss.id }}">
+                                                                            {% if iss.status == 0 %}
+                                                                                <span class="badge bg-blue"> </span>
+                                                                            {% else %}
+                                                                                <span class="badge bg-clear"> </span>
+                                                                            {% endif %}
+                                                                            Question from: {{ iss.create_user__django_user__name }}
+                                                                        </button>
+                                                                    </h5>
+                                                                </div>
+                                                                <div id="isi-{{ iss.id }}" class="collapse"
+                                                                    aria-labelledby="headingOne" data-parent="#a-issue">
+                                                                    <div class="card-body row clearfix">
+                                                                        <div class="col-lg-12">
+                                                                            {{ iss.info }}
+                                                                            <hr>
+                                                                            <small class="text-black-50">
+                                                                                {{ iss.target_update__info }}
+                                                                            </small>
+                                                                            <hr>
+                                                                        </div>
+                                                                        <div class="col-lg-12">
+                                                                            {% if iss.status == 0 %}
+                                                                            <!--TODO: add link-->
+                                                                            <form id="issue_in" action=" " method="post" >
+                                                                                {% csrf_token %}
+                                                                                <div class="form-group">
+                                                                                    <label>Answer</label>
+                                                                                    <textarea class="form-control-plaintext" rows="5" cols="30"
+                                                                                        required="required" name="input_answer">
+                                                                                        Your answer here.
+                                                                                    </textarea>
+                                                                                </div>
+                                                                                <button type="submit" class="btn btn-info btn-round">
+                                                                                    Submit
+                                                                                </button>
+                                                                            </form>
+                                                                            {% else %}
+                                                                                <label>Answer</label>
+                                                                                <div>{{ iss.answer_info }}</div>
+                                                                                <div>{{ iss.answer_date }}</div>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <div>You Do Not Have Any Issue To Handle.</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane vivify fadeIn" id="ApplicantReply">
+                                    <div class="body">
+                                        <div class="row clearfix">
+                                            <div class="col-lg-12 col-md-12">
+                                                <div class="accordion" id="a-appreply">
+                                                    {% if ap_out %}
+                                                        {% for ap in ap_out %}
+                                                            <div>
+                                                                <div class="card-header">
+                                                                    <h5 class="md-0">
+                                                                        <button class="btn btn-link" type="button"
+                                                                            data-toggle="collapse"
+                                                                            data-target="#apo-{{ ap.id }}" aria-expanded="false"
+                                                                            aria-controls="apo-{{ ap.id }}">
+                                                                            {% if ap.status == 1 %}
+                                                                                <span class="badge bg-blue"> </span>
+                                                                            {% else %}
+                                                                                <span class="badge bg-clear"> </span>
+                                                                            {% endif %}
+                                                                            Applicant to join {{ ap.target_group__name }}
+                                                                        </button>
+                                                                    </h5>
+                                                                </div>
+                                                                <div id="apo-{{ ap.id }}" class="collapse"
+                                                                    aria-labelledby="headingOne" data-parent="#a-appreply">
+                                                                    <div class="card-body row clearfix">
+                                                                        <div class="col-lg-10">
+                                                                            {{ ap.info }}
+                                                                            <hr>
+                                                                            <small class="text-black-50">
+                                                                                {{ ap.create_date }}
+                                                                            </small>
+                                                                        </div>
+                                                                        <div class="col-lg-2 align-center">
+                                                                            {% if ap.status == 0 %}
+                                                                                <button class="btn btn-success btn-round" disabled="disabled">
+                                                                                    None
+                                                                                </button>
+                                                                            {% else %}
+                                                                                {% if ap.reply %}
+                                                                                    <button class="btn btn-success btn-round" disabled="disabled">
+                                                                                        Accepted
+                                                                                    </button>
+                                                                                {% else %}
+                                                                                    <button class="btn btn-danger btn-round" disabled="disabled">
+                                                                                        Refused
+                                                                                    </button>
+                                                                                {% endif %}
+                                                                                <!--TODO: add link-->
+                                                                                <button class="btn btn-info btn-round" disabled="disabled">
+                                                                                        Mark Read
+                                                                                </button>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                        <div class="col-lg-12">
+                                                                            <hr>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <div class="text-info">You have not sent any applicant.</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane vivify fadeIn" id="IssuesReply">
+                                    <div class="body">
+                                        <div class="row clearfix">
+                                            <div class="col-lg-12 col-md-12">
+                                                <div class="accordion" id="a-issreply">
+                                                    {% if is_out %}
+                                                        {% for iss in is_out %}
+                                                            <div>
+                                                                <div class="card-header">
+                                                                    <h5 class="md-0">
+                                                                        <button class="btn btn-link" type="button"
+                                                                            data-toggle="collapse"
+                                                                            data-target="#iso-{{ iss.id }}" aria-expanded="false"
+                                                                            aria-controls="iso-{{ iss.id }}">
+                                                                            {% if iss.status == 1 %}
+                                                                                <span class="badge bg-blue"> </span>
+                                                                            {% else %}
+                                                                                <span class="badge bg-clear"> </span>
+                                                                            {% endif %}
+                                                                            Question to {{ iss.target_update__id }}
+                                                                        </button>
+                                                                    </h5>
+                                                                </div>
+                                                                <div id="iso-{{ iss.id }}" class="collapse"
+                                                                    aria-labelledby="headingOne" data-parent="#a-issreply">
+                                                                    <div class="card-body row clearfix">
+                                                                        <div class="col-lg-12">
+                                                                            {{ iss.info }}
+                                                                            <hr>
+                                                                            <small class="text-black-50">
+                                                                                   {{ iss.target_update__info }}
+                                                                            </small>
+                                                                            <hr>
+                                                                        </div>
+                                                                        <div class="col-lg-10 align-center">
+                                                                            {% if iss.status == 0 %}
+                                                                                <div>Haven't been answered.</div>
+                                                                            {% else %}
+                                                                                <label>Answer</label>
+                                                                                <div>{{ iss.answer_info }}</div>
+                                                                                <div>{{ iss.answer_date }}</div>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                        <div class="col-lg-2">
+                                                                            <!--TODO: add link-->
+                                                                            <a><button class="btn btn-info btn-round">
+                                                                                Mark Read
+                                                                            </button></a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <div>You Have Not Sent Any Issue.</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Javascript -->
+<script src="{% static 'assets/bundles/libscripts.bundle.js' %}"></script>
+<script src="{% static 'assets/bundles/vendorscripts.bundle.js' %}"></script>
+<script src="{% static 'assets/bundles/mainscripts.bundle.js' %}"></script>
+<script src="{% static 'assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js' %}"></script>
+<script src="{% static 'assets/vendor/toastr/toastr.js' %}"></script>
+<script>
+    $(function () {
+        // (Optional) Active an item if it has the class "is-active"
+        $(".accordion2 > .accordion-item.is-active").children(".accordion-panel").slideDown();
+
+        $(".accordion2 > .accordion-item").click(function () {
+            // Cancel the siblings
+            $(this).siblings(".accordion-item").removeClass("is-active").children(".accordion-panel").slideUp();
+            // Toggle the item
+            $(this).toggleClass("is-active").children(".accordion-panel").slideToggle("ease-out");
+        });
+    });
+</script>
+
+{% if warning %}
+    {% if w_type is 1 %}
+        <script>
+        $(function(){
+            toastr.options.closeButton = true;
+            toastr.options.positionClass = 'toast-bottom-right';
+            toastr.options.showDuration = 2000;
+            toastr['success']('{{warning}}');
+        });
+        </script>
+    {% else %}
+        <script>
+        $(function(){
+            toastr.options.closeButton = true;
+            toastr.options.positionClass = 'toast-bottom-right';
+            toastr.options.showDuration = 2000;
+            toastr['error']('{{warning}}');
+        });
+        </script>
+    {% endif %}
+{% endif %}
+
+</body>
+</html>

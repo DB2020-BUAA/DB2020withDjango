@@ -1,9 +1,9 @@
-﻿{% load static %}
+{% load static %}
 <!doctype html>
 <html lang="en">
 
 <head>
-<title>DB2020 | Experiments</title>
+<title>DB2020 | Comparisons</title>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, initial-scale=1, shrink-to-fit=no">
@@ -26,8 +26,8 @@
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
     <div class="loader">
-        <div class="m-t-30"><img src="{% static 'assets/images/icon.svg' %}" width="40" height="40" alt="Brego"></div>
-        <p>Please wait...</p>        
+        <div class="m-t-30"><img src="assets/images/icon.svg" width="40" height="40" alt="Brego"></div>
+        <p>Please wait...</p>
     </div>
 </div>
 
@@ -141,38 +141,40 @@
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-md-6 col-sm-12">
-                    <h1>Experiments</h1>
+                    <h1>Comparisons</h1>
                 </div>
             </div>
         </div>
 
         <div class="container-fluid">
-            
+
             <div class="row clearfix">
                 <div class="col-12">
                     <div class="table-responsive">
                         <table class="table table-hover table-custom spacing8">
                             <thead>
-                                <tr> 
+                                <tr>
                                     <th>#ID</th>
-                                    <th>Owned Group</th>
+                                    <th>Update1</th>
+                                    <th>Update2</th>
                                     <th>Info</th>
                                     <th>Date</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% if exp_list %}
-                                    {% for one_exp in exp_list %}
+                                {% if diff %}
+                                    {% for one_diff in diff %}
                                         <tr>
-                                            <td><span>{{ one_exp.0 }}</span></td>
-                                            <td><span>Group:&nbsp{{ one_exp.1 }}</span></td>
-                                            <td><span>{{ one_exp.2 }}</span></td>
-                                            <td><span>{{ one_exp.3 }}</span></td>
+                                            <td><a>{{ one_diff.0 }}</a></td>
+                                            <td><span>{{ one_diff.1 }}</span></td>
+                                            <td><span>{{ one_diff.2 }}</span></td>
+                                            <td><span>{{ one_diff.4 }}</span></td>
+                                            <td>{{ one_diff.3 }}</td>
                                             <td>
-                                                <!--TODO: link to exp page-->
+                                                <!--TODO: link to diff page-->
                                                 <a href="" class="btn btn-primary btn-sm">View</a>
-                                                <a href="{% url 'exps_delete' one_exp.0 %}" class="btn btn-danger btn-sm">Delete</a>
+                                                <a href="{% url 'diff_delete' one_diff.0 %}" class="btn btn-danger btn-sm">Delete</a>
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -180,7 +182,8 @@
                                     <tr>
                                         <td><span>N/A</span></td>
                                         <td><span>N/A</span></td>
-                                        <td><span>None Visible Experiments</span></td>
+                                        <td><span>N/A</span></td>
+                                        <td><span>None Visible Comparison</span></td>
                                         <td><span>N/A</span></td>
                                         <td>
                                             <button disabled="disabled" class="btn btn-primary btn-sm">N/A</button>
@@ -200,7 +203,6 @@
 <script src="{% static 'assets/bundles/libscripts.bundle.js' %}"></script>
 <script src="{% static 'assets/bundles/vendorscripts.bundle.js' %}"></script>
 <script src="{% static 'assets/bundles/mainscripts.bundle.js' %}"></script>
-<script src="{% static 'assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js' %}"></script>
 <script src="{% static 'assets/vendor/toastr/toastr.js' %}"></script>
 
 <!--notification popup-->
