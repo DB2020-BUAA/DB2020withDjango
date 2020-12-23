@@ -610,122 +610,144 @@ def exp(request):
     # } for i in comments]
 
     if request.GET.get('exp', None) is None:
-        qs['exp'] = Experiment.objects.values_list("name")[0][0]
+        qs['exp'] = Experiment.objects.values_list("id")[0][0]
         newUrl = urljoin(url, "?" + urllib.parse.urlencode(qs))
         return redirect(newUrl)
 
     print(f"get exp {request.GET.get('exp')}")
-    my_exp = Experiment.objects.filter(name=request.GET.get("exp", "")).annotate(
+    my_exp = request.GET.get("exp", 1)
+    my_exp = Experiment.objects.filter(id=int(my_exp)).annotate(
         builder=F('create_user_id__django_user_id__username'),
         img_builder=F('create_user_id__avatar'),
     )[0]
+    # return redirect()
 
-    link = 'linked_upd_id__'
-    my_upds = UpdToExp.objects.filter(linked_exp_id=my_exp.id).annotate(
-        upd_id=F('linked_upd_id'),
-        name=F(link + 'name'),
-        updater=F(link + 'create_user_id__django_user_id__username'),
-        img_updater=F(link + 'create_user_id__avatar'),
-        update_time=F(link + 'create_date'),
-        update_intro=F(link + 'info'),
-        imgs=F(link + 'imgs')
-    )
+    dict_upd = {}
+    vis_upd = True
+    try:
+        link = 'linked_upd_id__'
+        my_upds = UpdToExp.objects.filter(linked_exp_id=my_exp.id).annotate(
+            upd_id=F('linked_upd_id'),
+            name=F(link + 'name'),
+            updater=F(link + 'create_user_id__django_user_id__username'),
+            img_updater=F(link + 'create_user_id__avatar'),
+            update_time=F(link + 'create_date'),
+            update_intro=F(link + 'info'),
+            imgs=F(link + 'imgs')
+        )
 
-    my_upd = request.GET.get("upd", None)
-    if my_upd:
-        my_upd = my_upds.filter(name=my_upd)[0]
-    else:
-        my_upd = my_upds[0]
+        my_upd = request.GET.get("upd", None)
+        if my_upd:
+            my_upd = my_upds.filter(upd_id=int(my_upd))[0]
+        else:
+            my_upd = my_upds[0]
 
-    print(f"get upd {my_upd.name}")
-    exp_upds = [my_upd.name] + [i[0] for i in my_upds.values_list("name") if i[0] != my_upd.name]
+        print(f"get upd {my_upd.name}")
+        # exp_upds = [my_upd.name] + [i[0] for i in my_upds.values_list("name") if i[0] != my_upd.name]
 
-    comments = Comment.objects.annotate(
-        avatar=F('create_user_id__avatar'),
-        commenter_name=F('create_user_id__django_user_id__username'),
-        commenter_info=F('create_user_id__info'),
-        # info
-        # create_date
-    ).filter(target_update_id=my_upd.id)
+        comments = Comment.objects.annotate(
+            avatar=F('create_user_id__avatar'),
+            commenter_name=F('create_user_id__django_user_id__username'),
+            commenter_info=F('create_user_id__info'),
+            # info
+            # create_date
+        ).filter(target_update_id=my_upd.id)
 
-    upd_imgs = [i for i in my_upd.imgs.split(',') if i.strip() != ""]
+        upd_imgs = [i for i in my_upd.imgs.split(',') if i.strip() != ""]
 
-    # print(my_upd.update_time)
+        # print(my_upd.update_time)
 
-    upds_id = [i[0] for i in my_upds.values_list("upd_id")]
-    # print("A")
-    diffs = Compare.objects.filter(Q(upd1_id__in=upds_id) | Q(upd2_id__in=upds_id))
-    diffs = diffs.annotate(
-        info1=F("upd1_id__info"),
-        name1=F('upd1_id__name'),
-        info2=F("upd2_id__info"),
-        name2=F('upd2_id__name'),
-        updater=F('create_user_id__django_user_id__username'),
-        img_updater=F('create_user_id__avatar'),
+        upds_id = [i[0] for i in my_upds.values_list("upd_id")]
+        # print("A")
 
-    )
+        dict_upd = {
+            "img_updater": my_upd.img_updater,
+            "updater": my_upd.updater,
+            "update_time": my_upd.update_time,
+            "update_name": my_upd.name,
+            "update_intro": my_upd.update_intro,
+            "img_update": upd_imgs,
+            "num_comment": len(comments),
 
-    my_diff = request.GET.get("diff", None)
-    if my_diff:
-        my_diff = diffs.filter(name=my_diff)[0]
-    else:
-        my_diff = diffs[0]
+            "comments": comments,
 
-    diff_comment = CMPComment.objects.annotate(
-        avatar=F('create_user_id__avatar'),
-        commenter_name=F('create_user_id__django_user_id__username'),
-        commenter_info=F('create_user_id__info'),
-        # info
-        # create_date
-    ).filter(target_cmp_id=my_diff.id)
+            "upds": my_upds,
+            "comment_url": f"cmt_upd/{my_upd.upd_id}",
 
-    diff_names = [my_diff.name] + [i[0] for i in diffs.values_list("name") if i[0] != my_diff.name]
-    dict_diff = {
-        # page2
-        "diffs": diff_names,
-        "diff1": my_diff.name1,
-        "diff2": my_diff.name2,
-        "img_diff_updater": my_diff.img_updater,
-        "diff_time": my_diff.create_date,
-        "diff_updater": my_diff.updater,
-        "intro1": my_diff.info1,
-        "intro2": my_diff.info2,
-        "diff_imgs": [i for i in my_diff.imgs.split(",")
-                      if i.strip() != ""],
-        "diff_title": my_diff.name,
-        "diff_intro": my_diff.info,
-        "num_diff_comments": len(diff_comment),
-        "comment_diff": diff_comment,  # er, er_img
+        }
+    except:
+        vis_upd = False
+        a_exp = ""
+        a_cmp = ""
+        a_iss = ""
+        a_my_iss = ""
+        a_my_upd = act_val
 
-        "comment_cmp_url": f"cmt_cmp/{my_diff.id}",
-    }
+    dict_diff = {}
+    vis_diff = True
+    try:
+        diffs = Compare.objects.filter(Q(upd1_id__in=upds_id) | Q(upd2_id__in=upds_id))
+        diffs = diffs.annotate(
+            info1=F("upd1_id__info"),
+            name1=F('upd1_id__name'),
+            info2=F("upd2_id__info"),
+            name2=F('upd2_id__name'),
+            updater=F('create_user_id__django_user_id__username'),
+            img_updater=F('create_user_id__avatar'),
+
+        )
+
+        my_diff = request.GET.get("diff", None)
+        if my_diff:
+            my_diff = diffs.filter(id=int(my_diff))[0]
+        else:
+            my_diff = diffs[0]
+
+        diff_comment = CMPComment.objects.annotate(
+            avatar=F('create_user_id__avatar'),
+            commenter_name=F('create_user_id__django_user_id__username'),
+            commenter_info=F('create_user_id__info'),
+            # info
+            # create_date
+        ).filter(target_cmp_id=my_diff.id)
+
+        # diff_names = [my_diff.name] + [i[0] for i in diffs.values_list("name") if i[0] != my_diff.name]
+        dict_diff = {
+            # page2
+            "diffs": diffs,
+            "diff1": my_diff.name1,
+            "diff2": my_diff.name2,
+            "img_diff_updater": my_diff.img_updater,
+            "diff_time": my_diff.create_date,
+            "diff_updater": my_diff.updater,
+            "intro1": my_diff.info1,
+            "intro2": my_diff.info2,
+            "diff_imgs": [i for i in my_diff.imgs.split(",")
+                          if i.strip() != ""],
+            "diff_title": my_diff.name,
+            "diff_intro": my_diff.info,
+            "num_diff_comments": len(diff_comment),
+            "comment_diff": diff_comment,  # er, er_img
+
+            "comment_cmp_url": f"cmt_cmp/{my_diff.id}",
+        }
+    except:
+        vis_diff = False
+        a_exp = ""
+        a_cmp = ""
+        a_iss = ""
+        a_my_iss = ""
+        a_my_upd = act_val
 
     dict_glb = {
         "img_exp_builder": my_exp.img_builder,
         "exp_name": my_exp.name,
         "exp_builder": my_exp.builder,
         "exp_intro": my_exp.info,
-        "exp_updates": exp_upds,
-        "upds": my_upds,
 
         "current_user": current_user,
         "img_current_user": img_current_user,
         "current_user_info": current_user_info,
-    }
-
-    dict_upd = {
-        "img_updater": my_upd.img_updater,
-        "updater": my_upd.updater,
-        "update_time": my_upd.update_time,
-        "update_name": my_upd.name,
-        "update_intro": my_upd.update_intro,
-        "img_update": upd_imgs,
-        "num_comment": len(comments),
-
-        "comments": comments,
-
-        "comment_url": f"cmt_upd/{my_upd.upd_id}",
-
     }
 
     # pprint(dict_upd)
@@ -734,6 +756,8 @@ def exp(request):
         "a_cmp": a_cmp,
         "a_my_upd": a_my_upd,
         "a_my_iss": a_my_iss,
+        "vis_upd": vis_upd,
+        "vis_diff": vis_diff,
     }
 
     dict_my_url = {
@@ -748,6 +772,24 @@ def exp(request):
         **dict_diff,
         **dict_my_url,
     })
+
+
+def new_diff(request):
+    upds = Update.objects.all()
+    if len(upds) > 0:
+        return render(request, "db-page-new-diff.html", {
+            "spj": False,
+            "my_diff_url": "my_diff",
+            "updates": upds,
+            "base": upds[0].name,
+        })
+    else:
+        return render(request, "db-page-new-diff.html", {
+            "spj": True,
+            "my_diff_url": "my_diff",
+            "updates": 0,
+            "base": 0,
+        })
 
 
 def cmt_upd(request, upd_id):
@@ -873,6 +915,46 @@ def my_upd(request, exp_id):
         # print(qs)
         newUrl = urljoin(referer, "?" + urllib.parse.urlencode(qs))
         return redirect(newUrl)
+    else:
+        return JsonResponse({"status": 200, "message": "add upd succeed"})
+
+
+def my_diff(request):
+    if not request.user.is_authenticated:
+        return render(request, "page-login.html")
+    user_id = request.user.id
+
+    imgs = []
+    if request.FILES.items():
+        for k, v in request.FILES.items():
+            file_data = request.FILES.getlist(k)
+            for fl in file_data:
+                path_file = f"/data/{user_id}/{fl._get_name()}"
+                imgs.append(path_file)
+                path_file = "static" + path_file
+                print(path_file)
+                if not os.path.exists(f"static/data/{user_id}"):
+                    os.makedirs(f"static/data/{user_id}")
+                with open(path_file, "wb") as f:
+                    if fl.multiple_chunks():
+                        for content in fl.chunks():
+                            f.write(content)
+                    else:
+                        data = fl.read()
+                        f.write(data)
+
+    # upd1 upd2 name intro att_img
+    new_diff = Compare(create_user_id=user_id,
+                       info=request.POST['intro'],
+                       name=request.POST['name'],
+                       upd1_id=request.POST['upd1'],
+                       upd2_id=request.POST['upd2'],
+                       imgs=','.join(imgs))
+    new_diff.save()
+
+    referer = request.headers.get("Referer", None)
+    if referer:
+        return redirect(referer)
     else:
         return JsonResponse({"status": 200, "message": "add upd succeed"})
 

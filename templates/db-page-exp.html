@@ -150,10 +150,17 @@
                             </div>
                         </div>
                         <ul class="nav nav-tabs3 mt-2">
-                            <li class="nav-item"><a class="nav-link {{ a_exp }}" data-toggle="tab" href="#Experiment">Experiment</a>
-                            </li>
-                            <li class="nav-item"><a class="nav-link {{ a_cmp }}" data-toggle="tab" href="#Contrast">Contrast</a>
-                            </li>
+                            {% if vis_upd %}
+                                <li class="nav-item"><a class="nav-link {{ a_exp }}" data-toggle="tab"
+                                                        href="#Experiment">Experiment</a>
+                                </li>
+                            {% endif %}
+
+                            {% if vis_diff %}
+                                <li class="nav-item"><a class="nav-link {{ a_cmp }}" data-toggle="tab" href="#Contrast">Contrast</a>
+                                </li>
+                            {% endif %}
+
                             <li class="nav-item"><a class="nav-link {{ a_my_upd }}" data-toggle="tab" href="#My_Update">My
                                 Update</a>
                             </li>
@@ -165,213 +172,224 @@
                 </div>
 
                 <div class="tab-content col-md-12">
-                    <div class="tab-pane vivify fadeIn delay-100 {{ a_exp }}" id="Experiment">
-                        <div class="row">
-                            <div class="col-lg-8 col-md-12">
-                                <div class="card">
+                    {% if vis_upd %}
+                        <div class="tab-pane vivify fadeIn delay-100 {{ a_exp }}" id="Experiment">
+                            <div class="row">
+                                <div class="col-lg-8 col-md-12">
+                                    <div class="card">
 
-                                    <div class="multiselect_div ">
-                                        <select id="single-selection" name="single_selection"
-                                                class="multiselect multiselect-custom exp_upd_select">
-                                            {% for i in exp_updates %}
-                                                <option value="{{ i }}" class="exp_upd_option">{{ i }}</option>
-                                            {% endfor %}
-                                        </select>
+                                        <div class="multiselect_div ">
+                                            <select id="single-selection" name="single_selection"
+                                                    class="multiselect multiselect-custom exp_upd_select">
+                                                {% for i in upds %}
+                                                    <option value="{{ i.upd_id }}"
+                                                            {% if i.name == my_upd.name %} selected {% endif %}
+                                                            class="exp_upd_option">{{ i.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                        <div class="body">
+                                            <div class="d-flex mb-3">
+                                                <div class="icon bg-transparent">
+                                                    <img src="{% static img_updater %}" class="rounded mr-3 w40"
+                                                         alt="">
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-0">{{ updater }}</h6>
+                                                    <small>{{ update_time }}</small>
+                                                </div>
+                                            </div>
+
+                                            <div class="content">
+                                                {% for i in img_update %}
+                                                    <img class="img-fluid rounded" src="{% static i %}" alt="img">
+                                                {% endfor %}
+                                                <h5 class="mt-3">{{ update_name }}</h5>
+                                                <span>{{ update_intro }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-footer">
+
+                                            <a href="#" class="mr-3"><i class="icon-bubbles"></i> {{ num_comment }}
+                                                Comments
+                                            </a>
+
+                                        </div>
                                     </div>
 
-                                    <div class="body">
-                                        <div class="d-flex mb-3">
-                                            <div class="icon bg-transparent">
-                                                <img src="{% static img_updater %}" class="rounded mr-3 w40"
-                                                     alt="">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-0">{{ updater }}</h6>
-                                                <small>{{ update_time }}</small>
-                                            </div>
-                                        </div>
+                                    <div class="timeline">
+                                        {% for i in comments %}
+                                            <div class="timeline-item green vivify fadeIn">
+                                                <img src="{% static i.avatar %}" data-toggle="tooltip"
+                                                     data-placement="top" title="Avatar Name" alt="Avatar"
+                                                     class="w35 h35 rounded-circle">
 
-                                        <div class="content">
-                                            {% for i in img_update %}
-                                                <img class="img-fluid rounded" src="{% static i %}" alt="img">
-                                            {% endfor %}
-                                            <h5 class="mt-3">{{ update_name }}</h5>
-                                            <span>{{ update_intro }}</span>
-                                        </div>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <span>{{ i.commenter_name }}</span>
+                                                    <small>{{ i.create_date }}</small>
+                                                </div>
+
+                                                <div class="msg">
+                                                    <p>{{ i.info }}</p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
                                     </div>
 
-                                    <div class="card-footer">
-
-                                        <a href="#" class="mr-3"><i class="icon-bubbles"></i> {{ num_comment }} Comments
-                                        </a>
-
-                                    </div>
-                                </div>
-
-                                <div class="timeline">
-                                    {% for i in comments %}
-                                        <div class="timeline-item green vivify fadeIn">
-                                            <img src="{% static i.avatar %}" data-toggle="tooltip"
-                                                 data-placement="top" title="Avatar Name" alt="Avatar"
-                                                 class="w35 h35 rounded-circle">
-
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <span>{{ i.commenter_name }}</span>
-                                                <small>{{ i.create_date }}</small>
+                                    <div class="card">
+                                        <div class="body">
+                                            <div class="d-flex mb-3">
+                                                <div class="icon bg-transparent">
+                                                    <img src="{% static img_current_user %}" class="rounded mr-3 w40"
+                                                         alt="">
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-0">{{ current_user }}</h6>
+                                                    <span>{{ current_user_info }}</span>
+                                                </div>
                                             </div>
 
-                                            <div class="msg">
-                                                <p>{{ i.info }}</p>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                </div>
 
-                                <div class="card">
-                                    <div class="body">
-                                        <div class="d-flex mb-3">
-                                            <div class="icon bg-transparent">
-                                                <img src="{% static img_current_user %}" class="rounded mr-3 w40"
-                                                     alt="">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-0">{{ current_user }}</h6>
-                                                <span>{{ current_user_info }}</span>
-                                            </div>
-                                        </div>
-
-
-                                        <form action="{{ comment_url }}" method="post">
-                                            {% csrf_token %}
-                                            <div class="form-group">
+                                            <form action="{{ comment_url }}" method="post">
+                                                {% csrf_token %}
+                                                <div class="form-group">
                                             <textarea rows="4" class="form-control no-resize" name="cmt_upd"
                                                       placeholder="Please type your comment..."></textarea>
-                                            </div>
-                                            <div class="align-right">
-                                                <button class="btn btn-primary">Post</button>
-                                            </div>
-                                        </form>
+                                                </div>
+                                                <div class="align-right">
+                                                    <button class="btn btn-primary">Post</button>
+                                                </div>
+                                            </form>
+
+                                        </div>
 
                                     </div>
+
+
                                 </div>
-
-
                             </div>
+
                         </div>
+                    {% endif %}
 
-                    </div>
+                    {% if vis_diff %}
+                        <div class="tab-pane vivify fadeIn delay-100 {{ a_cmp }}" id="Contrast">
+                            <div class="row">
+                                <div class="col-lg-8 col-md-12">
+                                    <div class="card">
 
-                    <div class="tab-pane vivify fadeIn delay-100 {{ a_cmp }}" id="Contrast">
-                        <div class="row">
-                            <div class="col-lg-8 col-md-12">
-                                <div class="card">
+                                        <div class="multiselect_div">
+                                            <select id="single-selection" name="single_selection"
+                                                    class="multiselect multiselect-custom exp_diff_select ">
+                                                {% for i in diffs %}
+                                                    <option value="{{ i.id }}"
+                                                            {% if i.name == my_diff.name %} selected {% endif %}
+                                                    >{{ i.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
 
-                                    <div class="multiselect_div">
-                                        <select id="single-selection" name="single_selection"
-                                                class="multiselect multiselect-custom exp_diff_select ">
-                                            {% for i in diffs %}
-                                                <option value="{{ i }}">{{ i }}</option>
-                                            {% endfor %}
-                                        </select>
+                                        <div class="body">
+                                            <div class="d-flex mb-3">
+                                                <div class="icon bg-transparent">
+                                                    <img src="{% static img_diff_updater %}" class="rounded mr-3 w40"
+                                                         alt="">
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-0">{{ diff_updater }}</h6>
+                                                    <small>{{ diff_time }}</small>
+                                                </div>
+                                            </div>
+                                            <div class="content">
+                                                <ul class="accordion2">
+                                                    <li class="accordion-item bg-blue text-light">
+                                                        <!-- <li class="accordion-item bg-blue text-light is-active"> -->
+                                                        <h3 class="accordion-thumb"><span>{{ diff1 }}</span></h3>
+                                                        <p class="accordion-panel">
+                                                            {{ intro1 }}
+                                                        </p>
+                                                    </li>
+
+                                                    <li class="accordion-item bg-pink text-light">
+                                                        <h3 class="accordion-thumb"><span>{{ diff2 }}</span></h3>
+                                                        <p class="accordion-panel">
+                                                            {{ intro2 }}
+                                                        </p>
+                                                    </li>
+
+                                                </ul>
+
+
+                                                {% for i in diff_imgs %}
+                                                    <img class="img-fluid rounded" src="{% static i %}" alt="img">
+                                                {% endfor %}
+                                                <h5 class="mt-3">{{ diff_title }}</h5>
+                                                <span>{{ diff_intro }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-footer">
+                                            <a href="#" class="mr-3"><i
+                                                    class="icon-bubbles"></i> {{ num_diff_comments }}
+                                                Comments </a>
+
+                                        </div>
                                     </div>
 
-                                    <div class="body">
-                                        <div class="d-flex mb-3">
-                                            <div class="icon bg-transparent">
-                                                <img src="{% static img_diff_updater %}" class="rounded mr-3 w40"
-                                                     alt="">
+
+                                    <div class="timeline">
+                                        {% for i in comment_diff %}
+                                            <div class="timeline-item green vivify fadeIn">
+                                                <img src="{% static i.avatar %}" data-toggle="tooltip"
+                                                     data-placement="top" title="Avatar Name" alt="Avatar"
+                                                     class="w35 h35 rounded-circle">
+
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <span>{{ i.commenter_name }}</span>
+                                                    <small>{{ i.create_date }}</small>
+                                                </div>
+
+                                                <div class="msg">
+                                                    <p>{{ i.info }}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <h6 class="mb-0">{{ diff_updater }}</h6>
-                                                <small>{{ diff_time }}</small>
-                                            </div>
-                                        </div>
-                                        <div class="content">
-                                            <ul class="accordion2">
-                                                <li class="accordion-item bg-blue text-light">
-                                                    <!-- <li class="accordion-item bg-blue text-light is-active"> -->
-                                                    <h3 class="accordion-thumb"><span>{{ diff1 }}</span></h3>
-                                                    <p class="accordion-panel">
-                                                        {{ intro1 }}
-                                                    </p>
-                                                </li>
-
-                                                <li class="accordion-item bg-pink text-light">
-                                                    <h3 class="accordion-thumb"><span>{{ diff2 }}</span></h3>
-                                                    <p class="accordion-panel">
-                                                        {{ intro2 }}
-                                                    </p>
-                                                </li>
-
-                                            </ul>
-
-
-                                            {% for i in diff_imgs %}
-                                                <img class="img-fluid rounded" src="{% static i %}" alt="img">
-                                            {% endfor %}
-                                            <h5 class="mt-3">{{ diff_title }}</h5>
-                                            <span>{{ diff_intro }}</span>
-                                        </div>
+                                        {% endfor %}
                                     </div>
 
-                                    <div class="card-footer">
-                                        <a href="#" class="mr-3"><i class="icon-bubbles"></i> {{ num_diff_comments }}
-                                            Comments </a>
-
-                                    </div>
-                                </div>
-
-
-                                <div class="timeline">
-                                    {% for i in comment_diff %}
-                                        <div class="timeline-item green vivify fadeIn">
-                                            <img src="{% static i.avatar %}" data-toggle="tooltip"
-                                                 data-placement="top" title="Avatar Name" alt="Avatar"
-                                                 class="w35 h35 rounded-circle">
-
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <span>{{ i.commenter_name }}</span>
-                                                <small>{{ i.create_date }}</small>
+                                    <div class="card">
+                                        <div class="body">
+                                            <div class="d-flex mb-3">
+                                                <div class="icon bg-transparent">
+                                                    <img src="{% static img_current_user %}" class="rounded mr-3 w40"
+                                                         alt="">
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-0">{{ current_user }}</h6>
+                                                    <span>{{ current_user_info }}</span>
+                                                </div>
                                             </div>
-
-                                            <div class="msg">
-                                                <p>{{ i.info }}</p>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-
-                                <div class="card">
-                                    <div class="body">
-                                        <div class="d-flex mb-3">
-                                            <div class="icon bg-transparent">
-                                                <img src="{% static img_current_user %}" class="rounded mr-3 w40"
-                                                     alt="">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-0">{{ current_user }}</h6>
-                                                <span>{{ current_user_info }}</span>
-                                            </div>
-                                        </div>
-                                        <form action="{{ comment_cmp_url }}" method="post">
-                                            {% csrf_token %}
-                                            <div class="form-group">
+                                            <form action="{{ comment_cmp_url }}" method="post">
+                                                {% csrf_token %}
+                                                <div class="form-group">
 
                                             <textarea rows="4" class="form-control no-resize" name="cmt_cmp"
                                                       placeholder="Please type your comment..."></textarea>
-                                            </div>
-                                            <div class="align-right">
-                                                <button class="btn btn-primary">Post</button>
-                                            </div>
-                                        </form>
+                                                </div>
+                                                <div class="align-right">
+                                                    <button class="btn btn-primary">Post</button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
+
+
                                 </div>
-
-
                             </div>
-                        </div>
 
-                    </div>
+                        </div>
+                    {% endif %}
 
                     <div class="tab-pane vivify fadeIn delay-100 {{ a_my_iss }}" id="My_Issue">
                         <div class="row">
@@ -386,7 +404,7 @@
 
                                                 {% for i in upds %}
                                                     <option value="{{ i.upd_id }}"
-                                                             {% if i.name == my_upd.name %} selected {% endif %}
+                                                            {% if i.name == my_upd.name %} selected {% endif %}
                                                             class="exp_upd_option">{{ i.name }}</option>
                                                 {% endfor %}
                                             </select>
