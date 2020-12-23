@@ -182,7 +182,7 @@
                                             <select id="single-selection" name="single_selection"
                                                     class="multiselect multiselect-custom exp_upd_select">
                                                 {% for i in exp_updates %}
-                                                    <option value="{{ i }}"
+                                                    <option value="{{ i.upd_id }}"
                                                             {% if i.name == my_upd.name %} selected {% endif %}
                                                             class="exp_upd_option">{{ i }}</option>
                                                 {% endfor %}
@@ -283,9 +283,9 @@
                                             <select id="single-selection" name="single_selection"
                                                     class="multiselect multiselect-custom exp_diff_select ">
                                                 {% for i in diffs %}
-                                                    <option value="{{ i }}"
+                                                    <option value="{{ i.id }}"
                                                             {% if i.name == my_diff.name %} selected {% endif %}
-                                                    >{{ i }}</option>
+                                                    >{{ i.name }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>

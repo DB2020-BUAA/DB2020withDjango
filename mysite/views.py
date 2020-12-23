@@ -665,7 +665,7 @@ def exp(request):
         # diff_names = [my_diff.name] + [i[0] for i in diffs.values_list("name") if i[0] != my_diff.name]
         dict_diff = {
             # page2
-            "diffs": [i[0] for i in diffs.values_list("name")],
+            "diffs": diffs,
             "diff1": my_diff.name1,
             "diff2": my_diff.name2,
             "img_diff_updater": my_diff.img_updater,
