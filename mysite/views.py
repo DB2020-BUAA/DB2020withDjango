@@ -4,13 +4,17 @@ import urllib
 from django.http import JsonResponse
 from .models import *
 from django.db.models import F, Q
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+import random
+
+from django.contrib.auth import authenticate, login, logout
+from django.db.models import F
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
 from django.utils.datastructures import MultiValueDictKeyError
 
 import mysite.models as mmd
-import random
+from .models import *
 
 
 # Main page
@@ -100,19 +104,24 @@ def list_diff(request, warning=None, w_type=0):
                 filter(linked_user__django_user_id=user_id). \
                 values_list("linked_group")
         except mmd.UserToGroup.DoesNotExist:
+            mesges = get_all_message(request.user)
+            n_mesges = mesges['n_ap_in'] + mesges['n_is_in'] + mesges['n_ap_out'] + mesges['n_is_out']
             return render(request, "db-page-diff-list-n.html",
-                          {'diff': None, 'warning': warning, 'w_type': w_type})
+                          {'diff': None,
+                           'warning': warning,
+                           'w_type': w_type,
+                           'mesg_num': n_mesges})
         all_group_people = mmd.UserProfile.objects.none()
         for g in group_in:
             try:
                 all_group_people |= mmd.UserToGroup.objects.filter(linked_group=g).values_list("linked_user")
             except mmd.UserToGroup.DoesNotExist:
                 continue
-        all_diff = mmd.Compare.objects.values_list("id", "upd1__info", "upd2__info", "create_date", "info").none()
+        all_diff = mmd.Compare.objects.values_list("id", "upd1__name", "upd2__name", "create_date", "info").none()
         for p in all_group_people:
             try:
                 all_diff |= mmd.Compare.objects.filter(create_user=p). \
-                    values_list("id", "upd1__info", "upd2__info", "create_date", "info")
+                    values_list("id", "upd1__name", "upd2__name", "create_date", "info")
             except mmd.Compare.DoesNotExist:
                 continue
         all_diff_short = []
@@ -129,8 +138,13 @@ def list_diff(request, warning=None, w_type=0):
             all_diff_short.append((info[0], str_u1, str_u2, info[3], str_in))
         if len(all_diff_short) == 0:
             all_diff_short = None
+        mesges = get_all_message(request.user)
+        n_mesges = mesges['n_ap_in'] + mesges['n_is_in'] + mesges['n_ap_out'] + mesges['n_is_out']
         return render(request, "db-page-diff-list-n.html",
-                      {'diff': all_diff_short, 'warning': warning, 'w_type': w_type})
+                      {'diff': all_diff_short,
+                       'warning': warning,
+                       'w_type': w_type,
+                       'mesg_num': n_mesges})
     else:
         return redirect(login_page, info='Please Login', i_type=1)
 
@@ -170,6 +184,8 @@ def list_group(request, warning=None, w_type=0):
         if len(group_info_short) == 0:
             group_info_short = None
         info_get = {'group_list': group_info_short, 'warning': warning, 'w_type': w_type}
+        mesges = get_all_message(request.user)
+        info_get['mesg_num'] = mesges['n_ap_in'] + mesges['n_is_in'] + mesges['n_ap_out'] + mesges['n_is_out']
         return render(request, "db-page-group-list.html", info_get)
     else:
         return redirect(login_page, info='Please Login', i_type=1)
@@ -243,6 +259,29 @@ def create_group(request):
         return redirect(login_page, info='Please Login', i_type=1)
 
 
+def apply_group(request):
+    if request.user.is_authenticated:
+        try:
+            g_id = int(request.POST['gid'])
+            g_info = request.POST['apply_info']
+        except KeyError:
+            return redirect(list_group, warning='Invalid ID Or Info.', w_type=0)
+        try:
+            the_group = mmd.Group.objects.get(id=g_id)
+        except mmd.Group.DoesNotExist:
+            return redirect(list_group, warning='Invalid Group ID.', w_type=0)
+        the_user = mmd.UserProfile.objects.get(django_user_id=request.user.id)
+        if mmd.UserToGroup.objects.filter(
+                linked_group=the_group,
+                linked_user=the_user).count() > 0:
+            return redirect(list_group, warning='Already in the Group.', w_type=1)
+        new_apply = mmd.Apply(target_group=the_group, create_user=the_user, info=g_info)
+        new_apply.save()
+        return redirect(list_group, warning='Applied.', w_type=1)
+    else:
+        return redirect(login_page, info='Please Login', i_type=1)
+
+
 # Experiment part
 def list_exps(request, warning=None, w_type=0):
     if request.user.is_authenticated:
@@ -251,13 +290,27 @@ def list_exps(request, warning=None, w_type=0):
             groups_in = mmd.UserToGroup.objects.filter(linked_user__django_user_id=user_id). \
                 values_list("linked_group")
         except mmd.UserToGroup.DoesNotExist:
-            return render(request, "db-page-exps-list.html", {'exp_list': None, 'warning': warning, 'w_type': w_type})
+            mesges = get_all_message(request.user)
+            n_mesges = mesges['n_ap_in'] + mesges['n_is_in'] + mesges['n_ap_out'] + mesges['n_is_out']
+            return render(request, "db-page-exps-list.html",
+                          {'exp_list': None,
+                           'warning': warning,
+                           'w_type': w_type,
+                           'mesg_num': n_mesges})
         exp_list = mmd.ExpToGroup.objects. \
-            values_list("linked_exp__id", "linked_group__name", "linked_exp__info", "linked_exp__create_date").none()
+            values_list("linked_exp__id",
+                        "linked_group__name",
+                        "linked_exp__info",
+                        "linked_exp__create_date",
+                        "linked_exp__name").none()
         for g in groups_in:
             try:
                 exp_list |= mmd.ExpToGroup.objects.filter(linked_group=g). \
-                    values_list("linked_exp__id", "linked_group__name", "linked_exp__info", "linked_exp__create_date")
+                    values_list("linked_exp__id",
+                                "linked_group__name",
+                                "linked_exp__info",
+                                "linked_exp__create_date",
+                                "linked_exp__name")
             except mmd.ExpToGroup.DoesNotExist:
                 continue
         exp_list_short = []
@@ -268,8 +321,13 @@ def list_exps(request, warning=None, w_type=0):
                 exp_list_short.append(one_exp)
         if len(exp_list_short) == 0:
             exp_list_short = None
+        mesges = get_all_message(request.user)
+        n_mesges = mesges['n_ap_in'] + mesges['n_is_in'] + mesges['n_ap_out'] + mesges['n_is_out']
         return render(request, "db-page-exps-list.html",
-                      {'exp_list': exp_list_short, 'warning': warning, 'w_type': w_type})
+                      {'exp_list': exp_list_short,
+                       'warning': warning,
+                       'w_type': w_type,
+                       'mesg_num': n_mesges})
     else:
         return redirect(login_page, info='Please Login', i_type=1)
 
@@ -388,6 +446,8 @@ def list_message(request, warning=None, w_type=0):
         all_message = get_all_message(request.user)
         all_message['warning'] = warning
         all_message['w_type'] = w_type
+        all_message['mesg_num'] = all_message['n_ap_in'] + all_message['n_is_in'] \
+                                  + all_message['n_ap_out'] + all_message['n_is_out']
         return render(request, "db-page-message.html", all_message)
     else:
         return redirect(login_page, info='Please Login', i_type=1)

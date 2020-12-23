@@ -41,6 +41,7 @@ urlpatterns = [
 
     path('group-list', views.list_group, name="group_list"),
     path('group-list-create', views.create_group, name='group_create'),
+    path('group-list-apply', views.apply_group, name='group_apply'),
     path('group-list/<str:warning>/<int:w_type>', views.list_group, name="group_list_redirect"),
 
     path('diff-list', views.list_diff, name="diff_list"),
