@@ -13,18 +13,16 @@ def user_data_path(instance, filename):
 
 
 class UserProfile(models.Model):
-    class AvatarType(models.IntegerChoices):
-        A = 1
-        B = 2
-        C = 3
-        D = 4
+    class AvatarType(models.TextChoices):
+        A = "/avatar/user_1_avatar.png"
+        B = "2"
+        C = "3"
+        D = "4"
 
     django_user = models.ForeignKey(User, on_delete=models.CASCADE)
     id = models.AutoField(primary_key=True)
-    # name = models.CharField(max_length=30)
-    # password = models.CharField(max_length=20)
     info = models.TextField(max_length=100, null=True)
-    avatar = models.IntegerField(choices=AvatarType.choices, default=AvatarType.A)
+    avatar = models.TextField(choices=AvatarType.choices, default=AvatarType.A)
 
     def __str__(self):
         return 'user_' + self.django_user.__str__()
@@ -90,7 +88,7 @@ class Issue(models.Model):
     info = models.TextField()
     status = models.IntegerField(default=0)
     answer_date = models.DateTimeField(auto_now=True)
-    answer_info = models.TextField()
+    answer_info = models.TextField(default="")
 
     def __str__(self):
         return 'issue_' + self.id.__str__() + '_' + self.create_date.__str__()
@@ -132,9 +130,25 @@ class Compare(models.Model):
     upd1 = models.ForeignKey(Update, on_delete=models.CASCADE, related_name='compare_update1')
     upd2 = models.ForeignKey(Update, on_delete=models.CASCADE, related_name='compare_update2')
     info = models.TextField()
+    name = models.TextField()
+    imgs = models.TextField(default="")
 
     def __str__(self):
         return 'compare' + self.upd1.__str__() + ' and ' + self.upd2.__str__()
+
+
+class CMPComment(models.Model):
+    id = models.AutoField(primary_key=True)
+    create_date = models.DateTimeField(auto_now_add=True)
+    create_user = models.ForeignKey(UserProfile, null=True,
+                                    on_delete=models.SET_NULL,
+                                    related_name='cmp_comment_creator')
+    target_cmp = models.ForeignKey(Compare,
+                                   on_delete=models.CASCADE)
+    info = models.TextField()
+
+    def __str__(self):
+        return 'comment_' + self.id.__str__() + '_' + self.create_date.__str__()
 
 
 class UserToGroup(models.Model):

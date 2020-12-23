@@ -20,10 +20,15 @@ from mysite.views import *
 from mysite import views
 
 urlpatterns = [
+    path('init_all', init_all),
     path('admin/', admin.site.urls),
     # path('', index),
     path('exp/', exp),
-    path('exp/cmt_upd', cmt_upd),
+
+    path('exp/cmt_upd/<str:upd_id>', cmt_upd),
+    path('exp/cmt_cmp/<str:cmp_id>', cmt_cmp),
+    path('exp/my_upd/<int:exp_id>', my_upd),
+    path('exp/my_iss', my_iss),
 
     path('', views.index, name="main"),
 

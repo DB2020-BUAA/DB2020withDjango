@@ -1,4 +1,0 @@
-from mysite.models import *
-from django.db.models import F
-
-http://127.0.0.1:8000/exp/?exp=GG20%20Align

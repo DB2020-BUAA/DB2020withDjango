@@ -1,10 +1,14 @@
+import os
+from pprint import pprint
+from urllib.parse import urljoin, parse_qs, urlparse
+import urllib
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 from django.core import serializers
 from django.http import JsonResponse
 import json
 from .models import *
-from django.db.models import Sum, Value as V, F
+from django.db.models import Sum, Value as V, F, Q
 from django.db.models.functions import Coalesce
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -325,14 +329,14 @@ def answer_apply(request, app_id, ans_type):
         except mmd.Apply.DoesNotExist:
             return redirect(list_message, warning="Something Wrong.", w_type=0)
         if the_app.target_group__owner__django_user_id == request.user.id:
-            if ans_type == 1:   # accept
+            if ans_type == 1:  # accept
                 new_link = mmd.UserToGroup(
                     linked_user=the_app.create_user, linked_group=the_app.target_group)
                 new_link.save()
                 the_app.status = 1
                 the_app.reply = True
                 the_app.save()
-            else:               # refused
+            else:  # refused
                 the_app.status = 1
                 the_app.reply = False
                 the_app.save()
@@ -376,11 +380,37 @@ def mark_read_app(request, app_id):
 def page_not_found(request, exception):
     return render(request, "page-404.html")
 
+
 def exp(request):
-    # if not request.user.is_authenticated:
-    #     return render(request, "page-login.html")
-    # user_id = request.user.id
-    user_id = 1
+    url = request.get_raw_uri()
+    qs = urlparse(url).query
+    qs = parse_qs(qs)
+    qs = {k: v[0] for k, v in qs.items()}
+    if 'new_main' in qs:
+        qs['main'] = qs['new_main']
+        del qs['new_main']
+        # print(qs)
+        newUrl = urljoin(url, "?" + urllib.parse.urlencode(qs))
+        return redirect(newUrl)
+    if 'new_upd' in qs:
+        qs['upd'] = qs['new_upd']
+        del qs['new_upd']
+        # print(qs)
+        newUrl = urljoin(url, "?" + urllib.parse.urlencode(qs))
+        return redirect(newUrl)
+
+    if 'new_diff' in qs:
+        qs['diff'] = qs['new_diff']
+        del qs['new_diff']
+        # print(qs)
+        newUrl = urljoin(url, "?" + urllib.parse.urlencode(qs))
+        return redirect(newUrl)
+
+    if not request.user.is_authenticated:
+        return render(request, "page-login.html")
+    user_id = request.user.id
+    print(f"user id {user_id} ...")
+    # user_id = 1
 
     try:
         current_user = User.objects.filter(id=user_id).values_list("username")[0][0]
@@ -394,6 +424,24 @@ def exp(request):
         current_user_info = 0
         img_current_user = 0
 
+    act = request.GET.get("main", "exp")
+    a_exp = ""
+    a_cmp = ""
+    a_iss = ""
+    a_my_iss = ""
+    a_my_upd = ""
+    act_val = "active show"
+    if act == "exp":
+        a_exp = act_val
+    elif act == "cmp":
+        a_cmp = act_val
+    elif act == "my_upd":
+        a_my_upd = act_val
+    elif act == "my_iss":
+        a_my_iss = act_val
+    else:
+        raise NotImplementedError
+
     # comments = [{
     #     "avatar": i.avatar,
     #     "commenter_name": i.commenter_name,
@@ -401,6 +449,11 @@ def exp(request):
     #     "info": i.info,
     #     "create_date": i.create_date,
     # } for i in comments]
+
+    if request.GET.get('exp', None) is None:
+        qs['exp'] = Experiment.objects.values_list("name")[0][0]
+        newUrl = urljoin(url, "?" + urllib.parse.urlencode(qs))
+        return redirect(newUrl)
 
     print(f"get exp {request.GET.get('exp')}")
     my_exp = Experiment.objects.filter(name=request.GET.get("exp", "")).annotate(
@@ -410,6 +463,7 @@ def exp(request):
 
     link = 'linked_upd_id__'
     my_upds = UpdToExp.objects.filter(linked_exp_id=my_exp.id).annotate(
+        upd_id=F('linked_upd_id'),
         name=F(link + 'name'),
         updater=F(link + 'create_user_id__django_user_id__username'),
         img_updater=F(link + 'create_user_id__avatar'),
@@ -424,6 +478,7 @@ def exp(request):
     else:
         my_upd = my_upds[0]
 
+    print(f"get upd {my_upd.name}")
     exp_upds = [my_upd.name] + [i[0] for i in my_upds.values_list("name") if i[0] != my_upd.name]
 
     comments = Comment.objects.annotate(
@@ -434,34 +489,72 @@ def exp(request):
         # create_date
     ).filter(target_update_id=my_upd.id)
 
-    upd_imgs = my_upd.imgs.split(',')
+    upd_imgs = [i for i in my_upd.imgs.split(',') if i.strip() != ""]
 
     # print(my_upd.update_time)
+
+    upds_id = [i[0] for i in my_upds.values_list("upd_id")]
+    # print("A")
+    diffs = Compare.objects.filter(Q(upd1_id__in=upds_id) | Q(upd2_id__in=upds_id))
+    diffs = diffs.annotate(
+        info1=F("upd1_id__info"),
+        name1=F('upd1_id__name'),
+        info2=F("upd2_id__info"),
+        name2=F('upd2_id__name'),
+        updater=F('create_user_id__django_user_id__username'),
+        img_updater=F('create_user_id__avatar'),
+
+    )
+
+    my_diff = request.GET.get("diff", None)
+    if my_diff:
+        my_diff = diffs.filter(name=my_diff)[0]
+    else:
+        my_diff = diffs[0]
+
+    diff_comment = CMPComment.objects.annotate(
+        avatar=F('create_user_id__avatar'),
+        commenter_name=F('create_user_id__django_user_id__username'),
+        commenter_info=F('create_user_id__info'),
+        # info
+        # create_date
+    ).filter(target_cmp_id=my_diff.id)
+
+    diff_names = [my_diff.name] + [i[0] for i in diffs.values_list("name") if i[0] != my_diff.name]
     dict_diff = {
         # page2
-        "diffs": [0],
-        "diff1": 0,
-        "diff2": 0,
-        "img_diff_updater": 0,
-        "diff_time": 0,
-        "diff_updater": 0,
-        "intro1": 0,
-        "intro2": 0,
-        "diff_imgs": [],
-        "diff_title": 0,
-        "diff_intro": 0,
-        "num_diff_comments": 0,
-        "comment_diff": [],  # er, er_img
+        "diffs": diff_names,
+        "diff1": my_diff.name1,
+        "diff2": my_diff.name2,
+        "img_diff_updater": my_diff.img_updater,
+        "diff_time": my_diff.create_date,
+        "diff_updater": my_diff.updater,
+        "intro1": my_diff.info1,
+        "intro2": my_diff.info2,
+        "diff_imgs": [i for i in my_diff.imgs.split(",")
+                      if i.strip() != ""],
+        "diff_title": my_diff.name,
+        "diff_intro": my_diff.info,
+        "num_diff_comments": len(diff_comment),
+        "comment_diff": diff_comment,  # er, er_img
 
+        "comment_cmp_url": f"cmt_cmp/{my_diff.id}",
     }
 
-    return render(request, "db-page-exp.html", {
+    dict_glb = {
         "img_exp_builder": my_exp.img_builder,
         "exp_name": my_exp.name,
         "exp_builder": my_exp.builder,
         "exp_intro": my_exp.info,
         "exp_updates": exp_upds,
+        "upds": my_upds,
 
+        "current_user": current_user,
+        "img_current_user": img_current_user,
+        "current_user_info": current_user_info,
+    }
+
+    dict_upd = {
         "img_updater": my_upd.img_updater,
         "updater": my_upd.updater,
         "update_time": my_upd.update_time,
@@ -472,27 +565,181 @@ def exp(request):
 
         "comments": comments,
 
-        "current_user": current_user,
-        "img_current_user": img_current_user,
-        "current_user_info": current_user_info,
+        "comment_url": f"cmt_upd/{my_upd.upd_id}",
 
-        **dict_diff
+    }
+
+    # pprint(dict_upd)
+    dict_card = {
+        "a_exp": a_exp,
+        "a_cmp": a_cmp,
+        "a_my_upd": a_my_upd,
+        "a_my_iss": a_my_iss,
+    }
+
+    dict_my_url = {
+        "my_upd_url": f"my_upd/{my_exp.id}",
+        "my_iss_url": f"my_iss",
+    }
+
+    return render(request, "db-page-exp.html", {
+        **dict_card,
+        **dict_glb,
+        **dict_upd,
+        **dict_diff,
+        **dict_my_url,
     })
 
 
-def cmt_upd(request):
-    # if not request.user.is_authenticated:
-    #     return render(request, "page-login.html")
-    # user_id = request.user.id
-    user_id = 1
+def cmt_upd(request, upd_id):
+    if not request.user.is_authenticated:
+        return render(request, "page-login.html")
+    user_id = request.user.id
+    # user_id = 1
 
-    print(request.POST, "!!!!!!!")
+    # print(request.POST, "!!!!!!!")
     # print(request.headers, request.body)
 
-    # new_cmt = Comment(create_user=user_id, target_update=0, info=0)
+    new_cmt = Comment(create_user_id=user_id,
+                      target_update_id=upd_id,
+                      info=request.POST['cmt_upd'])
+    new_cmt.save()
 
     referer = request.headers.get("Referer", None)
     if referer:
-        return redirect(referer)
+        qs = urlparse(referer).query
+        qs = parse_qs(qs)
+        qs = {k: v[0] for k, v in qs.items()}
+        qs['main'] = 'exp'
+        # print(qs)
+        newUrl = urljoin(referer, "?" + urllib.parse.urlencode(qs))
+        # newUrl = urljoin(referer, urllib.parse.urlencode(qs))
+        return redirect(newUrl)
     else:
         return JsonResponse({"status": 200, "message": "add cmt of upd succeed"})
+
+
+def cmt_cmp(request, cmp_id):
+    if not request.user.is_authenticated:
+        return render(request, "page-login.html")
+    user_id = request.user.id
+
+    new_cmt = CMPComment(create_user_id=user_id,
+                         target_cmp_id=cmp_id,
+                         info=request.POST['cmt_cmp'])
+    new_cmt.save()
+
+    referer = request.headers.get("Referer", None)
+    if referer:
+        qs = urlparse(referer).query
+        qs = parse_qs(qs)
+        qs = {k: v[0] for k, v in qs.items()}
+        qs['main'] = 'cmp'
+        # print(qs)
+        newUrl = urljoin(referer, "?" + urllib.parse.urlencode(qs))
+        return redirect(newUrl)
+    else:
+        return JsonResponse({"status": 200, "message": "add cmt of cmp succeed"})
+
+
+def my_iss(request):
+    if not request.user.is_authenticated:
+        return render(request, "page-login.html")
+    user_id = request.user.id
+
+    # print(request.POST["iss_upd"], request.POST["iss"], user_id)
+    new_iss = Issue(create_user_id=user_id,
+                    target_update_id=int(request.POST["iss_upd"]),
+                    info=request.POST["iss"])
+    new_iss.save()
+
+    referer = request.headers.get("Referer", None)
+    if referer:
+        qs = urlparse(referer).query
+        qs = parse_qs(qs)
+        qs = {k: v[0] for k, v in qs.items()}
+        qs['main'] = 'my_iss'
+        # print(qs)
+        newUrl = urljoin(referer, "?" + urllib.parse.urlencode(qs))
+        return redirect(newUrl)
+    else:
+        return JsonResponse({"status": 200, "message": "add iss succeed"})
+
+
+def my_upd(request, exp_id):
+    if not request.user.is_authenticated:
+        return render(request, "page-login.html")
+    user_id = request.user.id
+
+    # print(user_id,
+    #       request.POST['upd_intro'],
+    #       request.POST['upd_name'],
+    #       request.POST["att_img"],
+    #       type(request.POST["att_img"]))
+    # print(user_id, request.POST)
+    # print(request.FILES.items())
+
+    imgs = []
+    if request.FILES.items():
+        for k, v in request.FILES.items():
+            file_data = request.FILES.getlist(k)
+            for fl in file_data:
+                path_file = f"/data/{user_id}/{fl._get_name()}"
+                imgs.append(path_file)
+                path_file = "static" + path_file
+                print(path_file)
+                if not os.path.exists(f"static/data/{user_id}"):
+                    os.makedirs(f"static/data/{user_id}")
+                with open(path_file, "wb") as f:
+                    if fl.multiple_chunks():
+                        for content in fl.chunks():
+                            f.write(content)
+                    else:
+                        data = fl.read()
+                        f.write(data)
+
+    new_upd = Update(create_user_id=user_id,
+                     info=request.POST['upd_intro'],
+                     name=request.POST['upd_name'],
+                     imgs=','.join(imgs))
+    new_upd.save()
+    UpdToExp(linked_exp_id=exp_id, linked_upd=new_upd).save()
+
+    referer = request.headers.get("Referer", None)
+    if referer:
+        qs = urlparse(referer).query
+        qs = parse_qs(qs)
+        qs = {k: v[0] for k, v in qs.items()}
+        qs['main'] = 'my_upd'
+        # print(qs)
+        newUrl = urljoin(referer, "?" + urllib.parse.urlencode(qs))
+        return redirect(newUrl)
+    else:
+        return JsonResponse({"status": 200, "message": "add upd succeed"})
+
+
+def init_all(request):
+    # import mysite.models as mdl
+    # from django.db import models
+    # for name, i in mdl.__dict__.items():
+    #     print(name)
+    #     if and issubclass(i, models.Model):
+    #         print(f"clearing {name}")
+    #         i.objects.m.clear()
+    a = User.objects.create_user(username="warren", password="123")
+    a.save()
+
+    a = UserProfile(info="见习研究员",
+                    avatar=UserProfile.AvatarType.A,
+                    django_user=a)
+    a.save()
+
+    Experiment(info="谷歌20实验复现", name="GG20 Align", create_user=a).save()
+
+    Update(info="如图所示，目前已和GG报告的结果对齐", create_user=a, name="ADD LRP").save()
+    Update(info="图为5cc和10cc的对比", create_user=a, name="ADD CC").save()
+    UpdToExp(linked_exp_id=1, linked_upd_id=1).save()
+    UpdToExp(linked_exp_id=1, linked_upd_id=2).save()
+
+    Comment(info="hdl nb", target_update_id=1, create_user=a).save()
+    return JsonResponse({"status": 200, "message": "init db finished"})

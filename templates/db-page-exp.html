@@ -11,7 +11,7 @@
           content="Brego Bootstrap 4x admin is super flexible, powerful, clean &amp; modern responsive admin dashboard with unlimited possibilities.">
     <meta name="author" content="GetBootstrap, design by: puffintheme.com">
 
-    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <link rel="icon" href="{% static favicon.png %}" type="image/x-icon">
     <!-- VENDOR CSS -->
     <link rel="stylesheet" href="{% static '/assets/vendor/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static '/assets/vendor/font-awesome/css/font-awesome.min.css' %}">
@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="{% static '/assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css' %}">
     <link rel="stylesheet" href="{% static '/assets/vendor/nouislider/nouislider.min.css' %}">
 
+    <link rel="stylesheet" href="{% static 'assets/vendor/toastr/toastr.min.css' %}">
 
 </head>
 <body class="theme-blush social box_layout particles_js">
@@ -149,22 +150,22 @@
                             </div>
                         </div>
                         <ul class="nav nav-tabs3 mt-2">
-                            <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#Experiment">Experiment</a>
+                            <li class="nav-item"><a class="nav-link {{ a_exp }}" data-toggle="tab" href="#Experiment">Experiment</a>
                             </li>
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Contrast">Contrast</a>
+                            <li class="nav-item"><a class="nav-link {{ a_cmp }}" data-toggle="tab" href="#Contrast">Contrast</a>
                             </li>
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Issues">Issues</a>
+                            <li class="nav-item"><a class="nav-link {{ a_my_upd }}" data-toggle="tab" href="#My_Update">My
+                                Update</a>
                             </li>
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#My_Commit">My commit</a>
-                            </li>
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#My_Issue">My Issue</a>
+                            <li class="nav-item"><a class="nav-link {{ a_my_iss }}" data-toggle="tab" href="#My_Issue">My
+                                Issue</a>
                             </li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="tab-content col-md-12">
-                    <div class="tab-pane vivify fadeIn delay-100 active show" id="Experiment">
+                    <div class="tab-pane vivify fadeIn delay-100 {{ a_exp }}" id="Experiment">
                         <div class="row">
                             <div class="col-lg-8 col-md-12">
                                 <div class="card">
@@ -240,17 +241,13 @@
                                         </div>
 
 
-                                        <form action="cmt_upd" method="post">
+                                        <form action="{{ comment_url }}" method="post">
                                             {% csrf_token %}
                                             <div class="form-group">
                                             <textarea rows="4" class="form-control no-resize" name="cmt_upd"
                                                       placeholder="Please type your comment..."></textarea>
                                             </div>
                                             <div class="align-right">
-                                                <button class="btn btn-link">
-                                                    <i class="icon-paper-clip text-muted">
-                                                    </i>
-                                                </button>
                                                 <button class="btn btn-primary">Post</button>
                                             </div>
                                         </form>
@@ -264,15 +261,14 @@
 
                     </div>
 
-
-                    <div class="tab-pane vivify fadeIn delay-100" id="Contrast">
+                    <div class="tab-pane vivify fadeIn delay-100 {{ a_cmp }}" id="Contrast">
                         <div class="row">
                             <div class="col-lg-8 col-md-12">
                                 <div class="card">
 
                                     <div class="multiselect_div">
                                         <select id="single-selection" name="single_selection"
-                                                class="multiselect multiselect-custom">
+                                                class="multiselect multiselect-custom exp_diff_select ">
                                             {% for i in diffs %}
                                                 <option value="{{ i }}">{{ i }}</option>
                                             {% endfor %}
@@ -329,12 +325,12 @@
                                 <div class="timeline">
                                     {% for i in comment_diff %}
                                         <div class="timeline-item green vivify fadeIn">
-                                            <img src="{% static i.er_img %}" data-toggle="tooltip"
+                                            <img src="{% static i.avatar %}" data-toggle="tooltip"
                                                  data-placement="top" title="Avatar Name" alt="Avatar"
                                                  class="w35 h35 rounded-circle">
 
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span>{{ i.er }}</span>
+                                                <span>{{ i.commenter_name }}</span>
                                                 <small>{{ i.create_date }}</small>
                                             </div>
 
@@ -349,26 +345,25 @@
                                     <div class="body">
                                         <div class="d-flex mb-3">
                                             <div class="icon bg-transparent">
-                                                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40"
+                                                <img src="{% static img_current_user %}" class="rounded mr-3 w40"
                                                      alt="">
                                             </div>
                                             <div>
-                                                <h6 class="mb-0">当前用户warren</h6>
-                                                <span>见习研究员</span>
+                                                <h6 class="mb-0">{{ current_user }}</h6>
+                                                <span>{{ current_user_info }}</span>
                                             </div>
                                         </div>
+                                        <form action="{{ comment_cmp_url }}" method="post">
+                                            {% csrf_token %}
+                                            <div class="form-group">
 
-                                        <div class="form-group">
-
-                                            <textarea rows="4" class="form-control no-resize"
+                                            <textarea rows="4" class="form-control no-resize" name="cmt_cmp"
                                                       placeholder="Please type your comment..."></textarea>
-                                        </div>
-                                        <div class="align-right">
-                                            <button class="btn btn-link"><i class="icon-paper-clip text-muted"></i>
-                                            </button>
-
-                                            <button class="btn btn-primary">Post</button>
-                                        </div>
+                                            </div>
+                                            <div class="align-right">
+                                                <button class="btn btn-primary">Post</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
 
@@ -378,135 +373,49 @@
 
                     </div>
 
-
-                    <div class="tab-pane vivify fadeIn delay-100" id="Issues">
+                    <div class="tab-pane vivify fadeIn delay-100 {{ a_my_iss }}" id="My_Issue">
                         <div class="row">
                             <div class="col-lg-8 col-md-12">
                                 <div class="card">
 
-                                    <div class="multiselect_div">
-                                        <select id="single-selection" name="single_selection"
-                                                class="multiselect multiselect-custom">
-                                            <option value="LRP w/o">Channel number of LRP have problem</option>
+                                    <form action="{{ my_iss_url }}" method="post">
+                                        {% csrf_token %}
+                                        <div class="multiselect_div ">
+                                            <select id="single-selection" name="iss_upd"
+                                                    class="multiselect multiselect-custom my_upd_select">
 
-                                        </select>
-                                    </div>
+                                                {% for i in upds %}
+                                                    <option value="{{ i.upd_id }}"
+                                                             {% if i.name == my_upd.name %} selected {% endif %}
+                                                            class="exp_upd_option">{{ i.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
 
-                                    <div class="body">
-                                        <div class="d-flex mb-3">
-                                            <div class="icon bg-transparent">
-                                                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40"
-                                                     alt="">
+                                        <div class="body">
+                                            <div class="d-flex mb-3">
+                                                <div class="icon bg-transparent">
+                                                    <img src="{% static img_current_user %}" class="rounded mr-3 w40"
+                                                         alt="">
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-0">{{ current_user }}</h6>
+                                                    <span>{{ current_user_info }}</span>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <h6 class="mb-0">问题上传者warren</h6>
-                                                <small>Sept 01, 2018</small>
-                                            </div>
-                                        </div>
 
-                                        <span>通道数一样吗？</span>
+                                            <div class="form-group">
 
-                                    </div>
-
-                                    <div class="card-footer">
-                                        <a href="#" class="mr-3"><i class="icon-bubbles"></i> 2 Answers </a>
-
-                                    </div>
-                                </div>
-
-
-                                <div class="timeline">
-                                    <div class="timeline-item green vivify fadeIn">
-                                        <img src="https://via.placeholder.com/140x140" data-toggle="tooltip"
-                                             data-placement="top" title="Avatar Name" alt="Avatar"
-                                             class="w35 h35 rounded-circle">
-
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span>回答者warren</span>
-                                            <small>Sept 01, 2018</small>
-                                        </div>
-
-                                        <div class="msg">
-                                            <p>我看过配置了一样</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="card">
-                                    <div class="body">
-                                        <div class="d-flex mb-3">
-                                            <div class="icon bg-transparent">
-                                                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40"
-                                                     alt="">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-0">当前用户warren</h6>
-                                                <span>见习研究员</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-
-                                            <textarea rows="4" class="form-control no-resize"
-                                                      placeholder="Please type your answer..."></textarea>
-                                        </div>
-                                        <div class="align-right">
-                                            <button class="btn btn-link"><i class="icon-paper-clip text-muted"></i>
-                                            </button>
-
-                                            <button class="btn btn-primary">Post</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    <div class="tab-pane vivify fadeIn delay-100" id="My_Issue">
-                        <div class="row">
-                            <div class="col-lg-8 col-md-12">
-                                <div class="card">
-
-                                    <div class="multiselect_div">
-                                        <select id="single-selection" name="single_selection"
-                                                class="multiselect multiselect-custom">
-                                            <option value="LRP w/o">Channel number of LRP have problem</option>
-
-                                        </select>
-                                    </div>
-
-                                    <div class="body">
-                                        <div class="d-flex mb-3">
-                                            <div class="icon bg-transparent">
-                                                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40"
-                                                     alt="">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-0">当前用户warren</h6>
-                                                <span>见习研究员</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-
-                                            <textarea rows="4" class="form-control no-resize"
+                                            <textarea rows="4" class="form-control no-resize" name="iss"
                                                       placeholder="Please type your issue..."></textarea>
+                                            </div>
+                                            <div class="align-right">
+                                                <button class="btn btn-primary">Post</button>
+                                            </div>
+
+
                                         </div>
-                                        <div class="align-right">
-                                            <button class="btn btn-link"><i class="icon-paper-clip text-muted"></i>
-                                            </button>
-
-                                            <button class="btn btn-primary">Post</button>
-                                        </div>
-
-
-                                    </div>
-
+                                    </form>
                                 </div>
 
 
@@ -516,44 +425,54 @@
                     </div>
 
 
-                    <div class="tab-pane vivify fadeIn delay-100" id="My_Commit">
+                    <div class="tab-pane vivify fadeIn delay-100 {{ a_my_upd }}" id="My_Update">
                         <div class="row">
                             <div class="col-lg-8 col-md-12">
                                 <div class="card">
 
-                                    <div class="multiselect_div">
-                                        <select id="single-selection" name="single_selection"
-                                                class="multiselect multiselect-custom">
-                                            <option value="LRP w/o">Channel number of LRP have problem</option>
-
-                                        </select>
-                                    </div>
-
                                     <div class="body">
                                         <div class="d-flex mb-3">
                                             <div class="icon bg-transparent">
-                                                <img src="https://via.placeholder.com/90x90" class="rounded mr-3 w40"
+                                                <img src="{% static  img_current_user %}" class="rounded mr-3 w40"
                                                      alt="">
                                             </div>
                                             <div>
-                                                <h6 class="mb-0">当前用户warren</h6>
-                                                <span>见习研究员</span>
+                                                <h6 class="mb-0">{{ current_user }}</h6>
+                                                <span>{{ current_user_info }}</span>
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
+                                        <form action="{{ my_upd_url }}" method="post" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <div class="form-group">
+                                                    <label>Update Name</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>
+                                                        <input type="text" name="upd_name" datatype="s1-30"
+                                                               aria-errormessage="Please input a name for the group, which should be less than 30 characters."
+                                                               class="form-control" required>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Update Introduction</label>
+                                                </div>
+                                                <textarea rows="4" class="form-control no-resize" name="upd_intro"
+                                                          placeholder="Please type your Update..."></textarea>
+                                            </div>
+                                            <div class="align-right">
+                                                <input name="att_img" type="file" id="file1"
+                                                       class="form-control input-attachment" multiple="multiple"
+                                                       ng-class="button-primary" style="width:180px;display:none;"/>
+                                                <button class="btn btn-link add-file" type="button"><i
+                                                        class="icon-paper-clip text-muted"></i>
+                                                </button>
 
-                                            <textarea rows="4" class="form-control no-resize"
-                                                      placeholder="Please type your commit..."></textarea>
-                                        </div>
-                                        <div class="align-right">
-                                            <button class="btn btn-link"><i class="icon-paper-clip text-muted"></i>
-                                            </button>
+                                                <button class="btn btn-primary">Post</button>
+                                            </div>
 
-                                            <button class="btn btn-primary">Post</button>
-                                        </div>
-
-
+                                        </form>
                                     </div>
 
                                 </div>
@@ -591,8 +510,15 @@
 <script src="{% static '/assets/bundles/mainscripts.bundle.js' %}"></script>
 <script src="{% static '/assets/js/pages/forms/advanced-form-elements.js' %}"></script>
 
+<script src="{% static 'assets/vendor/toastr/toastr.js' %}"></script>
+
 <!-- CONTRAST -->
 <script>
+
+    selectFile1 = function () {
+        $("#file1").trigger("click");
+    }
+
     $(function () {
         // (Optional) Active an item if it has the class "is-active"	
         {#$(".accordion2 > .accordion-item.is-active").children(".accordion-panel").slideDown();#}
@@ -604,13 +530,25 @@
             $(this).toggleClass("is-active").children(".accordion-panel").slideToggle("ease-out");
         });
 
+        $(".add-file").click(function () {
+            $("#file1").trigger("click");
+        });
+
         $(".exp_upd_select").change(function () {
             let url = window.location.href;
             let idx = $(this)[0].selectedIndex;
             {#window.location.replace(url + "&upd=" + idx);#}
             let val = $(this)[0].options[idx].getAttribute("value");
-            window.location.replace(url + "&upd=" + val);
+            window.location.replace(url + "&new_upd=" + val + "&new_main=exp");
         });
+
+        $(".exp_diff_select").change(function () {
+            let url = window.location.href;
+            let idx = $(this)[0].selectedIndex;
+            let val = $(this)[0].options[idx].getAttribute("value");
+            window.location.replace(url + "&new_diff=" + val + "&new_main=cmp");
+        });
+
 
     });
 </script>
