@@ -13,16 +13,11 @@ def user_data_path(instance, filename):
 
 
 class UserProfile(models.Model):
-    class AvatarType(models.TextChoices):
-        A = "/avatar/user_1_avatar.png"
-        B = "2"
-        C = "3"
-        D = "4"
 
     django_user = models.ForeignKey(User, on_delete=models.CASCADE)
     id = models.AutoField(primary_key=True)
     info = models.TextField(max_length=100, null=True)
-    avatar = models.TextField(choices=AvatarType.choices, default=AvatarType.A)
+    create_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return 'user_' + self.id.__str__() + '_' + self.django_user.__str__()

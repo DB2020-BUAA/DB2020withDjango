@@ -1,4 +1,5 @@
 {% load static %}
+{% load my_tags %}
 <!doctype html>
 <html lang="en">
 
@@ -128,7 +129,7 @@
                                                 <a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start">
                                                     <div class="d-flex w-100 justify-content-between">
                                                     <h5 class="mb-1">EXP: {{ exp_info.1 }}</h5>
-                                                    <small class="text-muted">Created on: {{ exp_info.3 }}</small>
+                                                    <small class="text-muted">Created at: {{ exp_info.3 }}</small>
                                                     </div>
                                                     <p class="mb-1">{{ exp_info.2 }}</p>
                                                 </a>
@@ -178,10 +179,10 @@
                             <table class="table table-hover table-custom spacing8">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
+                                        <th>User</th>
                                         <th></th>
                                         <th>info</th>
-                                        <th>Profile</th>
+                                        <th>email</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -191,23 +192,22 @@
                                             {% for member_info in member_list %}
                                                 <tr>
                                                     <td class="w60">
-                                                        <img src="https://via.placeholder.com/140x140" data-toggle="tooltip" data-placement="top" title="Avatar Name" alt="Avatar" class="w35 rounded">
+                                                        <img class="gravatar" src="{{ member_info.3|gravatar_url:50}}" />
                                                     </td>
                                                     <td>
                                                         <a href="#" title="">{{ member_info.0 }}</a>
-                                                        <p class="mb-0">+ 264-625-9283</p>
                                                     </td>
                                                     <td>
                                                         <span>{{ member_info.1 }}</span>
                                                     </td>
                                                     <td>
-                                                        <span>Boss</span>
+                                                        <span>{{ member_info.3 }}</span>
                                                     </td>
                                                     <td>
                                                         <form action="" method="post">
                                                         {% csrf_token %}
                                                             <input type="hidden" name="func" value='remove'>
-                                                            <input type="hidden" name="userid" value={{ member_info.3 }}>
+                                                            <input type="hidden" name="userid" value={{ member_info.2 }}>
                                                             <button class="btn btn-primary btn-sm">Remove</button>
                                                         </form>
                                                     </td>
