@@ -9541,7 +9541,7 @@ ul.choose-skin li.active div::after,
 
 .social .profile-header {
     border-radius: .1875rem;
-    background: transparent url("https://via.placeholder.com/1024x640") repeat scroll center center/cover;
+    background: transparent url("https://unsplash.it/1024/640/?random") repeat scroll center center/cover;
     color: #fff;
     padding: 20px;
     position: relative;
