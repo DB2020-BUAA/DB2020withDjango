@@ -84,7 +84,7 @@
                         <div class="profile-header d-flex justify-content-between justify-content-center">
                             <div class="d-flex">
                                 <div class="mr-3">
-                                    <img src="{% static img_exp_builder %}" class="rounded" alt="">
+                                    <img class="gravatar rounded" src="{{ img_exp_builder|gravatar_url:50}}" />
                                 </div>
                                 <div class="details">
                                     <h5 class="mb-0">{{ exp_name }}</h5>
@@ -138,8 +138,7 @@
                                         <div class="body">
                                             <div class="d-flex mb-3">
                                                 <div class="icon bg-transparent">
-                                                    <img src="{% static img_updater %}" class="rounded mr-3 w40"
-                                                         alt="">
+                                                    <img class="gravatar rounded mr-3 w40" src="{{ img_updater|gravatar_url:50}}" />
                                                 </div>
                                                 <div>
                                                     <h6 class="mb-0">{{ updater }}</h6>
@@ -168,9 +167,7 @@
                                     <div class="timeline">
                                         {% for i in comments %}
                                             <div class="timeline-item green vivify fadeIn">
-                                                <img src="{% static i.avatar %}" data-toggle="tooltip"
-                                                     data-placement="top" title="Avatar Name" alt="Avatar"
-                                                     class="w35 h35 rounded-circle">
+                                                <img class="gravatar w35 h35 rounded-circle" src="{{ i.avatar|gravatar_url:50}}" />
 
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <span>{{ i.commenter_name }}</span>
@@ -188,8 +185,7 @@
                                         <div class="body">
                                             <div class="d-flex mb-3">
                                                 <div class="icon bg-transparent">
-                                                    <img src="{% static img_current_user %}" class="rounded mr-3 w40"
-                                                         alt="">
+                                                    <img class="gravatar rounded mr-3 w40" src="{{ img_current_user|gravatar_url:50}}" />
                                                 </div>
                                                 <div>
                                                     <h6 class="mb-0">{{ current_user }}</h6>
@@ -240,8 +236,7 @@
                                         <div class="body">
                                             <div class="d-flex mb-3">
                                                 <div class="icon bg-transparent">
-                                                    <img src="{% static img_diff_updater %}" class="rounded mr-3 w40"
-                                                         alt="">
+                                                    <img class="gravatar rounded mr-3 w40" src="{{ img_diff_updater|gravatar_url:50}}" />
                                                 </div>
                                                 <div>
                                                     <h6 class="mb-0">{{ diff_updater }}</h6>
@@ -288,9 +283,7 @@
                                     <div class="timeline">
                                         {% for i in comment_diff %}
                                             <div class="timeline-item green vivify fadeIn">
-                                                <img src="{% static i.avatar %}" data-toggle="tooltip"
-                                                     data-placement="top" title="Avatar Name" alt="Avatar"
-                                                     class="w35 h35 rounded-circle">
+                                                <img class="gravatar w35 h35 rounded-circle" src="{{ i.avatar|gravatar_url:50}}" />
 
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <span>{{ i.commenter_name }}</span>
@@ -308,8 +301,7 @@
                                         <div class="body">
                                             <div class="d-flex mb-3">
                                                 <div class="icon bg-transparent">
-                                                    <img src="{% static img_current_user %}" class="rounded mr-3 w40"
-                                                         alt="">
+                                                    <img class="gravatar rounded mr-3 w40" src="{{ img_current_user|gravatar_url:50}}" />
                                                 </div>
                                                 <div>
                                                     <h6 class="mb-0">{{ current_user }}</h6>
@@ -359,8 +351,7 @@
                                         <div class="body">
                                             <div class="d-flex mb-3">
                                                 <div class="icon bg-transparent">
-                                                    <img src="{% static img_current_user %}" class="rounded mr-3 w40"
-                                                         alt="">
+                                                    <img class="gravatar rounded mr-3 w40" src="{{ img_current_user|gravatar_url:50}}" />
                                                 </div>
                                                 <div>
                                                     <h6 class="mb-0">{{ current_user }}</h6>
@@ -397,8 +388,7 @@
                                     <div class="body">
                                         <div class="d-flex mb-3">
                                             <div class="icon bg-transparent">
-                                                <img src="{% static  img_current_user %}" class="rounded mr-3 w40"
-                                                     alt="">
+                                                <img class="gravatar rounded mr-3 w40" src="{{ img_current_user|gravatar_url:50}}" />
                                             </div>
                                             <div>
                                                 <h6 class="mb-0">{{ current_user }}</h6>
