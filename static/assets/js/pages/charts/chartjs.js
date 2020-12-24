@@ -97,9 +97,9 @@ $(function () {
 
     // pie chart
     var dataPie = {
-        series: [5, 3, 4]
+        series: [5, 3, 4, 7],
     };
-    var labels = ['Direct', 'Organic', 'Referral'];
+    var labels = ['Register', 'NewGroup', 'NewExp', 'Update'];
     var sum = function (a, b) {
         return a + b;
     };
@@ -114,7 +114,8 @@ $(function () {
 
     // donut chart
     var dataDonut = {
-        series: [20, 10, 30, 40]
+        series: [20, 10, 30, 20, 20],
+        labels: ['', '', '', '', '']
     };
     new Chartist.Pie('#donut-chart', dataDonut, {
         height: "270px",
@@ -159,10 +160,15 @@ $(function () {
         }
     });
 
-
+    var week=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+    var date=new Array();
+    for (var i=0;i<7;i++)
+    {
+        date[7-i]=week[(new Date().getDay()-i+7)%7]
+    }
     // horizontal bar chart
     var dataHorizontalBar = {
-        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        labels: date,
         series: [
             [5, 4, 3, 7, 5, 10, 3],
             [3, 2, 9, 5, 4, 6, 4]

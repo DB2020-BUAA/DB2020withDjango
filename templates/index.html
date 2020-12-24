@@ -104,11 +104,6 @@
             <div class="row clearfix">
                 <div class="col-md-6 col-sm-12">
                     <h1>Dashboard</h1>
-                </div>            
-                <div class="col-md-6 col-sm-12 text-right">
-                    <div class="inlineblock vivify swoopInTop delay-900 mr-4">Visitors <span id="mini-bar-chart1" class="mini-bar-chart"></span></div>
-                    <div class="inlineblock vivify swoopInTop delay-950 mr-4">Visits <span id="mini-bar-chart2" class="mini-bar-chart"></span></div>
-                    <div class="inlineblock vivify swoopInTop delay-1000">Chats <span id="mini-bar-chart3" class="mini-bar-chart"></span></div>
                 </div>
             </div>
         </div>
@@ -116,297 +111,134 @@
         <div class="container-fluid">
 
             <div class="row clearfix">
-                <div class="col-lg-3 col-md-6">
+                <div class="col-sm-6 col-lg-3">
                     <div class="card">
                         <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div class="icon-in-bg bg-indigo text-white rounded-circle"><i class="fa fa-briefcase"></i></div>
-                                <div class="ml-4">
-                                    <span>Total income</span>
-                                    <h4 class="mb-0 font-weight-medium">$7,805</h4>
-                                </div>
-                            </div>
+                            <div class="card-value float-right text-blue">{{ user_rate }}</div>
+                            <h4 class="mb-1">{{ users_new_week }}</h4>
+                            <div class="text-muted">New Users in 7 days</div>
+                        </div>
+                        <div class="card-chart-bg">
+                            <div id="chart-bg-users-1" style="height: 60px"></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-sm-6 col-lg-3">
                     <div class="card">
                         <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div class="icon-in-bg bg-azura text-white rounded-circle"><i class="fa fa-credit-card"></i></div>
-                                <div class="ml-4">
-                                    <span>New expense</span>
-                                    <h4 class="mb-0 font-weight-medium">$3,651</h4>
-                                </div>
-                            </div>
+                            <div class="card-value float-right text-red">{{ group_rate }}</div>
+                            <h4 class="mb-1">{{ groups_new_week }}</h4>
+                            <div class="text-muted">New Groups in 7 days</div>
+                        </div>
+                        <div class="card-chart-bg">
+                            <div id="chart-bg-users-2" style="height: 60px"></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-sm-6 col-lg-3">
                     <div class="card">
                         <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div class="icon-in-bg bg-orange text-white rounded-circle"><i class="fa fa-users"></i></div>
-                                <div class="ml-4">
-                                    <span>Daily Visits</span>
-                                    <h4 class="mb-0 font-weight-medium">5,805</h4>
-                                </div>
-                            </div>
+                            <div class="card-value float-right text-green">{{ exp_rate }}</div>
+                            <h4 class="mb-1">{{ exp_new_week }}</h4>
+                            <div class="text-muted">New Exps in 7 days</div>
+                        </div>
+                        <div class="card-chart-bg">
+                            <div id="chart-bg-users-3" style="height: 60px"></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-sm-6 col-lg-3">
                     <div class="card">
                         <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div class="icon-in-bg bg-pink text-white rounded-circle"><i class="fa fa-life-ring"></i></div>
-                                <div class="ml-4">
-                                    <span>Bounce rate</span>
-                                    <h4 class="mb-0 font-weight-medium">$13,651</h4>
-                                </div>
-                            </div>
+                            <div class="card-value float-right text-yellow">{{ upd_rate }}</div>
+                            <h4 class="mb-1">{{ upd_new_week }}</h4>
+                            <div class="text-muted">New Updates</div>
+                        </div>
+                        <div class="card-chart-bg">
+                            <div id="chart-bg-users-4" style="height: 60px"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="row clearfix">
-                <div class="col-lg-8 col-md-12 col-sm-12">
+                <div class="col-lg-4 col-md-12">
                     <div class="card">
                         <div class="header">
-                            <h2>Site Visitors</h2>
-                            <ul class="header-dropdown dropdown">
-                                
-                                <li><a href="javascript:void(0);" class="full-screen"><i class="icon-frame"></i></a></li>
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="javascript:void(0);">Action</a></li>
-                                        <li><a href="javascript:void(0);">Another Action</a></li>
-                                        <li><a href="javascript:void(0);">Something else</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
+                            <h2>Data</h2>
                         </div>
-                        <div class="body">
-                            <div id="world-map-markers" class="jvector-map" style="height: 245px"></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div id="slider3" class="carousel vert slide" data-ride="carousel" data-interval="1700">
-                                        <div class="carousel-inner">
-                                            <div class="carousel-item active">
-                                                <div class="card-value float-right text-muted"><i class="wi wi-fog"></i></div>
-                                                <h3 class="mb-1">12°C</h3>
-                                                <div>London</div>
-                                            </div>
-                                            <div class="carousel-item">
-                                                <div class="card-value float-right text-muted"><i class="wi wi-day-cloudy"></i></div>
-                                                <h3 class="mb-1">18°C</h3>
-                                                <div>New York</div>
-                                            </div>
-                                            <div class="carousel-item">
-                                                <div class="card-value float-right text-muted"><i class="wi wi-sunrise"></i></div>
-                                                <h3 class="mb-1">37°C</h3>
-                                                <div>New Delhi</div>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="card-body">
+                            <div class="row text-center">
+                                <div class="col-6 border-right pb-4 pt-4">
+                                    <label class="mb-0">Total Users</label>
+                                    <h4 class="font-30 font-weight-bold text-col-blue">{{ total_user }}</h4>
+                                </div>
+                                <div class="col-6 pb-4 pt-4">
+                                    <label class="mb-0">Total Groups</label>
+                                    <h4 class="font-30 font-weight-bold text-col-blue">{{ total_group }}</h4>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div id="slider2" class="carousel vert slide" data-ride="carousel" data-interval="2000">
-                                        <div class="carousel-inner">
-                                            <div class="carousel-item active">
-                                                <div class="card-value float-right text-muted"><i class="icon-drawer"></i></div>
-                                                <h3 class="mb-1">302</h3>
-                                                <div>Inbox</div>
-                                            </div>
-                                            <div class="carousel-item">
-                                                <div class="card-value float-right text-muted"><i class="icon-star"></i></div>
-                                                <h3 class="mb-1">21</h3>
-                                                <div>Starred</div>
-                                            </div>
-                                            <div class="carousel-item">
-                                                <div class="card-value float-right text-muted"><i class="icon-notebook"></i></div>
-                                                <h3 class="mb-1">2</h3>
-                                                <div>Drafts</div>
-                                            </div>
-                                        </div>
-                                    </div>                                    
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="d-block">Active Users: Users who have logged in during this week <span class="float-right">{{ user_active_rate }}%</span></label>
+                                <div class="progress progress-xxs">
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: {{ user_active_rate }}%;"></div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-md-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="card-value float-right text-muted"><i class="icon-bubbles"></i></div>
-                                    <h3 class="mb-1">102</h3>
-                                    <div>Messages</div>
+                            <div class="form-group">
+                                <label class="d-block">Active Groups: Groups which have been updated during this week <span class="float-right">{{ group_active_rate }}</span></label>
+                                <div class="progress progress-xxs">
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" style="width: {{ group_active_rate }}%;"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-12 col-sm-12">
-                    <div class="card">
+                <div class="col-lg-8 col-md-12">
+                    <div class="card user_statistics">
                         <div class="header">
-                            <h2>New Followers</h2>
+                            <h2>Weekly :Behavior Report</h2>
                         </div>
-                        <div class="body">
-                            <ul class="right_chat w_followers list-unstyled mb-0">
-                                <li class="online">
-                                    <a href="javascript:void(0);">
-                                        <div class="media">
-                                            <img class="media-object " src="https://via.placeholder.com/140x140" alt="">
-                                            <div class="media-body">
-                                                <span class="name">@MelissaMcCoy</span>
-                                                <span class="message">Designer, Blogger</span>
-                                                <span class="badge badge-outline status"></span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="online">
-                                    <a href="javascript:void(0);">
-                                        <div class="media">
-                                            <img class="media-object " src="https://via.placeholder.com/140x140" alt="">
-                                            <div class="media-body">
-                                                <span class="name">@Joge Lucky</span>
-                                                <span class="message">Java Developer</span>
-                                                <span class="badge badge-outline status"></span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="offline">
-                                    <a href="javascript:void(0);">
-                                        <div class="media">
-                                            <img class="media-object " src="https://via.placeholder.com/140x140" alt="">
-                                            <div class="media-body">
-                                                <span class="name">@JuanMartinez</span>
-                                                <span class="message">CEO, puffintheme</span>
-                                                <span class="badge badge-outline status"></span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="offline">
-                                    <a href="javascript:void(0);">
-                                        <div class="media">
-                                            <img class="media-object " src="https://via.placeholder.com/140x140" alt="">
-                                            <div class="media-body">
-                                                <span class="name">@Folisise Chosielie</span>
-                                                <span class="message">Art director, Movie Cut</span>
-                                                <span class="badge badge-outline status"></span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="online">
-                                    <a href="javascript:void(0);">
-                                        <div class="media">
-                                            <img class="media-object " src="https://via.placeholder.com/140x140" alt="">
-                                            <div class="media-body">
-                                                <span class="name">@LouisHenry</span>
-                                                <span class="message">Writter, Mag Editor</span>
-                                                <span class="badge badge-outline status"></span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="offline">
-                                    <a href="javascript:void(0);">
-                                        <div class="media">
-                                            <img class="media-object " src="https://via.placeholder.com/45x45" alt="">
-                                            <div class="media-body">
-                                                <span class="name">@Folisise Chosielie</span>
-                                                <span class="message">Art director, Movie Cut</span>
-                                                <span class="badge badge-outline status"></span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
+                        <div class="card-body">
+                            <div id="chart-bar" style="height: 302px"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
+
             <div class="row clearfix">
+                <div class="header">
+                    <h6 id="rank"></h6>
+                    <script type="text/javascript">
+                        var today=new Date();
+                        var month_array=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+                        var month=today.getMonth() ;
+                        document.getElementById("rank").innerHTML="The Most Popular Group on "+month_array[month];
+                    </script>
+                </div>
                 <div class="col-12">
                     <div class="table-responsive">
-                        <table class="table header-border table-hover table-custom spacing5">
+                        <table class="table header-border table-hover table-custom spacing5 table-striped">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Product</th>
-                                    <th>Popularity</th>
-                                    <th>Sales</th>
+                                    <th>GroupName</th>
+                                    <th>Info</th>
+                                    <th>Updates in this month</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th class="w60">1</th>
-                                    <td>Home Decor Range</td>
-                                    <td>
-                                        <div class="progress progress-xxs">
-                                            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style="width: 77%;"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge badge-primary">70%</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>2</th>
-                                    <td>Bathroom Essentials</td>
-                                    <td>
-                                        <div class="progress progress-xxs">
-                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style="width: 77%;"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge badge-success">70%</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>3</th>
-                                    <td>Disney Princess Pink 18' School Bag</td>
-                                    <td>
-                                        <div class="progress progress-xxs">
-                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style="width: 77%;"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge badge-dark">70%</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>4</th>
-                                    <td>iPhone XS and XS Max</td>
-                                    <td>
-                                        <div class="progress progress-xxs">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style="width: 77%;"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge badge-danger">70%</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>5</th>
-                                    <td>Apple Smartwatches</td>
-                                    <td>
-                                        <div class="progress progress-xxs">
-                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style="width: 77%;"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge badge-warning">70%</span>
-                                    </td>
-                                </tr>
+                                {% for g in group_dict %}
+                                    <tr>
+                                        <th class="w60">{{ forloop.counter }}</th>
+                                        <td>{{ g.0.name }}</td>
+                                        <td>{{ g.0.info }}
+                                        <td>{{ g.1 }}</td>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -421,11 +253,286 @@
 <!-- Javascript -->
 <script src="{% static '/assets/bundles/libscripts.bundle.js' %}"></script>
 <script src="{% static '/assets/bundles/vendorscripts.bundle.js' %}"></script>
-
 <script src="{% static '/assets/bundles/jvectormap.bundle.js' %}"></script>
 <script src="{% static '/assets/vendor/toastr/toastr.js' %}"></script>
-
 <script src="{% static '/assets/bundles/mainscripts.bundle.js' %}"></script>
 <script src="{% static '/assets/js/index.js' %}"></script>
+<script src="{% static 'assets/bundles/chartist.bundle.js' %}"></script>
+<script src="{% static 'assets/js/pages/charts/chartjs.js' %}"></script>
+<script src="{% static 'assets/bundles/knob.bundle.js' %}"></script>
+<script src="{% static 'assets/bundles/c3.bundle.js' %}"></script>
+
+<script type="text/javascript">
+    var user_new_weekly = {{ user_new|safe }};
+    var group_new_weekly = {{ group_new|safe }};
+    var exp_new_weekly = {{ exp_new|safe }};
+    var upd_new_weekly = {{ upd_new|safe }};
+    $(function () {
+    var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    var date = new Array();
+    for (var i = 0; i < 7; i++) {
+        date[6 - i] = week[(new Date().getDay() - i + 7) % 7]
+    }
+    "use strict";
+    var chart = c3.generate({
+        bindto: '#chart-bar', // id of chart wrapper
+        data: {
+            columns: [
+                // each columns data
+                ['data1'].concat(group_new_weekly),
+                ['data2'].concat(exp_new_weekly),
+                ['data3'].concat(upd_new_weekly),
+            ],
+            type: 'bar', // default type of chart
+            colors: {
+                'data1': '#467fcf', // blue
+                'data2': '#5eba00', // green
+                'data3': '#f66d9b', // pink
+            },
+            names: {
+                // name of each serie
+                'data1': 'Create Groups',
+                'data2': 'Create Exps',
+                'data3': 'Create Updates',
+            }
+        },
+        axis: {
+            x: {
+                type: 'category',
+                // name of each category
+                categories: date
+            },
+        },
+        bar: {
+            width: 16
+        },
+        legend: {
+            show: true, //hide legend
+        },
+        padding: {
+            bottom: 20,
+            top: 0
+        },
+    });
+    // Small chart widgets
+    var chart = c3.generate({
+        bindto: '#chart-bg-users-1',
+        padding: {
+            bottom: -10,
+            left: -1,
+            right: -1
+        },
+        data: {
+            names: {
+                data1: 'New Users'
+            },
+            columns: [
+                ['data1'].concat(user_new_weekly)
+            ],
+            type: 'area'
+        },
+        legend: {
+            show: false
+        },
+        transition: {
+            duration: 0
+        },
+        point: {
+            show: false
+        },
+        tooltip: {
+            format: {
+                title: function (x) {
+                    return '';
+                }
+            }
+        },
+        axis: {
+            y: {
+                padding: {
+                    bottom: 0,
+                },
+                show: false,
+                tick: {
+                    outer: false
+                }
+            },
+            x: {
+                padding: {
+                    left: 0,
+                    right: 0
+                },
+                show: false
+            }
+        },
+        color: {
+            pattern: ['#467fcf']
+        }
+    });
+    var chart = c3.generate({
+        bindto: '#chart-bg-users-2',
+        padding: {
+            bottom: -10,
+            left: -1,
+            right: -1
+        },
+        data: {
+            names: {
+                data1: 'New Groups'
+            },
+            columns: [
+                ['data1'].concat(group_new_weekly)
+            ],
+            type: 'area'
+        },
+        legend: {
+            show: false
+        },
+        transition: {
+            duration: 0
+        },
+        point: {
+            show: false
+        },
+        tooltip: {
+            format: {
+                title: function (x) {
+                    return '';
+                }
+            }
+        },
+        axis: {
+            y: {
+                padding: {
+                    bottom: 0,
+                },
+                show: false,
+                tick: {
+                    outer: false
+                }
+            },
+            x: {
+                padding: {
+                    left: 0,
+                    right: 0
+                },
+                show: false
+            }
+        },
+        color: {
+            pattern: ['#e74c3c']
+        }
+    });
+    var chart = c3.generate({
+        bindto: '#chart-bg-users-3',
+        padding: {
+            bottom: -10,
+            left: -1,
+            right: -1
+        },
+        data: {
+            names: {
+                data1: 'New Exps'
+            },
+            columns: [
+                ['data1'].concat(exp_new_weekly)
+            ],
+            type: 'area'
+        },
+        legend: {
+            show: false
+        },
+        transition: {
+            duration: 0
+        },
+        point: {
+            show: false
+        },
+        tooltip: {
+            format: {
+                title: function (x) {
+                    return '';
+                }
+            }
+        },
+        axis: {
+            y: {
+                padding: {
+                    bottom: 0,
+                },
+                show: false,
+                tick: {
+                    outer: false
+                }
+            },
+            x: {
+                padding: {
+                    left: 0,
+                    right: 0
+                },
+                show: false
+            }
+        },
+        color: {
+            pattern: ['#5eba00']
+        }
+    });
+    var chart = c3.generate({
+        bindto: '#chart-bg-users-4',
+        padding: {
+            bottom: -10,
+            left: -1,
+            right: -1
+        },
+        data: {
+            names: {
+                data1: 'New Updates'
+            },
+            columns: [
+                ['data1'].concat(upd_new_weekly)
+            ],
+            type: 'area'
+        },
+        legend: {
+            show: false
+        },
+        transition: {
+            duration: 0
+        },
+        point: {
+            show: false
+        },
+        tooltip: {
+            format: {
+                title: function (x) {
+                    return '';
+                }
+            }
+        },
+        axis: {
+            y: {
+                padding: {
+                    bottom: 0,
+                },
+                show: false,
+                tick: {
+                    outer: false
+                }
+            },
+            x: {
+                padding: {
+                    left: 0,
+                    right: 0
+                },
+                show: false
+            }
+        },
+        color: {
+            pattern: ['#f1c40f']
+        }
+    });
+});
+</script>
+
 </body>
 </html>

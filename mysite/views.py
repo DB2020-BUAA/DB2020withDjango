@@ -1,6 +1,13 @@
+import json
 import os
-from urllib.parse import urljoin, parse_qs, urlparse
+import random
 import urllib
+import numpy as np
+from datetime import timedelta
+from urllib.parse import urljoin, parse_qs, urlparse
+
+from django.contrib.auth import authenticate, login, logout
+from django.db.models import F, Q, Count
 from django.http import JsonResponse
 from .models import *
 from django.db.models import F, Q
@@ -12,6 +19,7 @@ from django.db.models import F
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.datastructures import MultiValueDictKeyError
+from django.utils.timezone import now
 
 import mysite.models as mmd
 from .models import *
@@ -20,7 +28,58 @@ from .models import *
 # Main page
 def index(request):
     if request.user.is_authenticated:
-        return render(request, "index.html")
+        group_all = mmd.Group.objects.all()
+        user_all = mmd.User.objects.all()
+        day = now().date()
+        user_new = [0 for i in range(7)]
+        group_new = [0 for i in range(7)]
+        exp_new = [0 for i in range(7)]
+        upd_new = [0 for i in range(7)]
+        for i in range(7):
+            end = day + timedelta(days=1)
+            user_new[6 - i] = len(mmd.User.objects.filter(date_joined__range=(day, end)))
+            group_new[6 - i] = len(mmd.Group.objects.filter(create_date__range=(day, end)))
+            exp_new[6 - i] = len(mmd.Experiment.objects.filter(create_date__range=(day, end)))
+            upd_new[6 - i] = len(mmd.Update.objects.filter(create_date__range=(day, end)))
+            day -= timedelta(days=1)
+        user_rate = "---" if not user_new[5] else str(round((user_new[6] - user_new[5]) * 100 / user_new[5], 1)) + "%"
+        group_rate = "---" if not group_new[5] else str(
+            round((group_new[6] - group_new[5]) * 100 / group_new[5], 1)) + "%"
+        exp_rate = "---" if not exp_new[5] else str(round((exp_new[6] - exp_new[5]) * 100 / exp_new[5], 1)) + "%"
+        upd_rate = "---" if not upd_new[5] else str(round((upd_new[6] - upd_new[5]) * 100 / upd_new[5], 1)) + "%"
+        ed = now().date() + timedelta(days=1)
+        week_st = ed - timedelta(days=7)
+        user_active = len(mmd.User.objects.filter(last_login__range=(week_st, ed)))
+        user_active_rate = "0" if not len(user_all) else str(round(user_active * 100 / len(user_all), 1))
+        group_dict = dict()
+        group_active = 0
+        month_st = ed - timedelta(days=30)
+        for a_group in mmd.Group.objects.all():
+            num = 0
+            is_active = 0
+            for a_exp_to_Group in mmd.ExpToGroup.objects.filter(linked_group=a_group):
+                num += len(mmd.UpdToExp.objects.filter(
+                    Q(linked_exp=a_exp_to_Group.linked_exp) & Q(linked_upd__create_date__range=(month_st, ed))))
+                is_active |= (len(mmd.UpdToExp.objects.filter(
+                    Q(linked_exp=a_exp_to_Group.linked_exp) & Q(linked_upd__create_date__range=(week_st, ed)))) != 0)
+            if is_active:
+                group_active += 1
+            group_dict[a_group] = num
+        group_dict = sorted(group_dict.items(), key=lambda x: -x[1])
+        group_active_rate = "0" if not len(group_all) else str(round(group_active * 100 / len(group_all), 1))
+        info_get = {
+            'total_group': len(group_all), 'total_user': len(user_all),
+            'users_new_week': np.sum(user_new), 'groups_new_week': np.sum(group_new), 'exp_new_week': np.sum(exp_new),
+            'upd_new_week': np.sum(upd_new),
+            'user_new': json.dumps(user_new), 'user_rate': user_rate,
+            'group_new': json.dumps(group_new), 'group_rate': group_rate,
+            'exp_new': json.dumps(exp_new), 'exp_rate': exp_rate,
+            'upd_new': json.dumps(upd_new), 'upd_rate': upd_rate,
+            'user_active_rate': user_active_rate,
+            'group_active_rate': group_active_rate,
+            'group_dict': group_dict[0:10],
+        }
+        return render(request, "index.html", info_get)
     else:
         return redirect(login_page, info='Please Login', i_type=1)
 
@@ -83,9 +142,9 @@ def sign_up(request):
             return redirect(register_page, info='Something Wrong', i_type=0)
         if re_password != password:
             return redirect(register_page, info='Incomparable Password', i_type=0)
-        if User.objects.filter(username=name):
+        if mmd.User.objects.filter(username=name):
             return redirect(register_page, info='User exist, Please Change Your Name', i_type=0)
-        new_user = User.objects.create_user(username=name, password=password, email=email)
+        new_user = mmd.User.objects.create_user(username=name, password=password, email=email)
         new_user.save()
         a = get_random_avatar()
         new_my_user = mmd.UserProfile(django_user=new_user, info=info, avatar=a)
@@ -213,14 +272,13 @@ def group(request, group_id):
             return redirect(list_group, warning='You Have No Authority', w_type=0)
         if request.method == 'POST':
             if request.POST.get('func', '') == "remove":
-                r_id = request.POST.get('userid', '')
-                r_user = mmd.UserProfile.objects.get(django_user_id=r_id)
-                remove_user_to_group = mmd.UserToGroup.objects. \
-                    filter(linked_group=master_group, linked_user=r_user)
-                try:
-                    remove_user_to_group.delete()
-                except ValueError:
-                    return redirect(group, warning='Unable To Delete User', w_type=0)
+                if master_group.owner == master_user:
+                    r_id = request.POST.get('userid', '')
+                    r_user = mmd.UserProfile.objects.get(id=r_id)
+                    if r_user != master_user:
+                        remove_user_to_group = mmd.UserToGroup.objects. \
+                            filter(linked_group=master_group, linked_user=r_user)
+                        remove_user_to_group.delete()
             else:
                 e_name = request.POST.get('name', '')
                 e_info = request.POST.get('info', '')
@@ -230,15 +288,15 @@ def group(request, group_id):
                 try:
                     new_exp_to_group.save()
                 except ValueError:
-                    return redirect(group, warning='Unable To Link Group And Exp', w_type=0)
+                    return redirect(list_group, warning='Unable To Link Group And Exp', w_type=0)
         try:
             exp_list = mmd.ExpToGroup.objects. \
                 filter(linked_group__id=group_id). \
                 values_list("linked_exp__id", "linked_exp__name", "linked_exp__info", "linked_exp__create_date")
             member_list = mmd.UserToGroup.objects. \
                 filter(linked_group__id=group_id). \
-                values_list("linked_user__django_user__username",
-                            "linked_user__info", "linked_user__avatar", "linked_user__id")
+                values_list("linked_user__django_user__username", "linked_user__info",
+                            "linked_user__id", "linked_user__django_user__email")
         except mmd.UserToGroup.DoesNotExist:
             exp_list = None
             member_list = None
