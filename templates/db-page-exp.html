@@ -34,11 +34,10 @@
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
     <div class="loader">
-        <div class="m-t-30"><img src="{% static '/assets/images/icon.svg' %}" width="40" height="40" alt="Brego"></div>
+        <div class="m-t-30"><img src="{% static 'assets/images/icon.svg' %}" width="40" height="40" alt="Brego"></div>
         <p>Please wait...</p>
     </div>
 </div>
-
 
 <!-- Overlay For Sidebars -->
 <div class="overlay"></div>
@@ -50,11 +49,11 @@
 
             <div class="navbar-left">
                 <div class="navbar-btn">
-                    <a href="{% url 'main' %}"><img src="{% static 'assets/images/icon.svg' %}" alt="Brego Logo"
-                                              class="img-fluid logo"></a>
-                    <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
+                    <a href="{% url 'main' %}">
+                        <img src="{% static 'assets/images/icon.svg' %}" alt="Brego Logo" class="img-fluid logo">
+                        <span><strong>HOME</strong></span>
+                    </a>
                 </div>
-
             </div>
 
             <div class="navbar-right">
@@ -66,8 +65,6 @@
             </div>
         </div>
     </nav>
-
-    <!-- left-sidebar -->
 
     <div id="main-content">
         <div class="container">
