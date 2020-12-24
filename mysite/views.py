@@ -37,11 +37,12 @@ def index(request):
         upd_new = [0 for i in range(7)]
         for i in range(7):
             end = day + timedelta(days=1)
-            user_new[6 - i] = len(mmd.User.objects.filter(date_joined__range=(day, end)))
+            user_new[6 - i] = len(User.objects.filter(date_joined__range=(day, end)))
             group_new[6 - i] = len(mmd.Group.objects.filter(create_date__range=(day, end)))
             exp_new[6 - i] = len(mmd.Experiment.objects.filter(create_date__range=(day, end)))
             upd_new[6 - i] = len(mmd.Update.objects.filter(create_date__range=(day, end)))
             day -= timedelta(days=1)
+        #print(group_new)
         user_rate = "---" if not user_new[5] else str(round((user_new[6] - user_new[5]) * 100 / user_new[5], 1)) + "%"
         group_rate = "---" if not group_new[5] else str(
             round((group_new[6] - group_new[5]) * 100 / group_new[5], 1)) + "%"
@@ -176,7 +177,8 @@ def list_diff(request, warning=None, w_type=0):
                 all_group_people |= mmd.UserToGroup.objects.filter(linked_group=g).values_list("linked_user")
             except mmd.UserToGroup.DoesNotExist:
                 continue
-        all_diff = mmd.Compare.objects.values_list("id", "upd1__name", "upd2__name", "create_date", "info", "name").none()
+        all_diff = mmd.Compare.objects.values_list("id", "upd1__name", "upd2__name", "create_date", "info",
+                                                   "name").none()
         for p in all_group_people:
             try:
                 all_diff |= mmd.Compare.objects.filter(create_user=p). \

@@ -32,7 +32,7 @@ class Group(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)
     info = models.TextField(max_length=100, null=True)
-    create_date = models.DateField(auto_now_add=True)
+    create_date = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(UserProfile, on_delete=models.RESTRICT,
                               related_name='group_master')
 
