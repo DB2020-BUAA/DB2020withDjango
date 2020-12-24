@@ -112,6 +112,7 @@
                             <thead>
                                 <tr>
                                     <th>#ID</th>
+                                    <th>Name</th>
                                     <th>Update1</th>
                                     <th>Update2</th>
                                     <th>Info</th>
@@ -124,6 +125,7 @@
                                     {% for one_diff in diff %}
                                         <tr>
                                             <td><a>{{ one_diff.0 }}</a></td>
+                                            <td><span>{{ one_diff.5 }}</span></td>
                                             <td><span>{{ one_diff.1 }}</span></td>
                                             <td><span>{{ one_diff.2 }}</span></td>
                                             <td><span>{{ one_diff.4 }}</span></td>
@@ -136,6 +138,7 @@
                                     {% endfor %}
                                 {% else %}
                                     <tr>
+                                        <td><span>N/A</span></td>
                                         <td><span>N/A</span></td>
                                         <td><span>N/A</span></td>
                                         <td><span>N/A</span></td>

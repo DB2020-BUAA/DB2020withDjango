@@ -117,11 +117,11 @@ def list_diff(request, warning=None, w_type=0):
                 all_group_people |= mmd.UserToGroup.objects.filter(linked_group=g).values_list("linked_user")
             except mmd.UserToGroup.DoesNotExist:
                 continue
-        all_diff = mmd.Compare.objects.values_list("id", "upd1__name", "upd2__name", "create_date", "info").none()
+        all_diff = mmd.Compare.objects.values_list("id", "upd1__name", "upd2__name", "create_date", "info", "name").none()
         for p in all_group_people:
             try:
                 all_diff |= mmd.Compare.objects.filter(create_user=p). \
-                    values_list("id", "upd1__name", "upd2__name", "create_date", "info")
+                    values_list("id", "upd1__name", "upd2__name", "create_date", "info", "name")
             except mmd.Compare.DoesNotExist:
                 continue
         all_diff_short = []
@@ -135,7 +135,7 @@ def list_diff(request, warning=None, w_type=0):
                 str_u1 = str_u2[:20] + '...'
             if len(str_in) > 20:
                 str_u1 = str_in[:20] + '...'
-            all_diff_short.append((info[0], str_u1, str_u2, info[3], str_in))
+            all_diff_short.append((info[0], str_u1, str_u2, info[3], str_in, info[5]))
         if len(all_diff_short) == 0:
             all_diff_short = None
         mesges = get_all_message(request.user)
