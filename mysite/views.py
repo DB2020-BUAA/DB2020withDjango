@@ -575,7 +575,7 @@ def exp(request):
         current_user = User.objects.filter(id=user_id).values_list("username")[0][0]
         current_user_info, img_current_user = UserProfile.objects. \
             filter(django_user_id=user_id). \
-            values_list("info", "avatar")[0]
+            values_list("info", "django_user_email")[0]
 
     except User.DoesNotExist:
         print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
@@ -619,7 +619,8 @@ def exp(request):
 
     my_exp = Experiment.objects.filter(id=int(my_exp)).annotate(
         builder=F('create_user_id__django_user_id__username'),
-        img_builder=F('create_user_id__avatar'),
+        # img_builder=F('create_user_id__avatar'),
+        img_builder=F('create_user_id__django_user_email'),
     )[0]
     # return redirect()
 
@@ -638,7 +639,7 @@ def exp(request):
             upd_id=F('linked_upd_id'),
             name=F(link + 'name'),
             updater=F(link + 'create_user_id__django_user_id__username'),
-            img_updater=F(link + 'create_user_id__avatar'),
+            img_updater=F(link + 'create_user_id__django_user_email'),
             update_time=F(link + 'create_date'),
             update_intro=F(link + 'info'),
             imgs=F(link + 'imgs')
@@ -654,7 +655,7 @@ def exp(request):
         # exp_upds = [my_upd.name] + [i[0] for i in my_upds.values_list("name") if i[0] != my_upd.name]
 
         comments = Comment.objects.annotate(
-            avatar=F('create_user_id__avatar'),
+            avatar=F('create_user_id__django_user_email'),
             commenter_name=F('create_user_id__django_user_id__username'),
             commenter_info=F('create_user_id__info'),
             # info
@@ -701,7 +702,7 @@ def exp(request):
             info2=F("upd2_id__info"),
             name2=F('upd2_id__name'),
             updater=F('create_user_id__django_user_id__username'),
-            img_updater=F('create_user_id__avatar'),
+            img_updater=F('create_user_id__django_user_email'),
 
         )
 
@@ -712,7 +713,7 @@ def exp(request):
             my_diff = diffs[0]
 
         diff_comment = CMPComment.objects.annotate(
-            avatar=F('create_user_id__avatar'),
+            avatar=F('create_user_id__django_user_email'),
             commenter_name=F('create_user_id__django_user_id__username'),
             commenter_info=F('create_user_id__info'),
             # info
