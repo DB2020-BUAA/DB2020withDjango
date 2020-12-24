@@ -758,11 +758,15 @@ def exp(request):
         }
     except:
         vis_upd = False
-        a_exp = ""
-        a_cmp = ""
-        a_iss = ""
-        a_my_iss = ""
-        a_my_upd = act_val
+        if a_exp != "":
+
+            a_exp = ""
+            a_cmp = ""
+            a_iss = ""
+            a_my_iss = ""
+            a_my_upd = act_val
+        else:
+            pass
 
     dict_diff = {}
     vis_diff = True
@@ -814,11 +818,14 @@ def exp(request):
         }
     except:
         vis_diff = False
-        a_exp = ""
-        a_cmp = ""
-        a_iss = ""
-        a_my_iss = ""
-        a_my_upd = act_val
+        if a_cmp != "":
+            a_exp = ""
+            a_cmp = ""
+            a_iss = ""
+            a_my_iss = ""
+            a_my_upd = act_val
+        else:
+            pass
 
     dict_glb = {
         "img_exp_builder": my_exp.img_builder,
