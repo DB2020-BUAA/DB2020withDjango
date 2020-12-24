@@ -67,7 +67,7 @@
                 </div>
                 <div class="dropdown">
                     <span>Welcome,</span>
-                    <a class="user-name"><strong>Louis Pierce</strong></a>
+                    <a class="user-name"><strong>{{ request.user.username }}</strong></a>
                 </div>
             </div>
             <nav id="left-sidebar-nav" class="sidebar-nav">
@@ -81,8 +81,9 @@
                     <li class="header">Groups</li>
                     <li><a href="{% url 'group_list' %}"><i class="icon-users"></i> <span>All Groups</span></a></li>
                     <li class="header">Experiments</li>
-                    <li><a href="{% url 'exps_list' %}"><i class=" icon-chemistry"></i> <span>Experiments</span></a></li>
+                    <li><a href="{% url 'exps_list' %}"><i class="icon-chemistry"></i> <span>Experiments</span></a></li>
                     <li><a href="{% url 'diff_list' %}"><i class="icon-bar-chart"></i> <span>Comparisons</span></a></li>
+                    <li><a href="/new_diff"><i class="icon-directions"></i> <span>Create Comparison</span></a></li>
                 </ul>
             </nav>
         </div>
@@ -123,7 +124,6 @@
                                             <td><span>{{ one_exp.2 }}</span></td>
                                             <td><span>{{ one_exp.3 }}</span></td>
                                             <td>
-                                                <!--TODO: link to exp page-->
                                                 <a href="/exp/?exp={{ one_exp.0 }}" class="btn btn-primary btn-sm">View</a>
                                                 <a href="{% url 'exps_delete' one_exp.0 %}" class="btn btn-danger btn-sm">Delete</a>
                                             </td>

@@ -72,7 +72,7 @@
                 </div>
                 <div class="dropdown">
                     <span>Welcome,</span>
-                    <a class="user-name"><strong>Louis Pierce</strong></a>
+                    <a class="user-name"><strong>{{ request.user.username }}</strong></a>
                 </div>
             </div>
             <nav id="left-sidebar-nav" class="sidebar-nav">
@@ -88,6 +88,7 @@
                     <li class="header">Experiments</li>
                     <li><a href="{% url 'exps_list' %}"><i class=" icon-chemistry"></i> <span>Experiments</span></a></li>
                     <li><a href="{% url 'diff_list' %}"><i class="icon-bar-chart"></i> <span>Comparisons</span></a></li>
+                    <li><a href="/new_diff"><i class="icon-directions"></i> <span>Create Comparison</span></a></li>
                 </ul>
             </nav>
         </div>
@@ -128,8 +129,7 @@
                                             <td><span>{{ one_diff.4 }}</span></td>
                                             <td>{{ one_diff.3 }}</td>
                                             <td>
-                                                <!--TODO: link to diff page-->
-                                                <a href="" class="btn btn-primary btn-sm">View</a>
+                                                <a href="{% url 'diff_view' one_diff.0 %}" class="btn btn-primary btn-sm">View</a>
                                                 <a href="{% url 'diff_delete' one_diff.0 %}" class="btn btn-danger btn-sm">Delete</a>
                                             </td>
                                         </tr>

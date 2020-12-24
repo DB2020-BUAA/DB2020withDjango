@@ -149,6 +149,18 @@ def list_diff(request, warning=None, w_type=0):
         return redirect(login_page, info='Please Login', i_type=1)
 
 
+def view_diff(request, diff_id):
+    if request.user.is_authenticated:
+        try:
+            the_diff = mmd.Compare.objects.get(id=diff_id)
+            the_exp = mmd.UpdToExp.objects.get(linked_upd_id=the_diff.upd2_id)
+        except:
+            return redirect(list_diff, warning='Something Wrong', w_type=0)
+        return redirect("/exp/?exp=" + str(the_exp.linked_exp_id))
+    else:
+        return redirect(login_page, info='Please Login', i_type=1)
+
+
 def delete_diff(request, diff_id):
     if request.user.is_authenticated:
         try:

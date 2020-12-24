@@ -25,6 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', index),
 
+    path('exp/', exp),
+    path('exp/cmt_upd', cmt_upd),
     path('exp/cmt_upd/<str:upd_id>', cmt_upd),
     path('exp/cmt_cmp/<str:cmp_id>', cmt_cmp),
     path('exp/my_upd/<int:exp_id>', my_upd),
@@ -52,6 +54,7 @@ urlpatterns = [
     path('diff-list', views.list_diff, name="diff_list"),
     path('diff-list/<str:warning>/<int:w_type>', views.list_diff, name="diff_list_redirect"),
     path('diff-list-delete/<int:diff_id>', views.delete_diff, name='diff_delete'),
+    path('diff-list-view/<int:diff_id>', views.view_diff, name='diff_view'),
 
     path('exps-list', views.list_exps, name="exps_list"),
     path('exps-list/<str:warning>/<int:w_type>', views.list_exps, name="exps_list_redirect"),
@@ -63,9 +66,6 @@ urlpatterns = [
     path('mesg-ans-iss/<int:iss_id>', views.answer_issue, name='mesg_ans_iss'),
     path('mesg-read_app/<int:app_id>', views.mark_read_app, name='mesg_read_app'),
     path('mesg-read-iss/<int:iss_id>', views.mark_read_iss, name='mesg_read_iss'),
-
-    path('exp/', exp),
-    path('exp/cmt_upd', cmt_upd),
 ]
 
 handler404 = 'mysite.views.page_not_found'
