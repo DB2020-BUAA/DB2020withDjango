@@ -224,7 +224,7 @@ def group(request, group_id):
             else:
                 e_name = request.POST.get('name', '')
                 e_info = request.POST.get('info', '')
-                new_exp = mmd.Experiment(name=e_name, info=e_info)
+                new_exp = mmd.Experiment(name=e_name, info=e_info, create_user=master_user)
                 new_exp.save()
                 new_exp_to_group = mmd.ExpToGroup(linked_exp=new_exp, linked_group=master_group)
                 try:
